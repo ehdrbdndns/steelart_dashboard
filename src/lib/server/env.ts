@@ -4,7 +4,7 @@ const coreEnvSchema = z.object({
   NEXTAUTH_SECRET: z.string().min(1),
   NEXTAUTH_URL: z.string().url().optional(),
   ADMIN_EMAIL: z.string().email(),
-  ADMIN_PASSWORD_HASH: z.string().min(1),
+  ADMIN_PASSWORD: z.string().min(1),
   DB_HOST: z.string().min(1),
   DB_PORT: z.coerce.number().int().positive().default(3306),
   DB_USER: z.string().min(1),

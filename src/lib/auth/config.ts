@@ -1,4 +1,3 @@
-import bcrypt from "bcryptjs";
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { getCoreEnv } from "@/lib/server/env";
@@ -23,10 +22,7 @@ export const authOptions: NextAuthOptions = {
 
         const env = getCoreEnv();
         const isEmailMatched = credentials.email === env.ADMIN_EMAIL;
-        const isPasswordMatched = await bcrypt.compare(
-          credentials.password,
-          env.ADMIN_PASSWORD_HASH,
-        );
+        const isPasswordMatched = credentials.password === env.ADMIN_PASSWORD;
 
         if (!isEmailMatched || !isPasswordMatched) {
           throw new Error(INVALID_LOGIN_MESSAGE);

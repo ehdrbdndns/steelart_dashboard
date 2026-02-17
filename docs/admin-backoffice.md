@@ -10,7 +10,7 @@
 ## Environment Variables
 - Core auth/db:
   - `NEXTAUTH_URL`, `NEXTAUTH_SECRET`
-  - `ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH`
+  - `ADMIN_EMAIL`, `ADMIN_PASSWORD`
   - `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`
 - Mock mode:
   - `MOCK_MEDIA_BASE_URL` (optional)
@@ -31,7 +31,7 @@
 
 ## Troubleshooting
 - Login fails with `Invalid environment configuration`:
-  - verify `ADMIN_PASSWORD_HASH` keeps escaped dollar signs (`\$2b\$10\$...`).
+  - verify `ADMIN_PASSWORD` is set and matches the login input.
 - `/api/admin/*` responds 401:
   - ensure logged-in session exists and `NEXTAUTH_SECRET` is set.
 - Mock seed blocked:
