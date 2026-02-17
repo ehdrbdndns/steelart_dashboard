@@ -1,2 +1,2 @@
-export { default as TopNav } from "./top-nav";
-export { default as SideNav } from "./side-nav";
+export { AdminSideNav } from "./admin-side-nav";
+export { AdminTopNav } from "./admin-top-nav";

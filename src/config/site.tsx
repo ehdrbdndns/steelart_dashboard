@@ -1,26 +1,37 @@
-import { Gauge, type LucideIcon, MessagesSquare } from "lucide-react";
+import { type LucideIcon, Image, LayoutGrid, Route, UserSquare2 } from "lucide-react";
 
 export type SiteConfig = typeof siteConfig;
-export type Navigation = {
+
+export type AdminNavigation = {
   icon: LucideIcon;
   name: string;
   href: string;
 };
 
 export const siteConfig = {
-  title: "VisActor Next Template",
-  description: "Template for VisActor and Next.js",
+  title: "SteelArt Admin",
+  description: "SteelArt mobile content backoffice",
 };
 
-export const navigations: Navigation[] = [
+export const adminNavigations: AdminNavigation[] = [
   {
-    icon: Gauge,
-    name: "Dashboard",
-    href: "/",
+    icon: UserSquare2,
+    name: "Artists",
+    href: "/admin/artists",
   },
   {
-    icon: MessagesSquare,
-    name: "Ticket",
-    href: "/ticket",
+    icon: Image,
+    name: "Artworks",
+    href: "/admin/artworks",
+  },
+  {
+    icon: Route,
+    name: "Courses",
+    href: "/admin/courses",
+  },
+  {
+    icon: LayoutGrid,
+    name: "Home Banners",
+    href: "/admin/home-banners",
   },
 ];
