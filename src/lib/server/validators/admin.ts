@@ -2,6 +2,17 @@ import { z } from "zod";
 
 export const artistTypeSchema = z.enum(["COMPANY", "INDIVIDUAL"]);
 export const artworkCategorySchema = z.enum(["STEEL_ART", "PUBLIC_ART"]);
+export const userResidencySchema = z.enum(["POHANG", "NON_POHANG"]);
+export const userAgeGroupSchema = z.enum([
+  "TEEN",
+  "20S",
+  "30S",
+  "40S",
+  "50S",
+  "60S",
+  "70_PLUS",
+]);
+export const userLanguageSchema = z.enum(["ko", "en"]);
 
 export const idParamSchema = z.object({
   id: z.coerce.number().int().positive(),
@@ -13,6 +24,15 @@ export const artistsQuerySchema = z.object({
   query: z.string().optional(),
   type: artistTypeSchema.optional(),
   deleted: deletedFilterSchema.optional(),
+  page: z.coerce.number().int().positive().optional(),
+  size: z.coerce.number().int().positive().max(100).optional(),
+});
+
+export const usersQuerySchema = z.object({
+  query: z.string().optional(),
+  residency: userResidencySchema.optional(),
+  ageGroup: userAgeGroupSchema.optional(),
+  language: userLanguageSchema.optional(),
   page: z.coerce.number().int().positive().optional(),
   size: z.coerce.number().int().positive().max(100).optional(),
 });

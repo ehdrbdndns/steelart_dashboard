@@ -1,4 +1,4 @@
-import { type LucideIcon, Image, LayoutGrid, Route, UserSquare2 } from "lucide-react";
+import { type LucideIcon, Image, LayoutGrid, Route, UserSquare2, Users } from "lucide-react";
 
 export type SiteConfig = typeof siteConfig;
 
@@ -14,6 +14,11 @@ export const siteConfig = {
 };
 
 export const adminNavigations: AdminNavigation[] = [
+  {
+    icon: Users,
+    name: "Users",
+    href: "/admin/users",
+  },
   {
     icon: UserSquare2,
     name: "Artists",
