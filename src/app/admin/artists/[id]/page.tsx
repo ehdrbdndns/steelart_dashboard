@@ -11,6 +11,7 @@ type Artist = {
   name_ko: string;
   name_en: string;
   type: "COMPANY" | "INDIVIDUAL";
+  profile_image_url: string | null;
 };
 
 export default function EditArtistPage() {

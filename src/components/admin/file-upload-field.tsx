@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { requestJson } from "@/lib/client/admin-api";
+import { cn } from "@/lib/utils";
 
 type PresignResponse = {
   uploadUrl: string;
@@ -15,6 +16,8 @@ export function FileUploadField({
   folder,
   accept,
   required = false,
+  imagePreviewClassName,
+  imagePreviewImageClassName,
   onChange,
 }: {
   label: string;
@@ -22,6 +25,8 @@ export function FileUploadField({
   folder: string;
   accept: string;
   required?: boolean;
+  imagePreviewClassName?: string;
+  imagePreviewImageClassName?: string;
   onChange: (value: string) => void;
 }) {
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -119,12 +124,20 @@ export function FileUploadField({
           {imagePreviewError ? (
             <p className="text-xs text-red-500">이미지를 불러오지 못했습니다.</p>
           ) : (
-            <div className="aspect-square w-full overflow-hidden rounded-md border bg-muted/40">
+            <div
+              className={cn(
+                "aspect-square w-full overflow-hidden rounded-md border bg-muted/40",
+                imagePreviewClassName,
+              )}
+            >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={value}
                 alt={`${label} preview`}
-                className="h-full w-full object-contain"
+                className={cn(
+                  "h-full w-full object-contain",
+                  imagePreviewImageClassName,
+                )}
                 onError={() => setImagePreviewError(true)}
               />
             </div>

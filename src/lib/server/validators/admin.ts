@@ -37,10 +37,18 @@ export const usersQuerySchema = z.object({
   size: z.coerce.number().int().positive().max(100).optional(),
 });
 
-export const artistPayloadSchema = z.object({
+const artistBasePayloadSchema = z.object({
   name_ko: z.string().min(1),
   name_en: z.string().min(1),
   type: artistTypeSchema,
+});
+
+export const artistCreatePayloadSchema = artistBasePayloadSchema.extend({
+  profile_image_url: z.string().url(),
+});
+
+export const artistUpdatePayloadSchema = artistBasePayloadSchema.extend({
+  profile_image_url: z.string().url().optional(),
 });
 
 export const artworksQuerySchema = z.object({

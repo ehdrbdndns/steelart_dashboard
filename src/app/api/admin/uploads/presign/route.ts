@@ -26,7 +26,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!payload.folder.startsWith("artworks/")) {
+    const isArtworkFolder = payload.folder.startsWith("artworks/");
+    const isArtistProfileFolder =
+      payload.folder === "artists/profile" ||
+      payload.folder.startsWith("artists/profile/");
+
+    if (!isArtworkFolder && !isArtistProfileFolder) {
       return fail(
         400,
         "VALIDATION_ERROR",

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { FileUploadField } from "@/components/admin/file-upload-field";
 import { Button } from "@/components/ui/button";
 import { requestJson } from "@/lib/client/admin-api";
 import { artistTypeSchema } from "@/lib/server/validators/admin";
@@ -13,6 +14,20 @@ const schema = z.object({
   name_ko: z.string().min(1, "필수 입력입니다."),
   name_en: z.string().min(1, "필수 입력입니다."),
   type: artistTypeSchema,
+  profile_image_url: z
+    .string()
+    .optional()
+    .refine(
+      (value) => {
+        if (!value || value.trim().length === 0) {
+          return true;
+        }
+        return z.string().url().safeParse(value.trim()).success;
+      },
+      {
+        message: "유효한 URL을 입력해주세요.",
+      },
+    ),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -28,6 +43,7 @@ export function ArtistsForm({
     name_ko: string;
     name_en: string;
     type: ArtistType;
+    profile_image_url: string | null;
   };
 }) {
   const router = useRouter();
@@ -36,6 +52,8 @@ export function ArtistsForm({
   const {
     register,
     handleSubmit,
+    setValue,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
@@ -43,22 +61,40 @@ export function ArtistsForm({
       name_ko: initialData?.name_ko ?? "",
       name_en: initialData?.name_en ?? "",
       type: initialData?.type ?? "COMPANY",
+      profile_image_url: initialData?.profile_image_url ?? "",
     },
   });
 
+  const profileImageUrl = watch("profile_image_url") ?? "";
+
   const onSubmit = async (values: FormValues) => {
     setError("");
+    const normalizedProfileImageUrl = values.profile_image_url?.trim();
+
+    if (mode === "create" && !normalizedProfileImageUrl) {
+      setError("프로필 이미지는 필수입니다.");
+      return;
+    }
+
+    const payload = {
+      name_ko: values.name_ko,
+      name_en: values.name_en,
+      type: values.type,
+      ...(normalizedProfileImageUrl
+        ? { profile_image_url: normalizedProfileImageUrl }
+        : {}),
+    };
 
     try {
       if (mode === "create") {
         await requestJson("/api/admin/artists", {
           method: "POST",
-          body: JSON.stringify(values),
+          body: JSON.stringify(payload),
         });
       } else {
         await requestJson(`/api/admin/artists/${initialData?.id ?? 0}`, {
           method: "PUT",
-          body: JSON.stringify(values),
+          body: JSON.stringify(payload),
         });
       }
 
@@ -94,6 +130,28 @@ export function ArtistsForm({
           <option value="INDIVIDUAL">INDIVIDUAL</option>
         </select>
         {errors.type ? <p className="text-sm text-red-500">{errors.type.message}</p> : null}
+      </div>
+
+      <div className="space-y-1">
+        <input type="hidden" {...register("profile_image_url")} />
+        <FileUploadField
+          label="프로필 이미지"
+          value={profileImageUrl}
+          folder="artists/profile"
+          accept="image/*"
+          required={mode === "create"}
+          imagePreviewClassName="max-w-64 rounded-full"
+          imagePreviewImageClassName="object-cover"
+          onChange={(value) =>
+            setValue("profile_image_url", value, {
+              shouldDirty: true,
+              shouldValidate: true,
+            })
+          }
+        />
+        {errors.profile_image_url ? (
+          <p className="text-sm text-red-500">{errors.profile_image_url.message}</p>
+        ) : null}
       </div>
 
       {error ? <p className="text-sm text-red-500">{error}</p> : null}

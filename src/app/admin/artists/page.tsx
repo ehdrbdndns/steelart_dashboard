@@ -16,6 +16,7 @@ type Artist = {
   name_ko: string;
   name_en: string;
   type: "COMPANY" | "INDIVIDUAL";
+  profile_image_url: string | null;
   deleted_at: string | null;
   updated_at: string;
 };
@@ -137,6 +138,7 @@ export default function ArtistsPage() {
           <thead className="bg-slate-50 dark:bg-slate-900">
             <tr>
               <th className="px-3 py-2 text-left">ID</th>
+              <th className="px-3 py-2 text-left">profile</th>
               <th className="px-3 py-2 text-left">name_ko</th>
               <th className="px-3 py-2 text-left">name_en</th>
               <th className="px-3 py-2 text-left">type</th>
@@ -147,13 +149,13 @@ export default function ArtistsPage() {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={6} className="px-3 py-8 text-center text-muted-foreground">
+                <td colSpan={7} className="px-3 py-8 text-center text-muted-foreground">
                   로딩 중...
                 </td>
               </tr>
             ) : items.length === 0 ? (
               <tr>
-                <td colSpan={6} className="px-3 py-8 text-center text-muted-foreground">
+                <td colSpan={7} className="px-3 py-8 text-center text-muted-foreground">
                   데이터가 없습니다.
                 </td>
               </tr>
@@ -161,6 +163,20 @@ export default function ArtistsPage() {
               items.map((artist) => (
                 <tr key={artist.id} className="border-t">
                   <td className="px-3 py-2">{artist.id}</td>
+                  <td className="px-3 py-2">
+                    {artist.profile_image_url ? (
+                      <div className="h-12 w-12 overflow-hidden rounded-md border bg-muted/30">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={artist.profile_image_url}
+                          alt={`${artist.name_ko} profile`}
+                          className="h-full w-full object-contain"
+                        />
+                      </div>
+                    ) : (
+                      <span className="text-xs text-muted-foreground">미등록</span>
+                    )}
+                  </td>
                   <td className="px-3 py-2">{artist.name_ko}</td>
                   <td className="px-3 py-2">{artist.name_en}</td>
                   <td className="px-3 py-2">{artist.type}</td>

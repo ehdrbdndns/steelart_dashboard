@@ -29,3 +29,10 @@
   - `audio_url_ko`
   - `audio_url_en`
 - Artwork edit may omit media URL fields; omitted fields retain the current DB value.
+
+## Artist Profile Image Policy
+- Artists table includes `profile_image_url`.
+- Artist create requires `profile_image_url`.
+- Artist edit may omit `profile_image_url`; omitted value retains current DB value.
+- Empty legacy profile URLs can be backfilled with:
+  - `pnpm db:backfill:artist-profile`

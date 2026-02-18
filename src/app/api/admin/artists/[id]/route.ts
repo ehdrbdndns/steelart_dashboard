@@ -2,7 +2,10 @@ import type { NextRequest } from "next/server";
 import type { RowDataPacket } from "mysql2";
 import { fail, ok, handleRouteError } from "@/lib/server/api-response";
 import { query } from "@/lib/server/db";
-import { artistPayloadSchema, idParamSchema } from "@/lib/server/validators/admin";
+import {
+  artistUpdatePayloadSchema,
+  idParamSchema,
+} from "@/lib/server/validators/admin";
 
 export const dynamic = "force-dynamic";
 
@@ -11,6 +14,7 @@ type ArtistRow = RowDataPacket & {
   name_ko: string;
   name_en: string;
   type: string;
+  profile_image_url: string | null;
   deleted_at: string | null;
   created_at: string;
   updated_at: string;
@@ -24,7 +28,7 @@ export async function GET(
     const { id } = idParamSchema.parse(await params);
 
     const rows = await query<ArtistRow[]>(
-      `SELECT id, name_ko, name_en, type, deleted_at, created_at, updated_at
+      `SELECT id, name_ko, name_en, type, profile_image_url, deleted_at, created_at, updated_at
        FROM artists
        WHERE id = ?`,
       [id],
@@ -46,21 +50,35 @@ export async function PUT(
 ) {
   try {
     const { id } = idParamSchema.parse(await params);
-    const payload = artistPayloadSchema.parse(await request.json());
+    const payload = artistUpdatePayloadSchema.parse(await request.json());
 
-    const result = await query<{ affectedRows: number } & RowDataPacket[]>(
-      `UPDATE artists
-       SET name_ko = ?, name_en = ?, type = ?, updated_at = NOW()
+    const existingRows = await query<ArtistRow[]>(
+      `SELECT id, name_ko, name_en, type, profile_image_url, deleted_at, created_at, updated_at
+       FROM artists
        WHERE id = ?`,
-      [payload.name_ko, payload.name_en, payload.type, id],
+      [id],
     );
 
-    if (result.affectedRows === 0) {
+    const existingArtist = existingRows[0];
+    if (!existingArtist) {
       return fail(404, "NOT_FOUND", "아티스트를 찾을 수 없습니다.");
     }
 
+    await query<{ affectedRows: number } & RowDataPacket[]>(
+      `UPDATE artists
+       SET name_ko = ?, name_en = ?, type = ?, profile_image_url = ?, updated_at = NOW()
+       WHERE id = ?`,
+      [
+        payload.name_ko,
+        payload.name_en,
+        payload.type,
+        payload.profile_image_url ?? existingArtist.profile_image_url,
+        id,
+      ],
+    );
+
     const rows = await query<ArtistRow[]>(
-      `SELECT id, name_ko, name_en, type, deleted_at, created_at, updated_at
+      `SELECT id, name_ko, name_en, type, profile_image_url, deleted_at, created_at, updated_at
        FROM artists
        WHERE id = ?`,
       [id],

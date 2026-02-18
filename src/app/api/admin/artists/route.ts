@@ -4,7 +4,10 @@ import { ok, handleRouteError } from "@/lib/server/api-response";
 import { query } from "@/lib/server/db";
 import { makePaginationMeta, parsePagination } from "@/lib/server/pagination";
 import { buildDeletedAtClause, extractString } from "@/lib/server/sql";
-import { artistPayloadSchema, artistsQuerySchema } from "@/lib/server/validators/admin";
+import {
+  artistCreatePayloadSchema,
+  artistsQuerySchema,
+} from "@/lib/server/validators/admin";
 
 export const dynamic = "force-dynamic";
 
@@ -13,6 +16,7 @@ type ArtistRow = RowDataPacket & {
   name_ko: string;
   name_en: string;
   type: string;
+  profile_image_url: string | null;
   deleted_at: string | null;
   created_at: string;
   updated_at: string;
@@ -51,7 +55,7 @@ export async function GET(request: NextRequest) {
     const total = countRows[0]?.total ?? 0;
 
     const rows = await query<ArtistRow[]>(
-      `SELECT id, name_ko, name_en, type, deleted_at, created_at, updated_at
+      `SELECT id, name_ko, name_en, type, profile_image_url, deleted_at, created_at, updated_at
        FROM artists
        ${where.join(" ")}
        ORDER BY updated_at DESC
@@ -67,16 +71,24 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const payload = artistPayloadSchema.parse(await request.json());
+    const payload = artistCreatePayloadSchema.parse(await request.json());
 
     const result = await query<{ insertId: number } & RowDataPacket[]>(
-      `INSERT INTO artists (name_ko, name_en, type, deleted_at, created_at, updated_at)
-       VALUES (?, ?, ?, NULL, NOW(), NOW())`,
-      [payload.name_ko, payload.name_en, payload.type],
+      `INSERT INTO artists (
+         name_ko,
+         name_en,
+         type,
+         profile_image_url,
+         deleted_at,
+         created_at,
+         updated_at
+       )
+       VALUES (?, ?, ?, ?, NULL, NOW(), NOW())`,
+      [payload.name_ko, payload.name_en, payload.type, payload.profile_image_url],
     );
 
     const rows = await query<ArtistRow[]>(
-      `SELECT id, name_ko, name_en, type, deleted_at, created_at, updated_at
+      `SELECT id, name_ko, name_en, type, profile_image_url, deleted_at, created_at, updated_at
        FROM artists
        WHERE id = ?`,
       [result.insertId],

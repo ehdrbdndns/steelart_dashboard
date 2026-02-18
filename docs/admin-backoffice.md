@@ -6,6 +6,7 @@
 - CRUD APIs and admin pages for `artists`, `artworks`, `courses`, `home_banners`
 - `course_items` add/reorder/delete with id-preserving reorder and checkin 409 guard
 - S3 presigned upload for artwork media (`photo_day_url`, `photo_night_url`, `audio_url_ko`, `audio_url_en`)
+- Artist profile image upload (`profile_image_url`) with preview on artist form and list thumbnail
 
 ## Environment Variables
 - Core auth/db:
@@ -21,9 +22,17 @@
 ## Upload Policy
 - `POST /api/admin/uploads/presign` returns `{ uploadUrl, fileUrl }`.
 - Allowed MIME: `image/*`, `audio/*`.
-- Upload folder must start with `artworks/`.
+- Upload folder:
+  - `artworks/*` (artwork media)
+  - `artists/profile` or `artists/profile/*` (artist profile image)
 - If AWS env is missing: `503 FEATURE_NOT_CONFIGURED`.
 - Artwork create requires all 4 media URLs; artwork edit keeps existing URL when media fields are omitted.
+- Artist create requires `profile_image_url`; artist edit keeps existing URL when omitted.
+
+## Artist Profile Backfill
+- Command: `pnpm db:backfill:artist-profile`
+- Guard: `ALLOW_MOCK_SEED=true` and non-production only
+- Behavior: fills empty `artists.profile_image_url` with `${MOCK_MEDIA_BASE_URL}/artists/profile-default.jpg`
 
 ## S3 CORS Checklist
 1. Allow origins:
@@ -38,7 +47,8 @@
 2. Run `pnpm lint` and `pnpm build`.
 3. (Optional) Export schema: `pnpm db:schema:export`.
 4. (Optional) Seed large mock dataset: `pnpm db:seed:mock`.
-5. Start app: `pnpm dev`.
+5. (Optional) Backfill artist profile image: `pnpm db:backfill:artist-profile`.
+6. Start app: `pnpm dev`.
 
 ## Troubleshooting
 - Login fails with `Invalid environment configuration`:

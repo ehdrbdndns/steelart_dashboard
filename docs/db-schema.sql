@@ -1,5 +1,5 @@
 -- SteelArt dashboard schema snapshot
--- generated_at: 2026-02-17T11:44:56.531Z
+-- generated_at: 2026-02-18T08:09:12.856Z
 
 -- TABLE: artists
 CREATE TABLE `artists` (
@@ -7,12 +7,13 @@ CREATE TABLE `artists` (
   `name_ko` varchar(150) NOT NULL,
   `name_en` varchar(150) NOT NULL,
   `type` enum('COMPANY','INDIVIDUAL') NOT NULL,
+  `profile_image_url` varchar(500) DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`),
   KEY `idx_artists_deleted_at` (`deleted_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- TABLE: artworks
 CREATE TABLE `artworks` (
@@ -43,7 +44,7 @@ CREATE TABLE `artworks` (
   KEY `idx_artworks_deleted_at` (`deleted_at`),
   CONSTRAINT `fk_artworks_artist` FOREIGN KEY (`artist_id`) REFERENCES `artists` (`id`),
   CONSTRAINT `fk_artworks_place` FOREIGN KEY (`place_id`) REFERENCES `places` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=122 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=124 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- TABLE: courses
 CREATE TABLE `courses` (
@@ -64,7 +65,7 @@ CREATE TABLE `courses` (
   KEY `idx_courses_likes_count` (`likes_count`),
   KEY `idx_courses_deleted_at` (`deleted_at`),
   CONSTRAINT `fk_courses_created_by_user` FOREIGN KEY (`created_by_user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- TABLE: course_items
 CREATE TABLE `course_items` (
@@ -79,7 +80,7 @@ CREATE TABLE `course_items` (
   KEY `idx_course_items_artwork_id` (`artwork_id`),
   CONSTRAINT `fk_course_items_artwork` FOREIGN KEY (`artwork_id`) REFERENCES `artworks` (`id`),
   CONSTRAINT `fk_course_items_course` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=202 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=244 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- TABLE: course_checkins
 CREATE TABLE `course_checkins` (
@@ -96,7 +97,7 @@ CREATE TABLE `course_checkins` (
   CONSTRAINT `fk_course_checkins_course` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`) ON DELETE CASCADE,
   CONSTRAINT `fk_course_checkins_course_item` FOREIGN KEY (`course_item_id`) REFERENCES `course_items` (`id`) ON DELETE CASCADE,
   CONSTRAINT `fk_course_checkins_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- TABLE: home_banners
 CREATE TABLE `home_banners` (
@@ -111,7 +112,7 @@ CREATE TABLE `home_banners` (
   UNIQUE KEY `uq_home_banners_display_order` (`display_order`),
   KEY `idx_home_banners_order` (`display_order`),
   CONSTRAINT `fk_home_banners_artwork` FOREIGN KEY (`artwork_id`) REFERENCES `artworks` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- TABLE: places
 CREATE TABLE `places` (

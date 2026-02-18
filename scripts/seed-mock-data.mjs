@@ -35,6 +35,14 @@ function mediaUrl(seed, fileName) {
   return `${base}/artworks/${seed}/${fileName}`;
 }
 
+function artistProfileUrl(seed) {
+  const base = (process.env.MOCK_MEDIA_BASE_URL || DEFAULT_MEDIA_BASE_URL).replace(
+    /\/+$/,
+    "",
+  );
+  return `${base}/artists/${seed}/profile.jpg`;
+}
+
 function seededRandom(min, max, seed) {
   const x = Math.sin(seed) * 10000;
   const fraction = x - Math.floor(x);
@@ -132,6 +140,7 @@ async function findOrCreateArtist(index) {
   const nameKo = `${MOCK_PREFIX} Artist ${index}`;
   const nameEn = `${MOCK_PREFIX} Artist ${index}`;
   const type = index % 2 === 0 ? "COMPANY" : "INDIVIDUAL";
+  const seed = `mock-${index}`;
 
   const [rows] = await connection.query(
     `SELECT id FROM artists WHERE name_ko = ? LIMIT 1`,
@@ -143,9 +152,9 @@ async function findOrCreateArtist(index) {
   }
 
   const [inserted] = await connection.query(
-    `INSERT INTO artists (name_ko, name_en, type, deleted_at, created_at, updated_at)
-     VALUES (?, ?, ?, NULL, NOW(), NOW())`,
-    [nameKo, nameEn, type],
+    `INSERT INTO artists (name_ko, name_en, type, profile_image_url, deleted_at, created_at, updated_at)
+     VALUES (?, ?, ?, ?, NULL, NOW(), NOW())`,
+    [nameKo, nameEn, type, artistProfileUrl(seed)],
   );
 
   return inserted.insertId;
