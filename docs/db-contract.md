@@ -22,5 +22,10 @@
 5. All API writes must use parameter binding (`?`) with mysql2.
 
 ## Artwork Media Policy (Current Phase)
-- Upload infra is deferred.
-- Artwork media URL fields (`photo_day_url`, `photo_night_url`, `audio_url_ko`, `audio_url_en`) are auto-resolved server-side with mock URLs when client omits them.
+- Upload uses S3 presigned URL (`POST /api/admin/uploads/presign`).
+- Artwork create requires all media URL fields:
+  - `photo_day_url`
+  - `photo_night_url`
+  - `audio_url_ko`
+  - `audio_url_en`
+- Artwork edit may omit media URL fields; omitted fields retain the current DB value.

@@ -54,7 +54,7 @@ export const artworksQuerySchema = z.object({
   size: z.coerce.number().int().positive().max(100).optional(),
 });
 
-export const artworkPayloadSchema = z.object({
+const artworkBasePayloadSchema = z.object({
   title_ko: z.string().min(1),
   title_en: z.string().min(1),
   artist_id: z.coerce.number().int().positive(),
@@ -65,11 +65,25 @@ export const artworkPayloadSchema = z.object({
   size_text_en: z.string().min(1),
   description_ko: z.string().min(1),
   description_en: z.string().min(1),
+});
+
+const artworkMediaUrlSchema = z.object({
   photo_day_url: z.string().url().optional(),
   photo_night_url: z.string().url().optional(),
   audio_url_ko: z.string().url().optional(),
   audio_url_en: z.string().url().optional(),
 });
+
+export const artworkPayloadSchema = artworkBasePayloadSchema.extend({
+  photo_day_url: z.string().url(),
+  photo_night_url: z.string().url(),
+  audio_url_ko: z.string().url(),
+  audio_url_en: z.string().url(),
+});
+
+export const artworkUpdatePayloadSchema = artworkBasePayloadSchema.merge(
+  artworkMediaUrlSchema,
+);
 
 export const coursesQuerySchema = z.object({
   query: z.string().optional(),
@@ -131,7 +145,7 @@ export const homeBannerReorderSchema = z.object({
 });
 
 export const uploadPresignSchema = z.object({
-  folder: z.string().min(1).max(64).regex(/^[a-z0-9\-_/]+$/i),
+  folder: z.string().min(1).max(120).regex(/^[a-z0-9\-_/]+$/i),
   fileName: z.string().min(1).max(255),
   contentType: z.string().min(1),
 });

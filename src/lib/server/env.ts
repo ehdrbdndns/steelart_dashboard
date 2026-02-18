@@ -67,6 +67,10 @@ export function getAwsEnv() {
   return cachedAwsEnv;
 }
 
+export function isAwsEnvConfigured() {
+  return awsEnvSchema.safeParse(process.env).success;
+}
+
 export function canRunMockSeed() {
   const env = getCoreEnv();
   return env.ALLOW_MOCK_SEED === "true" || env.ALLOW_MOCK_SEED === "1";

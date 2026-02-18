@@ -2,7 +2,6 @@ import type { NextRequest } from "next/server";
 import type { ResultSetHeader, RowDataPacket } from "mysql2";
 import { handleRouteError, ok } from "@/lib/server/api-response";
 import { query } from "@/lib/server/db";
-import { resolveArtworkMediaUrls } from "@/lib/server/mock-media";
 import { makePaginationMeta, parsePagination } from "@/lib/server/pagination";
 import { buildDeletedAtClause, extractString } from "@/lib/server/sql";
 import {
@@ -102,10 +101,6 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const payload = artworkPayloadSchema.parse(await request.json());
-    const tempMediaUrls = resolveArtworkMediaUrls({
-      input: payload,
-      seed: `temp-${Date.now()}`,
-    });
 
     const inserted = await query<ResultSetHeader>(
       `INSERT INTO artworks (
@@ -125,28 +120,10 @@ export async function POST(request: NextRequest) {
         payload.size_text_en,
         payload.description_ko,
         payload.description_en,
-        tempMediaUrls.photo_day_url,
-        tempMediaUrls.photo_night_url,
-        tempMediaUrls.audio_url_ko,
-        tempMediaUrls.audio_url_en,
-      ],
-    );
-
-    const persistedMediaUrls = resolveArtworkMediaUrls({
-      input: payload,
-      seed: String(inserted.insertId),
-    });
-
-    await query<ResultSetHeader>(
-      `UPDATE artworks
-       SET photo_day_url = ?, photo_night_url = ?, audio_url_ko = ?, audio_url_en = ?
-       WHERE id = ?`,
-      [
-        persistedMediaUrls.photo_day_url,
-        persistedMediaUrls.photo_night_url,
-        persistedMediaUrls.audio_url_ko,
-        persistedMediaUrls.audio_url_en,
-        inserted.insertId,
+        payload.photo_day_url,
+        payload.photo_night_url,
+        payload.audio_url_ko,
+        payload.audio_url_en,
       ],
     );
 

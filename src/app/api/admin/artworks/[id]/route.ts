@@ -2,8 +2,10 @@ import type { NextRequest } from "next/server";
 import type { ResultSetHeader, RowDataPacket } from "mysql2";
 import { fail, handleRouteError, ok } from "@/lib/server/api-response";
 import { query } from "@/lib/server/db";
-import { resolveArtworkMediaUrls } from "@/lib/server/mock-media";
-import { artworkPayloadSchema, idParamSchema } from "@/lib/server/validators/admin";
+import {
+  artworkUpdatePayloadSchema,
+  idParamSchema,
+} from "@/lib/server/validators/admin";
 
 export const dynamic = "force-dynamic";
 
@@ -32,7 +34,7 @@ export async function PUT(
 ) {
   try {
     const { id } = idParamSchema.parse(await params);
-    const payload = artworkPayloadSchema.parse(await request.json());
+    const payload = artworkUpdatePayloadSchema.parse(await request.json());
     const existingRows = await query<RowDataPacket[]>(
       `SELECT id, photo_day_url, photo_night_url, audio_url_ko, audio_url_en
        FROM artworks
@@ -44,17 +46,6 @@ export async function PUT(
     if (!existingRow) {
       return fail(404, "NOT_FOUND", "작품을 찾을 수 없습니다.");
     }
-
-    const mediaUrls = resolveArtworkMediaUrls({
-      input: payload,
-      existing: {
-        photo_day_url: existingRow.photo_day_url as string | undefined,
-        photo_night_url: existingRow.photo_night_url as string | undefined,
-        audio_url_ko: existingRow.audio_url_ko as string | undefined,
-        audio_url_en: existingRow.audio_url_en as string | undefined,
-      },
-      seed: String(id),
-    });
 
     await query<ResultSetHeader>(
       `UPDATE artworks
@@ -74,10 +65,10 @@ export async function PUT(
         payload.size_text_en,
         payload.description_ko,
         payload.description_en,
-        mediaUrls.photo_day_url,
-        mediaUrls.photo_night_url,
-        mediaUrls.audio_url_ko,
-        mediaUrls.audio_url_en,
+        payload.photo_day_url ?? (existingRow.photo_day_url as string),
+        payload.photo_night_url ?? (existingRow.photo_night_url as string),
+        payload.audio_url_ko ?? (existingRow.audio_url_ko as string | null),
+        payload.audio_url_en ?? (existingRow.audio_url_en as string | null),
         id,
       ],
     );

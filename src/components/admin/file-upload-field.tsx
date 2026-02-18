@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { requestJson } from "@/lib/client/admin-api";
 
@@ -14,17 +14,28 @@ export function FileUploadField({
   value,
   folder,
   accept,
+  required = false,
   onChange,
 }: {
   label: string;
   value: string;
   folder: string;
   accept: string;
+  required?: boolean;
   onChange: (value: string) => void;
 }) {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
+  const [imagePreviewError, setImagePreviewError] = useState(false);
+  const [audioPreviewError, setAudioPreviewError] = useState(false);
+  const isImageField = accept.includes("image");
+  const isAudioField = accept.includes("audio");
+
+  useEffect(() => {
+    setImagePreviewError(false);
+    setAudioPreviewError(false);
+  }, [value]);
 
   const handleUpload = async (file: File) => {
     setUploading(true);
@@ -100,8 +111,43 @@ export function FileUploadField({
         onChange={(event) => onChange(event.target.value)}
         placeholder="https://..."
         className="w-full rounded-md border px-3 py-2"
-        required
+        required={required}
       />
+      {isImageField && value.trim().length > 0 ? (
+        <div className="space-y-2 rounded-md border bg-muted/20 p-2">
+          <p className="text-xs text-muted-foreground">이미지 미리보기</p>
+          {imagePreviewError ? (
+            <p className="text-xs text-red-500">이미지를 불러오지 못했습니다.</p>
+          ) : (
+            <div className="aspect-square w-full overflow-hidden rounded-md border bg-muted/40">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={value}
+                alt={`${label} preview`}
+                className="h-full w-full object-contain"
+                onError={() => setImagePreviewError(true)}
+              />
+            </div>
+          )}
+        </div>
+      ) : null}
+      {isAudioField && value.trim().length > 0 ? (
+        <div className="space-y-2 rounded-md border bg-muted/20 p-2">
+          <p className="text-xs text-muted-foreground">오디오 미리보기</p>
+          {audioPreviewError ? (
+            <p className="text-xs text-red-500">오디오를 불러오지 못했습니다.</p>
+          ) : (
+            <audio
+              controls
+              className="w-full"
+              src={value}
+              onError={() => setAudioPreviewError(true)}
+            >
+              브라우저가 오디오 재생을 지원하지 않습니다.
+            </audio>
+          )}
+        </div>
+      ) : null}
       {error ? <p className="text-sm text-red-500">{error}</p> : null}
     </div>
   );

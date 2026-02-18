@@ -20,8 +20,8 @@ type Artwork = {
   description_en: string;
   photo_day_url: string;
   photo_night_url: string;
-  audio_url_ko: string;
-  audio_url_en: string;
+  audio_url_ko: string | null;
+  audio_url_en: string | null;
 };
 
 export default function EditArtworkPage() {

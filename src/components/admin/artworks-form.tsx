@@ -2,11 +2,20 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
+import { FileUploadField } from "@/components/admin/file-upload-field";
 import { Button } from "@/components/ui/button";
 import { requestJson, requestJsonWithMeta } from "@/lib/client/admin-api";
 import { artworkCategorySchema } from "@/lib/server/validators/admin";
+
+const optionalUrlSchema = z
+  .string()
+  .trim()
+  .refine(
+    (value) => value.length === 0 || z.string().url().safeParse(value).success,
+    "유효한 URL이어야 합니다.",
+  );
 
 const schema = z.object({
   title_ko: z.string().min(1),
@@ -19,9 +28,36 @@ const schema = z.object({
   size_text_en: z.string().min(1),
   description_ko: z.string().min(1),
   description_en: z.string().min(1),
+  photo_day_url: optionalUrlSchema,
+  photo_night_url: optionalUrlSchema,
+  audio_url_ko: optionalUrlSchema,
+  audio_url_en: optionalUrlSchema,
 });
 
 type FormValues = z.infer<typeof schema>;
+type MediaFieldKey =
+  | "photo_day_url"
+  | "photo_night_url"
+  | "audio_url_ko"
+  | "audio_url_en";
+
+type ArtworkInitialData = {
+  id?: number;
+  title_ko?: string;
+  title_en?: string;
+  artist_id?: number;
+  place_id?: number;
+  category?: "STEEL_ART" | "PUBLIC_ART";
+  production_year?: number;
+  size_text_ko?: string;
+  size_text_en?: string;
+  description_ko?: string;
+  description_en?: string;
+  photo_day_url?: string | null;
+  photo_night_url?: string | null;
+  audio_url_ko?: string | null;
+  audio_url_en?: string | null;
+};
 
 type SelectOption = {
   id: number;
@@ -34,7 +70,7 @@ export function ArtworksForm({
   onSaved,
 }: {
   mode: "create" | "edit";
-  initialData?: Partial<FormValues> & { id?: number };
+  initialData?: ArtworkInitialData;
   onSaved: () => void;
 }) {
   const [artists, setArtists] = useState<SelectOption[]>([]);
@@ -42,6 +78,7 @@ export function ArtworksForm({
   const [error, setError] = useState("");
 
   const {
+    control,
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
@@ -50,14 +87,20 @@ export function ArtworksForm({
     defaultValues: {
       title_ko: initialData?.title_ko ?? "",
       title_en: initialData?.title_en ?? "",
-      artist_id: initialData?.artist_id ?? 0,
-      place_id: initialData?.place_id ?? 0,
+      artist_id: Number(initialData?.artist_id ?? 0),
+      place_id: Number(initialData?.place_id ?? 0),
       category: initialData?.category ?? "STEEL_ART",
-      production_year: initialData?.production_year ?? new Date().getFullYear(),
+      production_year: Number(
+        initialData?.production_year ?? new Date().getFullYear(),
+      ),
       size_text_ko: initialData?.size_text_ko ?? "",
       size_text_en: initialData?.size_text_en ?? "",
       description_ko: initialData?.description_ko ?? "",
       description_en: initialData?.description_en ?? "",
+      photo_day_url: initialData?.photo_day_url ?? "",
+      photo_night_url: initialData?.photo_night_url ?? "",
+      audio_url_ko: initialData?.audio_url_ko ?? "",
+      audio_url_en: initialData?.audio_url_en ?? "",
     },
   });
 
@@ -83,17 +126,41 @@ export function ArtworksForm({
 
   const onSubmit = async (values: FormValues) => {
     setError("");
+    const requiredMediaFields: MediaFieldKey[] = [
+      "photo_day_url",
+      "photo_night_url",
+      "audio_url_ko",
+      "audio_url_en",
+    ];
+
+    if (mode === "create") {
+      const hasMissingMedia = requiredMediaFields.some(
+        (key) => values[key].trim().length === 0,
+      );
+      if (hasMissingMedia) {
+        setError("생성 시 이미지/오디오 4개 파일을 모두 업로드해야 합니다.");
+        return;
+      }
+    }
 
     try {
+      const payload = {
+        ...values,
+        photo_day_url: values.photo_day_url.trim() || undefined,
+        photo_night_url: values.photo_night_url.trim() || undefined,
+        audio_url_ko: values.audio_url_ko.trim() || undefined,
+        audio_url_en: values.audio_url_en.trim() || undefined,
+      };
+
       if (mode === "create") {
         await requestJson("/api/admin/artworks", {
           method: "POST",
-          body: JSON.stringify(values),
+          body: JSON.stringify(payload),
         });
       } else {
         await requestJson(`/api/admin/artworks/${initialData?.id ?? 0}`, {
           method: "PUT",
-          body: JSON.stringify(values),
+          body: JSON.stringify(payload),
         });
       }
 
@@ -105,8 +172,10 @@ export function ArtworksForm({
 
   return (
     <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-      <div className="rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-sm text-amber-900">
-        파일 업로드는 AWS 준비 후 활성화됩니다. 현재는 서버가 목업 미디어 URL을 자동으로 저장합니다.
+      <div className="rounded-md border border-blue-300 bg-blue-50 px-3 py-2 text-sm text-blue-900">
+        {mode === "create"
+          ? "생성 시 이미지 2개/오디오 2개 파일 업로드가 필요합니다."
+          : "수정 시 교체가 필요한 파일만 업로드하세요. 업로드하지 않은 URL은 기존값을 유지합니다."}
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -206,6 +275,88 @@ export function ArtworksForm({
             {...register("description_en")}
           />
           {errors.description_en ? <p className="text-sm text-red-500">필수 입력입니다.</p> : null}
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="space-y-1">
+          <Controller
+            control={control}
+            name="photo_day_url"
+            render={({ field }) => (
+              <FileUploadField
+                label="photo_day_url"
+                value={typeof field.value === "string" ? field.value : ""}
+                folder="artworks/photo-day"
+                accept="image/*"
+                required={mode === "create"}
+                onChange={field.onChange}
+              />
+            )}
+          />
+          {errors.photo_day_url ? (
+            <p className="text-sm text-red-500">유효한 URL이어야 합니다.</p>
+          ) : null}
+        </div>
+        <div className="space-y-1">
+          <Controller
+            control={control}
+            name="photo_night_url"
+            render={({ field }) => (
+              <FileUploadField
+                label="photo_night_url"
+                value={typeof field.value === "string" ? field.value : ""}
+                folder="artworks/photo-night"
+                accept="image/*"
+                required={mode === "create"}
+                onChange={field.onChange}
+              />
+            )}
+          />
+          {errors.photo_night_url ? (
+            <p className="text-sm text-red-500">유효한 URL이어야 합니다.</p>
+          ) : null}
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="space-y-1">
+          <Controller
+            control={control}
+            name="audio_url_ko"
+            render={({ field }) => (
+              <FileUploadField
+                label="audio_url_ko"
+                value={typeof field.value === "string" ? field.value : ""}
+                folder="artworks/audio-ko"
+                accept="audio/*"
+                required={mode === "create"}
+                onChange={field.onChange}
+              />
+            )}
+          />
+          {errors.audio_url_ko ? (
+            <p className="text-sm text-red-500">유효한 URL이어야 합니다.</p>
+          ) : null}
+        </div>
+        <div className="space-y-1">
+          <Controller
+            control={control}
+            name="audio_url_en"
+            render={({ field }) => (
+              <FileUploadField
+                label="audio_url_en"
+                value={typeof field.value === "string" ? field.value : ""}
+                folder="artworks/audio-en"
+                accept="audio/*"
+                required={mode === "create"}
+                onChange={field.onChange}
+              />
+            )}
+          />
+          {errors.audio_url_en ? (
+            <p className="text-sm text-red-500">유효한 URL이어야 합니다.</p>
+          ) : null}
         </div>
       </div>
 

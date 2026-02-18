@@ -27,6 +27,12 @@ function sanitizeFileName(fileName: string) {
   return fileName.replace(/[^a-zA-Z0-9._-]/g, "_");
 }
 
+function sanitizeFolderName(folder: string) {
+  const trimmed = folder.replace(/^\/+|\/+$/g, "");
+  const safe = trimmed.replace(/[^a-zA-Z0-9/_-]/g, "");
+  return safe.replace(/\/{2,}/g, "/");
+}
+
 export async function createPresignedUploadUrl({
   folder,
   fileName,
@@ -37,8 +43,9 @@ export async function createPresignedUploadUrl({
   contentType: string;
 }) {
   const env = getAwsEnv();
+  const safeFolder = sanitizeFolderName(folder);
   const safeFileName = sanitizeFileName(fileName);
-  const key = `${folder.replace(/^\/+|\/+$/g, "")}/${uuid()}-${safeFileName}`;
+  const key = `${safeFolder}/${uuid()}-${safeFileName}`;
 
   const command = new PutObjectCommand({
     Bucket: env.AWS_S3_BUCKET,
