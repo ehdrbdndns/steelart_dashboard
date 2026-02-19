@@ -8,6 +8,7 @@ import { z } from "zod";
 import { FileUploadField } from "@/components/admin/file-upload-field";
 import { Button } from "@/components/ui/button";
 import { requestJson } from "@/lib/client/admin-api";
+import { confirmAction } from "@/lib/client/confirm-action";
 import { artistTypeSchema } from "@/lib/server/validators/admin";
 
 const schema = z.object({
@@ -73,6 +74,16 @@ export function ArtistsForm({
 
     if (mode === "create" && !normalizedProfileImageUrl) {
       setError("프로필 이미지는 필수입니다.");
+      return;
+    }
+
+    if (
+      !confirmAction(
+        mode === "create"
+          ? "작가를 생성하시겠습니까?"
+          : "작가 정보를 저장하시겠습니까?",
+      )
+    ) {
       return;
     }
 

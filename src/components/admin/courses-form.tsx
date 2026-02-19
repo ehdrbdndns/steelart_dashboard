@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { requestJson } from "@/lib/client/admin-api";
+import { confirmAction } from "@/lib/client/confirm-action";
 
 const schema = z.object({
   title_ko: z.string().min(1),
@@ -45,6 +46,16 @@ export function CoursesForm({
 
   const onSubmit = async (values: FormValues) => {
     setError("");
+
+    if (
+      !confirmAction(
+        mode === "create"
+          ? "코스를 생성하시겠습니까?"
+          : "코스 정보를 저장하시겠습니까?",
+      )
+    ) {
+      return;
+    }
 
     try {
       if (mode === "create") {

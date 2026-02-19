@@ -1,3 +1,4 @@
+import { AdminApiBlockingOverlay } from "@/components/admin/admin-api-blocking-overlay";
 import { AdminSideNav, AdminTopNav } from "@/components/nav";
 
 export default async function AdminLayout({
@@ -7,6 +8,7 @@ export default async function AdminLayout({
 }) {
   return (
     <div className="flex min-h-screen">
+      <AdminApiBlockingOverlay />
       <AdminSideNav />
       <div className="flex flex-1 flex-col">
         <AdminTopNav />

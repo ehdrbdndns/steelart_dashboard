@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { requestJson } from "@/lib/client/admin-api";
+import { confirmAction } from "@/lib/client/confirm-action";
 import { cn } from "@/lib/utils";
 
 type PresignResponse = {
@@ -107,6 +108,10 @@ export function FileUploadField({
         onChange={(event) => {
           const selected = event.target.files?.[0];
           if (!selected) return;
+          if (!confirmAction(`"${selected.name}" 파일을 업로드하시겠습니까?`)) {
+            event.target.value = "";
+            return;
+          }
           void handleUpload(selected);
         }}
       />
