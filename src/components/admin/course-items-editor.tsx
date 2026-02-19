@@ -23,6 +23,7 @@ import {
   requestJson,
   requestJsonWithMeta,
 } from "@/lib/client/admin-api";
+import { confirmAction } from "@/lib/client/confirm-action";
 
 type CourseItem = {
   id: number;
@@ -181,6 +182,10 @@ export function CourseItemsEditor({ courseId }: { courseId: number }) {
       return;
     }
 
+    if (!confirmAction("코스 아이템 순서를 변경하시겠습니까?")) {
+      return;
+    }
+
     const moved = arrayMove(sortedItems, oldIndex, newIndex);
     await saveReorder(moved);
   };
@@ -188,6 +193,9 @@ export function CourseItemsEditor({ courseId }: { courseId: number }) {
   const handleAdd = async () => {
     if (!selectedArtworkId) {
       setActionError("작품을 선택하세요.");
+      return;
+    }
+    if (!confirmAction("코스 아이템을 추가하시겠습니까?")) {
       return;
     }
 
@@ -211,6 +219,10 @@ export function CourseItemsEditor({ courseId }: { courseId: number }) {
   };
 
   const handleDelete = async (itemId: number) => {
+    if (!confirmAction("이 코스 아이템을 삭제하시겠습니까?")) {
+      return;
+    }
+
     setActionError("");
 
     try {

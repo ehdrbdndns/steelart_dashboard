@@ -7,6 +7,7 @@ import { z } from "zod";
 import { FileUploadField } from "@/components/admin/file-upload-field";
 import { Button } from "@/components/ui/button";
 import { requestJson, requestJsonWithMeta } from "@/lib/client/admin-api";
+import { confirmAction } from "@/lib/client/confirm-action";
 import { artworkCategorySchema } from "@/lib/server/validators/admin";
 
 const optionalUrlSchema = z
@@ -141,6 +142,16 @@ export function ArtworksForm({
         setError("생성 시 이미지/오디오 4개 파일을 모두 업로드해야 합니다.");
         return;
       }
+    }
+
+    if (
+      !confirmAction(
+        mode === "create"
+          ? "작품을 생성하시겠습니까?"
+          : "작품 정보를 저장하시겠습니까?",
+      )
+    ) {
+      return;
     }
 
     try {

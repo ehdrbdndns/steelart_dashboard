@@ -10,6 +10,7 @@ import {
   requestJson,
   requestJsonWithMeta,
 } from "@/lib/client/admin-api";
+import { confirmAction } from "@/lib/client/confirm-action";
 
 type Course = {
   id: number;
@@ -67,6 +68,13 @@ export default function CoursesPage() {
   }, [queryString]);
 
   const mutateDelete = async (id: number, restore: boolean) => {
+    const confirmed = confirmAction(
+      restore ? "이 코스를 복구하시겠습니까?" : "이 코스를 삭제하시겠습니까?",
+    );
+    if (!confirmed) {
+      return;
+    }
+
     setActionError("");
 
     try {

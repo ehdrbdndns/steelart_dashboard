@@ -10,6 +10,7 @@ import {
   requestJson,
   requestJsonWithMeta,
 } from "@/lib/client/admin-api";
+import { confirmAction } from "@/lib/client/confirm-action";
 
 type Artwork = {
   id: number;
@@ -102,6 +103,13 @@ export default function ArtworksPage() {
   }, [queryString]);
 
   const mutateDelete = async (id: number, restore: boolean) => {
+    const confirmed = confirmAction(
+      restore ? "이 작품을 복구하시겠습니까?" : "이 작품을 삭제하시겠습니까?",
+    );
+    if (!confirmed) {
+      return;
+    }
+
     setActionError("");
 
     try {

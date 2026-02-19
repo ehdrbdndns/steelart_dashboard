@@ -1,3 +1,8 @@
+import {
+  beginAdminRequest,
+  endAdminRequest,
+} from "@/lib/client/admin-request-tracker";
+
 export type ApiError = {
   error: {
     code: string;
@@ -16,34 +21,66 @@ export type ApiSuccess<T> = {
   };
 };
 
+function isAdminApiRequest(input: RequestInfo | URL) {
+  const resolvePathname = (url: string) => {
+    if (url.startsWith("http://") || url.startsWith("https://")) {
+      return new URL(url).pathname;
+    }
+
+    return url;
+  };
+
+  if (typeof input === "string") {
+    return resolvePathname(input).startsWith("/api/admin/");
+  }
+
+  if (input instanceof URL) {
+    return input.pathname.startsWith("/api/admin/");
+  }
+
+  return resolvePathname(input.url).startsWith("/api/admin/");
+}
+
 async function parseResponse<T>(
   input: RequestInfo | URL,
   init?: RequestInit,
 ): Promise<ApiSuccess<T>> {
-  const response = await fetch(input, {
-    ...init,
-    headers: {
-      "Content-Type": "application/json",
-      ...(init?.headers ?? {}),
-    },
-  });
+  const trackPendingRequest = isAdminApiRequest(input);
 
-  const payload = (await response.json()) as ApiSuccess<T> | ApiError;
-
-  if (!response.ok) {
-    const message =
-      typeof payload === "object" && payload !== null && "error" in payload
-        ? payload.error.message
-        : "요청 처리에 실패했습니다.";
-
-    throw new Error(message);
+  if (trackPendingRequest) {
+    beginAdminRequest();
   }
 
-  if (typeof payload === "object" && payload !== null && "data" in payload) {
-    return payload;
-  }
+  try {
+    const response = await fetch(input, {
+      ...init,
+      headers: {
+        "Content-Type": "application/json",
+        ...(init?.headers ?? {}),
+      },
+    });
 
-  throw new Error("잘못된 API 응답 형식입니다.");
+    const payload = (await response.json()) as ApiSuccess<T> | ApiError;
+
+    if (!response.ok) {
+      const message =
+        typeof payload === "object" && payload !== null && "error" in payload
+          ? payload.error.message
+          : "요청 처리에 실패했습니다.";
+
+      throw new Error(message);
+    }
+
+    if (typeof payload === "object" && payload !== null && "data" in payload) {
+      return payload;
+    }
+
+    throw new Error("잘못된 API 응답 형식입니다.");
+  } finally {
+    if (trackPendingRequest) {
+      endAdminRequest();
+    }
+  }
 }
 
 export async function requestJson<T>(

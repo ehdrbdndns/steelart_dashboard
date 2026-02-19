@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { adminNavigations } from "@/config/site";
+import { confirmAction } from "@/lib/client/confirm-action";
 import { cn } from "@/lib/utils";
 
 export function AdminSideNav() {
@@ -41,7 +42,13 @@ export function AdminSideNav() {
       <Button
         className="mt-8 w-full"
         variant="outline"
-        onClick={() => signOut({ callbackUrl: "/admin/login" })}
+        onClick={() => {
+          if (!confirmAction("로그아웃하시겠습니까?")) {
+            return;
+          }
+
+          void signOut({ callbackUrl: "/admin/login" });
+        }}
       >
         <LogOut size={16} />
         로그아웃

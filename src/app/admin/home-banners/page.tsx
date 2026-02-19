@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { PageTitle } from "@/components/admin/page-title";
 import { Button } from "@/components/ui/button";
 import { requestJson, requestJsonWithMeta } from "@/lib/client/admin-api";
+import { confirmAction } from "@/lib/client/confirm-action";
 
 type Banner = {
   id: number;
@@ -62,6 +63,9 @@ export default function HomeBannersPage() {
       setActionError("작품을 선택하세요.");
       return;
     }
+    if (!confirmAction("홈 배너를 추가하시겠습니까?")) {
+      return;
+    }
 
     setActionError("");
 
@@ -81,6 +85,16 @@ export default function HomeBannersPage() {
   };
 
   const mutateToggle = async (id: number, nextValue: boolean) => {
+    if (
+      !confirmAction(
+        nextValue
+          ? "이 배너를 활성화하시겠습니까?"
+          : "이 배너를 비활성화하시겠습니까?",
+      )
+    ) {
+      return;
+    }
+
     setActionError("");
 
     try {
@@ -95,6 +109,10 @@ export default function HomeBannersPage() {
   };
 
   const mutateDelete = async (id: number) => {
+    if (!confirmAction("이 배너를 삭제하시겠습니까? 삭제 후 복구할 수 없습니다.")) {
+      return;
+    }
+
     setActionError("");
 
     try {
@@ -109,6 +127,9 @@ export default function HomeBannersPage() {
 
   const mutateReorder = async (fromIndex: number, toIndex: number) => {
     if (toIndex < 0 || toIndex >= items.length) {
+      return;
+    }
+    if (!confirmAction("배너 순서를 변경하시겠습니까?")) {
       return;
     }
 
