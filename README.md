@@ -1,9 +1,9 @@
 # SteelArt Admin Dashboard: AI-Collaboration Engineering Case Study
 
 ## 1. TL;DR
-- 이 프로젝트는 `Human-led Architecture` + `AI-accelerated Development` 방식으로 진행한 백오피스 구축 사례다.
-- 긴급 데드라인이 있었던 프로젝트는 아니며, `Spec-first` 방식으로 진행한 결과 실제 구현·검증 리드타임이 약 8시간으로 관측되었다.
-- 핵심 성과는 기능 수보다, `AI-native workflow`를 개발 루프(설계-구현-검증)에 적용해 재현 가능한 협업 프로세스를 만든 점이다.
+- 이 문서는 단순 구현 회고가 아니라, `Human-led Architecture` + `AI-accelerated Development` 운영 방식을 검증한 `workflow validation document`다.
+- 긴급 데드라인을 맞춘 사례가 아니라, `Spec-first` 접근을 적용했을 때 구현+검증 리드타임이 어떻게 줄어드는지 관측한 실험 기록이다.
+- 결론은 기능 수가 아니라 프로세스 재현성이다. `AI-native workflow`를 설계-구현-검증 루프에 고정해 반복 가능한 팀 실행 모델로 만들었다.
 
 ## 2. Project Context & Constraint
 - 모바일 앱 운영을 위한 관리자 기능이 필요했지만, 사용자 서비스 디자인이 완성되기 전에 관리자 백오피스를 먼저 구축해야 했다.
@@ -16,6 +16,8 @@
 
 ## 3. Human-led System Design
 초기 설계는 코드가 아니라 도메인 합의에서 시작했다. 미팅 내용에서 운영 주체와 데이터 책임 경계를 먼저 정리하고, 이를 바탕으로 AI를 활용해 ERD 초안을 생성했다.
+관리자 시스템의 스키마 초기 결정은 high-leverage다. 권한, 운영 정책, 데이터 정합성 규칙이 테이블 구조에 고정되고 이후 변경 비용이 빠르게 커지기 때문이다.
+수동 검증이 없었다면 중복 속성, 모호한 관계, 과도한 분리로 인해 조회 복잡도와 운영 실수가 함께 증가할 수 있었다.
 
 진행 방식은 다음과 같았다.
 1. 미팅 기반으로 엔터티 후보(예: 작가, 작품, 코스, 배너, 사용자)를 먼저 확정
@@ -64,8 +66,15 @@ AUTH --> APP
 
 ## 5. AI Collaboration Workflow (Vibe Coding Process)
 구현은 `Plan Mode` 기반의 `Spec-first, generation-second` 원칙으로 진행했다. 즉, 코드를 먼저 만들지 않고 명세를 먼저 잠갔다.
+중요했던 점은 도구 선택 자체보다, 생성 전 명세를 반복 수정한 상호작용 루프였다.
 
-Plan Mode에서 합의한 핵심 결정은 다음과 같다.
+생성 전 interaction loop:
+1. 초안 스펙 작성
+2. Codex 제안 검토 및 반례 제시
+3. 쿼리/인프라 영향 재검토 후 스펙 수정
+4. `spec freeze` 이후 코드 생성
+
+Plan Mode에서 확정한 핵심 결정은 다음과 같다.
 - `Next.js`: App Router 기반으로 UI + API 경계를 단일 리포에서 관리
 - `shadcn/ui`: 빠른 조합형 UI 구축과 커스텀 용이성 확보
 - `mysql2 (raw SQL)`: 초기 MVP에서 ORM 학습/추상화 오버헤드를 줄이고 쿼리 제어권 확보
@@ -123,14 +132,21 @@ AI는 구현 속도를 높였지만, 아래 영역은 인간 판단이 필수였
 요약하면, AI는 implementation partner였고, architecture owner는 끝까지 인간이었다.
 
 ## 9. Productivity Outcome
-- 관측 결과: 명세 확정(`spec freeze`) 이후 구현 + 실인프라 검증까지 약 8시간 소요
+- 관측 결과: `spec freeze` 이후 구현 + 실인프라 검증까지 약 8시간 소요
 - 해석 기준: 긴급 납기 달성 사례가 아니라, 재작업을 줄인 `Spec-first AI-native workflow`의 실행 결과
-- 품질 상태: 배포 시점 기준 치명 이슈 없이 동작 확인
-- 생산성 영향(현실적 평가): 명세 고정 이후 구현 리드타임이 단축됨.
-- 생산성 영향(현실적 평가): 반복 수정 사이클에서 문제 재현과 패치 속도가 빨라짐.
-- 생산성 영향(현실적 평가): 설계 검증과 배포 판단 시간은 여전히 인간 중심으로 유지됨.
 
-이 결과는 "AI가 개발을 대체"했다는 의미가 아니라, "명세 중심 협업을 통해 엔지니어의 throughput을 높였다"는 의미에 가깝다.
+**What Improved**
+- 명세 고정 이후 구현 리드타임이 단축되었다.
+- 반복 수정 사이클에서 문제 재현과 패치 속도가 빨라졌다.
+- 배포 시점 기준 치명 이슈 없이 동작 확인까지 도달했다.
+
+**What Did Not Change**
+- 요구사항 해석 충돌을 줄이기 위한 사전 합의 비용은 여전히 필요했다.
+- 실인프라 검증은 로컬 성공과 별개로 별도 시간을 요구했다.
+
+**What Remained Human**
+- 스키마/쿼리 품질 판단과 과설계 억제.
+- 리스크 수용 수준 정의와 release readiness 최종 결정.
 
 ## 10. How This Applies to Real Organizations
 조직 적용은 도구 도입보다 `operating model` 정립이 먼저다. 이 프로젝트에서 검증된 패턴은 다음과 같이 확장할 수 있다.
@@ -144,4 +160,4 @@ PR, 스펙, 운영 로그를 문서화 파이프라인에 연결해 최신 문�
 4. Onboarding acceleration
 신규 엔지니어가 코드보다 명세-결정 기록부터 이해하도록 학습 경로를 재구성해, 맥락 학습 시간을 단축한다.
 
-핵심은 AI를 개발자의 대체재로 보는 것이 아니라, 팀의 설계 품질과 실행 속도를 동시에 끌어올리는 협업 계층으로 운영하는 것이다.
+AI는 구현 속도를 높일 수 있지만, 시스템의 책임 경계와 배포 판단은 인간이 가져야 한다. 생산성의 핵심은 자동 생성이 아니라 `decision ownership`을 유지한 협업 구조다.
