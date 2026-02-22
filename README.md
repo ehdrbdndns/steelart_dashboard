@@ -73,8 +73,8 @@ SteelArt 모바일 앱 운영을 위한 관리자 대시보드를 구축한 프�
 AI는 확장성을 고려한 구조를 자주 제안했지만,  
 초기 MVP 범위를 벗어나는 과설계는 제거했습니다.
 
-![ERD Draft - AI Generated](docs/readme/assets/erd-draft.png)  
-![Final ERD - Human Validated](docs/readme/assets/erd-final.png)
+![ERD Draft - AI Generated](docs/readme/assets/ERD-draft.png)  
+![Final ERD - Human Validated](docs/readme/assets/ERD-validated.png)
 
 ---
 
