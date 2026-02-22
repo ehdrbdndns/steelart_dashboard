@@ -2,7 +2,7 @@
 
 ## 1. TL;DR
 - 이 문서는 단순 구현 회고가 아니라, `Human-led Architecture` + `AI-accelerated Development` 운영 방식을 검증한 `workflow validation document`다.
-- 긴급 데드라인을 맞춘 사례가 아니라, `Spec-first` 접근을 적용했을 때 구현+검증 리드타임이 어떻게 줄어드는지 관측한 실험 기록이다.
+- 긴급 데드라인을 맞춘 사례가 아니라, `Spec-first` 접근을 실제 프로젝트에 적용했을 때의 구현+검증 리드타임 결과를 정리한 문서다.
 - 결론은 기능 수가 아니라 프로세스 재현성이다. `AI-native workflow`를 설계-구현-검증 루프에 고정해 반복 가능한 팀 실행 모델로 만들었다.
 
 ## 2. Project Context & Constraint
@@ -132,7 +132,7 @@ AI는 구현 속도를 높였지만, 아래 영역은 인간 판단이 필수였
 요약하면, AI는 implementation partner였고, architecture owner는 끝까지 인간이었다.
 
 ## 9. Productivity Outcome
-- 관측 결과: `spec freeze` 이후 구현 + 실인프라 검증까지 약 8시간 소요
+- 실행 결과: `spec freeze` 이후 구현 + 실인프라 검증까지 약 8시간 소요
 - 해석 기준: 긴급 납기 달성 사례가 아니라, 재작업을 줄인 `Spec-first AI-native workflow`의 실행 결과
 
 **What Improved**
