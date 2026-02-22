@@ -1,163 +1,190 @@
-# SteelArt Admin Dashboard: AI-Collaboration Engineering Case Study
+# SteelArt 관리자 대시보드
 
-## 1. TL;DR
-- 이 문서는 단순 구현 회고가 아니라, `Human-led Architecture` + `AI-accelerated Development` 운영 방식을 검증한 `workflow validation document`입니다.
-- 긴급 데드라인을 맞춘 사례가 아니라, `Spec-first` 접근을 실제 프로젝트에 적용했을 때의 구현+검증 리드타임 결과를 정리한 문서입니다.
-- 결론은 기능 수가 아니라 프로세스 재현성입니다. `AI-native workflow`를 설계-구현-검증 루프에 고정해 반복 가능한 팀 실행 모델로 만들었습니다.
+Codex 기반 AI 활용 개발 사례
 
-## 2. Project Context & Constraint
-- 모바일 앱 운영을 위한 관리자 기능이 필요했지만, 사용자 서비스 디자인이 완성되기 전에 관리자 백오피스를 먼저 구축해야 했습니다.
-- 운영팀은 빠르게 사용할 수 있는 MVP를 원했지만, "오늘 안에 끝내야 하는" 긴급 일정 압박이 있었던 것은 아니었습니다.
-- 제약은 짧은 리드타임 자체보다, 설계 불확실성이 남아 있는 상태에서 운영 가능한 기준을 먼저 확정해야 한다는 점이었습니다.
-- 따라서 우선순위는 다음과 같았습니다.
-- 완전한 기능 확장성보다 운영 가능한 baseline 확보
-- 복잡한 추상화보다 명확한 도메인 모델과 데이터 정합성
-- 빠른 코드 생성보다 검증 가능한 설계 기준 확보
+## 프로젝트 개요
 
-## 3. Human-led System Design
-초기 설계는 코드가 아니라 도메인 합의에서 시작했습니다. 미팅 내용에서 운영 주체와 데이터 책임 경계를 먼저 정리하고, 이를 바탕으로 AI를 활용해 ERD 초안을 생성했습니다.
-관리자 시스템의 스키마 초기 결정은 high-leverage입니다. 권한, 운영 정책, 데이터 정합성 규칙이 테이블 구조에 고정되고 이후 변경 비용이 빠르게 커지기 때문입니다.
-수동 검증이 없었다면 중복 속성, 모호한 관계, 과도한 분리로 인해 조회 복잡도와 운영 실수가 함께 증가할 수 있었습니다.
+SteelArt 모바일 앱 운영을 위한 관리자 대시보드를 구축한 프로젝트입니다.
+사용자 서비스 디자인이 완전히 확정되기 전, 운영에 필요한 관리자 기능을 먼저 구현해야 했습니다.
 
-진행 방식은 다음과 같았습니다.
-1. 미팅 기반으로 엔터티 후보(예: 작가, 작품, 코스, 배너, 사용자)를 먼저 확정
-2. GPT로 ERD draft 생성
-3. 엔터티별 attribute를 수동 검증
-4. 관계(1:N, N:M) 정규화 및 불필요 조인 제거
-5. 운영 MVP 범위를 벗어나는 over-engineering 요소 제거
+이 과정에서 **AI(Codex)를 설계 보조 및 코드 구현 보조 도구로 활용**했습니다.
+설계는 사람이 주도하고, 구현은 AI를 통해 가속하는 방식으로 진행했습니다.
+
+## 역할 분담
+
+### 내가 담당한 역할
+
+* 도메인 모델 정의 (엔터티 및 책임 경계 설정)
+* ERD 초안 검토 및 스키마 확정
+* 관리자 페이지 및 API 스펙 정의
+* 쿼리 구조 및 데이터 정합성 검토
+* AWS S3 / MySQL 환경 구성
+* 실인프라 e2e 검증 및 수정
+
+### AI(Codex)가 수행한 역할
+
+* ERD 초안 생성
+* CRUD API 및 Route Handler 구현
+* UI 기본 구조 생성
+* 반복적인 코드 수정
+* e2e 시나리오 초안 제안
+
+---
+
+# 개발 과정
+
+## 1. 도메인 정리 및 ERD 설계
+
+업체와의 미팅 내용을 기반으로 다음을 먼저 정의했습니다:
+
+* 핵심 엔터티 (작가, 작품, 사용자, 배너 등)
+* 각 엔터티의 책임 범위
+* 운영 과정에서 유지되어야 하는 데이터 관계
+
+이후 GPT를 활용해 ERD 초안을 생성했습니다.
+
+초안 생성 후에는 직접 다음을 검토했습니다:
+
+* attribute 누락 여부
+* 관계 정합성 (1:N / N:M)
+* 불필요한 테이블 분리 여부
+* 조회 시 과도한 조인 발생 가능성
+
+AI는 확장성을 고려한 구조를 제안하는 경향이 있었지만,
+초기 MVP 범위를 벗어나는 과설계는 제거했습니다.
 
 ![ERD Draft - AI Generated](docs/readme/assets/erd-draft.png)
-Caption: AI-generated draft, manually validated.
-
 ![Final ERD - Human Validated](docs/readme/assets/erd-final.png)
-Caption: Normalized and optimized schema after validation.
 
-시스템 구성은 아래처럼 단순하고 책임이 분명한 구조로 고정했습니다.
+## 2. 관리자 페이지 스펙 정의
 
-```mermaid
-flowchart LR
-UI["Admin UI (Next.js App Router)"] --> APP["Server Route Handlers"]
-APP --> AUTH["NextAuth (Credentials)"]
-APP --> DB["MySQL/MariaDB (mysql2, Raw SQL)"]
-APP --> S3["AWS S3 (Presigned Upload)"]
-AUTH --> APP
-```
+코드를 생성하기 전에 관리자 기능 스펙을 먼저 정의했습니다.
 
-## 4. Operational Surface (What Was Actually Built)
-아래 화면은 "기능 나열"이 아니라, 설계된 아키텍처가 실제 운영 책임을 감당하는지 확인한 증빙 표면입니다.
+### 정의한 항목
 
-**User Management**
+* 필요한 페이지 목록 (사용자 / 작품 / 작가 / 배너 등)
+* 각 페이지의 기능 범위
+* API 구조
+* 데이터 변경 시 쿼리 흐름
+* S3 업로드 → DB 반영 정합성
+
+이 스펙 정의는 Codex Plan Mode를 활용해 함께 정리했습니다.
+
+반복 검토한 항목:
+
+* 쿼리 오버헤드 발생 가능성
+* 목록 조회 시 페이지네이션 필요 여부
+* 트랜잭션이 필요한 작업 구간
+* 인프라 제약 사항 반영 여부
+
+스펙을 여러 차례 수정한 뒤 `spec freeze`를 진행했고,
+이후 코드 구현을 시작했습니다.
+
+## 3. 기술 스택 선택 근거
+
+기술 선택은 “최신 기술”이 아니라,
+**빠른 배포 + 구현 속도 + 운영 안정성**을 기준으로 결정했습니다.
+
+### Next.js (App Router)
+
+* Vercel 환경에 바로 배포 가능
+* UI와 API를 단일 리포에서 관리 가능
+* 관리자 MVP에 적합한 구조
+
+### shadcn/ui + Vercel Admin Template
+
+* 기본 관리자 UI 구조가 이미 정리되어 있음
+* 디자인 확정 전에도 빠르게 화면 구성 가능
+* 커스터마이징 용이
+
+### mysql2 (Raw SQL)
+
+* ORM 도입 없이 쿼리 직접 제어
+* 초기 MVP에서 추상화 비용 최소화
+* 쿼리 오버헤드 직접 검토 가능
+
+### NextAuth (Credentials)
+
+* 단일 관리자 인증 구조에 적합
+* 불필요한 OAuth 복잡도 제거
+
+### AWS S3 (Presigned Upload)
+
+* 파일 업로드 시 서버 경유 방지
+* API 서버 부하 감소
+* 실제 운영 환경과 동일한 구조 유지
+
+## 4. 코드 구현
+
+`spec freeze` 이후 AI를 활용해 코드 구현을 진행했습니다.
+
+Codex가 수행한 작업:
+
+* CRUD API 작성
+* Route Handler 구현
+* 기본 UI 페이지 생성
+
+나는 다음을 직접 확인했습니다:
+
+* 쿼리 효율성
+* 권한 분기 처리
+* 인프라 연동 오류
+* S3 ↔ DB 정합성
+
+## 5. e2e 검증
+
+완성 기준은 다음을 모두 통과하는 것이었습니다:
+
+* 실제 MySQL 연결
+* 실제 S3 업로드 동작
+* 권한 분기 정상 처리
+* 데이터 정합성 유지
+
+Codex와 함께 e2e 시나리오를 정의하고,
+테스트 → 수정 → 재테스트를 반복했습니다.
+
+# AI의 한계와 직접 판단한 영역
+
+AI는 코드 구현 속도는 빠르지만, 다음 영역은 직접 판단이 필요했습니다:
+
+* 과설계 제거
+* 실제 데이터 볼륨을 고려한 쿼리 구조 판단
+* 인프라 제약 반영
+* 배포 가능 여부 결정
+  
+# 결과
+
+유사 규모의 관리자 프로젝트는 기존 경험상 약 2주 정도가 소요되었습니다.
+
+이번 프로젝트는:
+
+* 도메인 정리
+* 스펙 고정
+* 코드 구현
+* 실인프라 검증
+
+까지 포함해 약 8시간이 소요되었습니다.
+
+이를 통해 다음을 확인했습니다:
+
+* 반복적인 CRUD 중심 코드 구현은 AI로 크게 단축 가능
+* 설계가 명확히 고정되면 구현 리드타임이 급격히 감소
+* 설계 판단과 책임은 여전히 사람의 영역
+
+# 주요 화면
+
+### 사용자 관리
+
 ![User Management](docs/readme/assets/user-management.png)
-운영 책임: 관리자 접근 권한과 계정 상태를 통제해 운영 리스크를 줄이는 통제 지점.
 
-**Artwork Management**
+### 작품 관리
+
 ![Artwork Management](docs/readme/assets/artwork-management.png)
-운영 책임: 작품 메타데이터와 공개 상태를 일관되게 유지해 전시/노출 품질을 관리하는 편집 허브.
 
-**Artist Management**
+### 작가 관리
+
 ![Artist Management](docs/readme/assets/artist-management.png)
-운영 책임: 작가 프로필과 작품 연결 정보를 정합성 있게 유지해 콘텐츠 신뢰도를 보장하는 마스터 데이터 화면.
 
-**Banner / Content Management**
+### 배너/콘텐츠 관리
+
 ![Banner Management](docs/readme/assets/banner-management.png)
-운영 책임: 홈 노출 우선순위와 게시 상태를 조정해 운영 메시지 전달 타이밍을 관리하는 배포 표면.
-
-요약하면, 화면은 중심이 아니라 결과물 검증의 인터페이스였습니다. 중심은 여전히 설계 기준과 검증 루프였습니다.
-
-## 5. AI Collaboration Workflow (Vibe Coding Process)
-구현은 `Plan Mode` 기반의 `Spec-first, generation-second` 원칙으로 진행했습니다. 즉, 코드를 먼저 만들지 않고 명세를 먼저 잠갔습니다.
-중요했던 점은 도구 선택 자체보다, 생성 전 명세를 반복 수정한 상호작용 루프였습니다.
-
-생성 전 interaction loop:
-1. 초안 스펙 작성
-2. Codex 제안 검토 및 반례 제시
-3. 쿼리/인프라 영향 재검토 후 스펙 수정
-4. `spec freeze` 이후 코드 생성
-
-Plan Mode에서 확정한 핵심 결정은 다음과 같습니다.
-- `Next.js`: App Router 기반으로 UI + API 경계를 단일 리포에서 관리
-- `shadcn/ui`: 빠른 조합형 UI 구축과 커스텀 용이성 확보
-- `mysql2 (raw SQL)`: 초기 MVP에서 ORM 학습/추상화 오버헤드를 줄이고 쿼리 제어권 확보
-- `NextAuth (Credentials)`: 단일 관리자 인증 시나리오에 맞는 최소 인증 복잡도
-
-명세 확정 전 검토 항목:
-- 목록/상세/정렬 시 쿼리 round-trip 증가 가능성
-- 조인 쿼리와 페이지네이션 비용
-- S3 presigned upload 흐름과 DB 업데이트 타이밍 정합성
-- 인프라(Vercel + RDS/S3) 연결 제약
-
-![Codex Plan Mode Spec](docs/readme/assets/plan-mode.png)
-Caption: Spec-first, generation-second approach.
-
-## 6. Parallel Responsibility Strategy
-개발 속도를 높이기 위해 역할을 명시적으로 병렬화했습니다.
-
-- Codex 책임: 확정된 스펙 기준으로 애플리케이션 코드 생성 및 수정
-- Human 책임: AWS S3, MySQL 환경 구성 및 운영 관점의 설정 검증
-
-이 분리 전략의 장점은 다음과 같습니다.
-- AI가 잘하는 반복 구현을 가속하면서도
-- 시스템 경계/보안/인프라 리스크는 사람이 직접 통제할 수 있었습니다.
-
-## 7. e2e Validation Loop
-완성 기준은 "코드가 작성됨"이 아니라 "실인프라에서 동작 확인됨"이었습니다.
-
-검증 루프:
-1. Codex와 e2e 시나리오 설계
-2. `Test -> Fix -> Test` 반복
-3. S3/MySQL 실제 연결 상태에서 재검증
-4. 실패 케이스(권한, 업로드, 데이터 정합성)까지 확인
-
-```mermaid
-flowchart LR
-S["Scenario Definition"] --> T["Run E2E Test"]
-T --> R{"Regression?"}
-R -->|Yes| F["Fix with Codex"]
-F --> T
-R -->|No| V["Infra-linked Validation"]
-V --> D["Release Decision"]
-```
-
-![e2e Scenario](docs/readme/assets/e2e-scenario.png)
-Caption: Iterative validation before release.
-
-## 8. Where AI Was Not Enough
-AI는 구현 속도를 높였지만, 아래 영역은 인간 판단이 필수였습니다.
-
-- 과설계 위험 통제: "미래 확장" 명목의 불필요한 추상화/테이블 분리 제거
-- 쿼리 성능 검토: 실제 데이터 볼륨을 가정한 조회 패턴과 인덱스 필요성 판단
-- 실제 인프라 연결 검증: 로컬 통과와 운영 환경 동작은 별개의 문제로 취급
-- `Decision Boundary` 유지: 배포 가능 여부, 리스크 수용 수준, 예외 처리 기준은 사람이 최종 결정
-
-요약하면, AI는 implementation partner였고 architecture owner는 끝까지 사람이었습니다.
-
-## 9. Productivity Outcome
-- 실행 결과: `spec freeze` 이후 구현 + 실인프라 검증까지 약 8시간 소요
-- 해석 기준: 긴급 납기 달성 사례가 아니라, 재작업을 줄인 `Spec-first AI-native workflow`의 실행 결과
-
-**What Improved**
-- 명세 고정 이후 구현 리드타임이 단축되었습니다.
-- 반복 수정 사이클에서 문제 재현과 패치 속도가 빨라졌습니다.
-- 배포 시점 기준 치명 이슈 없이 동작 확인까지 도달했습니다.
-
-**What Did Not Change**
-- 요구사항 해석 충돌을 줄이기 위한 사전 합의 비용은 여전히 필요했습니다.
-- 실인프라 검증은 로컬 성공과 별개로 별도 시간을 요구했습니다.
-
-**What Remained Human**
-- 스키마/쿼리 품질 판단과 과설계 억제.
-- 리스크 수용 수준 정의와 release readiness 최종 결정.
-
-## 10. How This Applies to Real Organizations
-조직 적용은 도구 도입보다 `operating model` 정립이 먼저입니다. 이 프로젝트에서 검증된 패턴은 다음과 같이 확장할 수 있습니다.
-
-1. AI PR Review automation
-정적 규칙 + 컨텍스트 기반 리뷰를 결합해 반복 리뷰 비용을 줄이고, merge gate는 코드 오너십 체계와 함께 운영합니다.
-2. Internal RAG for domain knowledge
-정책/용어/히스토리를 검색 가능한 내부 지식 레이어로 통합해 요구사항 해석 오류와 온보딩 학습 시간을 줄입니다.
-3. Documentation auto-generation
-PR, 스펙, 운영 로그를 문서화 파이프라인에 연결해 최신 문서를 유지하고, 변경 추적과 감사 가능성을 강화합니다.
-4. Onboarding acceleration
-신규 엔지니어가 코드보다 명세-결정 기록부터 이해하도록 학습 경로를 재구성해, 맥락 학습 시간을 단축합니다.
-
-AI는 구현 속도를 높일 수 있지만, 시스템의 책임 경계와 배포 판단은 사람이 가져야 합니다. 생산성의 핵심은 자동 생성이 아니라 `decision ownership`을 유지한 협업 구조입니다.
