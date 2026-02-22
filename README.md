@@ -1,4 +1,6 @@
 # SteelArt 관리자 대시보드  
+![SteelArt Admin Dashboard Cover](docs/readme/assets/readme-cover.png)
+
 Codex 기반 AI 활용 개발 사례
 
 ---
