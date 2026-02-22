@@ -70,10 +70,12 @@ SteelArt 모바일 앱 운영을 위한 관리자 대시보드를 구축한 프�
 - 불필요한 테이블 분리 여부
 - 조회 시 과도한 조인 발생 가능성
 
-AI는 확장성을 고려한 구조를 자주 제안했지만,  
-초기 MVP 범위를 벗어나는 과설계는 제거했습니다.
+AI는 확장성을 고려한 구조를 자주 제안했지만, 초기 MVP 범위를 벗어나는 과설계는 제거했습니다.
 
-![ERD Draft - AI Generated](docs/readme/assets/ERD-draft.png)  
+### AI가 짜준 초안 ERD 테이블
+![ERD Draft - AI Generated](docs/readme/assets/ERD-draft.png)
+
+### 수정 및 검증한 ERD 테이블 
 ![Final ERD - Human Validated](docs/readme/assets/ERD-validated.png)
 
 ---
