@@ -20,6 +20,7 @@
 3. `home_banners` is hard delete only and re-sequences `display_order`.
 4. Soft delete domains (`artists`, `artworks`, `courses`) use `deleted_at` update/restore only.
 5. All API writes must use parameter binding (`?`) with mysql2.
+6. `user_selected_courses` is deprecated and removed from admin API/user detail domain.
 
 ## Artwork Media Policy (Current Phase)
 - Upload uses S3 presigned URL (`POST /api/admin/uploads/presign`).
