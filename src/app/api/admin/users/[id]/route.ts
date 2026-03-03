@@ -60,15 +60,6 @@ type StampRow = RowDataPacket & {
   artwork_title_en: string;
 };
 
-type SelectedCourseRow = RowDataPacket & {
-  course_id: number;
-  selected_at: string;
-  title_ko: string;
-  title_en: string;
-  is_official: number;
-  deleted_at: string | null;
-};
-
 export async function GET(
   _request: NextRequest,
   { params }: { params: Promise<{ id: string }> },
@@ -88,7 +79,7 @@ export async function GET(
       return fail(404, "NOT_FOUND", "사용자를 찾을 수 없습니다.");
     }
 
-    const [createdCourses, likedCourses, likedArtworks, stamps, selectedCourses] =
+    const [createdCourses, likedCourses, likedArtworks, stamps] =
       await Promise.all([
         query<CreatedCourseRow[]>(
           `SELECT c.id, c.title_ko, c.title_en, c.is_official, c.likes_count, c.created_at, c.deleted_at
@@ -126,14 +117,6 @@ export async function GET(
            ORDER BY cc.created_at DESC, cc.id DESC`,
           [userId],
         ),
-        query<SelectedCourseRow[]>(
-          `SELECT usc.course_id, usc.created_at AS selected_at,
-                  c.title_ko, c.title_en, c.is_official, c.deleted_at
-           FROM user_selected_courses usc
-           INNER JOIN courses c ON c.id = usc.course_id
-           WHERE usc.user_id = ?`,
-          [userId],
-        ),
       ]);
 
     return ok({
@@ -144,7 +127,6 @@ export async function GET(
         likedArtworks: likedArtworks.length,
         stamps: stamps.length,
       },
-      selectedCourse: selectedCourses[0] ?? null,
       createdCourses,
       likedCourses,
       likedArtworks,

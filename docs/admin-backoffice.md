@@ -7,6 +7,7 @@
 - `course_items` add/reorder/delete with id-preserving reorder and checkin 409 guard
 - S3 presigned upload for artwork media (`photo_day_url`, `photo_night_url`, `audio_url_ko`, `audio_url_en`)
 - Artist profile image upload (`profile_image_url`) with preview on artist form and list thumbnail
+- User detail no longer includes selected-course domain (`user_selected_courses` removed)
 
 ## Environment Variables
 - Core auth/db:
@@ -62,4 +63,5 @@
 
 ## Notes
 - `home_banners` uses hard delete by requirement.
+- `user_selected_courses` domain is removed. Admin user detail excludes the "selected course" section.
 - Existing template routes were removed and root redirects to admin entry.

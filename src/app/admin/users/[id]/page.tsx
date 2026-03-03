@@ -61,15 +61,6 @@ type Stamp = {
   artwork_title_en: string;
 };
 
-type SelectedCourse = {
-  course_id: number;
-  selected_at: string;
-  title_ko: string;
-  title_en: string;
-  is_official: number;
-  deleted_at: string | null;
-};
-
 type UserDetail = {
   user: UserProfile;
   summary: {
@@ -78,7 +69,6 @@ type UserDetail = {
     likedArtworks: number;
     stamps: number;
   };
-  selectedCourse: SelectedCourse | null;
   createdCourses: CreatedCourse[];
   likedCourses: LikedCourse[];
   likedArtworks: LikedArtwork[];
@@ -128,8 +118,7 @@ export default function UserDetailPage() {
     );
   }
 
-  const { user, summary, selectedCourse, createdCourses, likedCourses, likedArtworks, stamps } =
-    detail;
+  const { user, summary, createdCourses, likedCourses, likedArtworks, stamps } = detail;
 
   return (
     <div className="space-y-6">
@@ -182,25 +171,6 @@ export default function UserDetailPage() {
           <p className="text-xs text-muted-foreground">스탬프</p>
           <p className="text-xl font-semibold">{summary.stamps}</p>
         </div>
-      </div>
-
-      <div className="rounded-md border p-4">
-        <h2 className="mb-3 text-lg font-semibold">선택한 코스</h2>
-        {selectedCourse ? (
-          <div className="flex items-center justify-between rounded-md border px-3 py-2">
-            <div>
-              <p className="text-sm font-medium">{selectedCourse.title_ko}</p>
-              <p className="text-xs text-muted-foreground">
-                선택 시각: {formatDateTime(selectedCourse.selected_at)}
-              </p>
-            </div>
-            <Button asChild variant="outline" size="sm">
-              <Link href={`/admin/courses/${selectedCourse.course_id}`}>코스 보기</Link>
-            </Button>
-          </div>
-        ) : (
-          <p className="text-sm text-muted-foreground">선택한 코스가 없습니다.</p>
-        )}
       </div>
 
       <div className="rounded-md border p-4">

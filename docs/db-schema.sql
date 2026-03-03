@@ -1,5 +1,5 @@
 -- SteelArt dashboard schema snapshot
--- generated_at: 2026-02-18T08:09:12.856Z
+-- generated_at: 2026-03-03T11:59:08.677Z
 
 -- TABLE: artists
 CREATE TABLE `artists` (
@@ -13,7 +13,7 @@ CREATE TABLE `artists` (
   `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`),
   KEY `idx_artists_deleted_at` (`deleted_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- TABLE: artworks
 CREATE TABLE `artworks` (
@@ -112,7 +112,7 @@ CREATE TABLE `home_banners` (
   UNIQUE KEY `uq_home_banners_display_order` (`display_order`),
   KEY `idx_home_banners_order` (`display_order`),
   CONSTRAINT `fk_home_banners_artwork` FOREIGN KEY (`artwork_id`) REFERENCES `artworks` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- TABLE: places
 CREATE TABLE `places` (

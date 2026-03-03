@@ -166,23 +166,16 @@ try {
     }
   }
 
-  // 좋아요/선택코스/스탬프 데이터 생성
+  // 좋아요/스탬프 데이터 생성
   for (let i = 0; i < userIds.length; i += 1) {
     const userId = userIds[i];
-    const selectedCourseId = pick(courseIds, i);
+    const checkinCourseId = pick(courseIds, i);
     const likedCourseIds = [pick(courseIds, i + 1), pick(courseIds, i + 2)];
     const likedArtworkIds = [
       pick(artworkIds, i),
       pick(artworkIds, i + 1),
       pick(artworkIds, i + 2),
     ];
-
-    await connection.query(
-      `INSERT INTO user_selected_courses (user_id, course_id, created_at)
-       VALUES (?, ?, NOW())
-       ON DUPLICATE KEY UPDATE course_id = VALUES(course_id), created_at = VALUES(created_at)`,
-      [userId, selectedCourseId],
-    );
 
     for (const courseId of likedCourseIds) {
       await connection.query(
@@ -206,7 +199,7 @@ try {
        WHERE course_id = ?
        ORDER BY seq ASC
        LIMIT 2`,
-      [selectedCourseId],
+      [checkinCourseId],
     );
 
     for (const item of itemRows) {
