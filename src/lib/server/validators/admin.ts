@@ -133,12 +133,16 @@ export const courseItemReorderSchema = z.object({
 });
 
 export const homeBannerCreateSchema = z.object({
-  artwork_id: z.coerce.number().int().positive(),
+  banner_image_url: z.string().url(),
   is_active: z.boolean(),
 });
 
 export const homeBannerUpdateSchema = z.object({
   is_active: z.boolean(),
+});
+
+export const homeBannerImageUpdateSchema = z.object({
+  banner_image_url: z.string().url(),
 });
 
 export const homeBannerReorderSchema = z.object({

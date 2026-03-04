@@ -18,9 +18,10 @@
 1. `course_items` reorder must keep existing `id` values and only update `seq`.
 2. `course_items` delete must fail with HTTP 409 when `course_checkins` exists.
 3. `home_banners` is hard delete only and re-sequences `display_order`.
-4. Soft delete domains (`artists`, `artworks`, `courses`) use `deleted_at` update/restore only.
-5. All API writes must use parameter binding (`?`) with mysql2.
-6. `user_selected_courses` is deprecated and removed from admin API/user detail domain.
+4. `home_banners` is independent from `artworks` and uses `banner_image_url` only.
+5. Soft delete domains (`artists`, `artworks`, `courses`) use `deleted_at` update/restore only.
+6. All API writes must use parameter binding (`?`) with mysql2.
+7. Home banner image replacement is handled by a dedicated endpoint (`PATCH /api/admin/home-banners/:id/image`).
 
 ## Artwork Media Policy (Current Phase)
 - Upload uses S3 presigned URL (`POST /api/admin/uploads/presign`).
@@ -37,3 +38,9 @@
 - Artist edit may omit `profile_image_url`; omitted value retains current DB value.
 - Empty legacy profile URLs can be backfilled with:
   - `pnpm db:backfill:artist-profile`
+
+## Home Banner Image Policy
+- Home banners store `banner_image_url` directly (no FK to artworks).
+- Home banner create requires `banner_image_url`.
+- Home banner image can be updated via:
+  - `PATCH /api/admin/home-banners/:id/image`

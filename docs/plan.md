@@ -1,385 +1,275 @@
-# Plan: `user_selected_courses`(= 요청의 `user_selecte_course`) 도메인 제거 대응
+# Plan: Home Banner 독립 테이블 반영 (DB 선행 완료 가정)
 
-작성일: 2026-03-03  
+작성일: 2026-03-04  
 대상 저장소: `/Users/donggyunyang/code/steelart_dashboard`
 
-## 1. 목적
+## 0) 선행 가정 (중요)
 
-`User가 Course를 선택한다`는 도메인을 시스템에서 제거한다.  
-이에 따라 관리자 페이지에서 해당 도메인에 의존하는 조회/표시/시드 로직을 제거하고, DB 테이블 삭제 후에도 관리자 기능이 정상 동작하도록 한다.
+아래 DB 변경은 **이미 사용자 측에서 수행 완료**된 것으로 가정한다.
+- `home_banners.artwork_id` 컬럼 제거
+- `home_banners.banner_image_url` 컬럼 추가
+- `home_banners -> artworks` FK 제거(및 관련 unique/index 정리)
 
-## 2. 전제 및 확인 사항
+따라서 이 plan은 DB DDL 작업을 포함하지 않고, **코드/관리자 페이지/문서 동기화**에만 집중한다.
 
-- 코드상 실제 테이블명은 `user_selected_courses`이다.
+## 0.1) 작업 브랜치 (필수)
 
-## 진행 상태 (2026-03-03)
+작업 시작 전에 아래 브랜치를 먼저 생성하고 해당 브랜치에서 진행한다.
+- 브랜치명: `codex/feat/home-banner-image-decouple`
+- 예시 명령: `git checkout -b codex/feat/home-banner-image-decouple`
+- 상태: [x] 완료
 
-- [x] Step 1 API 계약 변경 완료
-- [x] Step 2 관리자 사용자 상세 UI 변경 완료
-- [x] Step 3 시드 스크립트 변경 완료
-- [x] Step 4 DB 삭제 절차 구현 및 실행 시도 완료
-  - 수동 SQL 기반 DROP 실행 시도
-  - 결과: DB 계정 권한 부족으로 `CREATE TABLE`/`DROP TABLE` 거부 (`ER_TABLEACCESS_DENIED_ERROR`)
-  - 후속: DBA 권한 계정으로 아래 권장 SQL 절차 실행 필요
-- [x] Step 5 문서 동기화 완료
-- [x] 타입체크/빌드 검증 완료 (`pnpm lint`, `pnpm build`)
-- [x] Playwright 자동검증 완료
-  - 검증 세션: `autoverify`
-  - 결과: `/admin/users/:id`에서 `"선택한 코스"` 미노출 확인, `/api/admin/users/:id` 응답에 `selectedCourse` 필드 없음 확인
+## 0.2) 빌드 캐시 오류 선조치
 
-## 3. 현재 영향 범위 (실제 코드 기준)
+현재 터미널에서 관측된 이슈:
+- `Caching failed for pack: Error: ENOENT ... .next/server/vendor-chunks/clsx@2.1.1.js`
 
-의존 코드 3곳:
+선조치 원칙:
+- 기능 구현 전에 `.next` 캐시를 정리(또는 디렉토리 교체)하고 `pnpm build`로 정상 재생성 여부를 확인한다.
+- 본 이슈는 빌드 산출물 캐시 불일치 성격이므로 코드 변경 없이 캐시 재생성으로 우선 해소한다.
+- 상태: [x] 완료
 
-1. `src/app/api/admin/users/[id]/route.ts`
-- `SelectedCourseRow` 타입 정의
-- `Promise.all`에서 `user_selected_courses` 조회 쿼리 수행
-- API 응답에 `selectedCourse` 포함
+## 1) 목표
 
-2. `src/app/admin/users/[id]/page.tsx`
-- `SelectedCourse` 타입 정의
-- `UserDetail.selectedCourse` 의존
-- "선택한 코스" 섹션 렌더링
+Home Banner를 artworks 비의존 단일 도메인으로 전환하고, 관리자 `/admin/home-banners`를 이미지 업로드 기반 생성 흐름으로 바꾼다.
 
-3. `scripts/seed-users-realistic.mjs`
-- `INSERT INTO user_selected_courses ...`
-- `selectedCourseId` 변수를 체크인 데이터 생성 기준으로 사용
+변경 후 목표 상태:
+- Home Banner API는 `banner_image_url`을 기준으로 동작
+- 관리자 Home Banner 생성 시 작품 선택 UI 제거
+- 관리자 Home Banner 생성 시 배너 이미지 업로드 + 저장 가능
+- 관리자에서 기존 배너 이미지를 전용 API로 교체 가능
+- 기존 토글/순서변경/삭제 비즈니스 로직은 유지
 
-## 4. 변경 원칙 (Scope Guard)
+## 2) 현재 코드베이스 확인 결과 (실제 파일 기준)
 
-이번 변경에서는 다음만 수행한다.
+현재 코드(리포지토리 HEAD)는 아직 구 스키마를 참조한다.
 
-- 관리자 상세 화면의 "선택한 코스" 도메인 제거
-- 관리자 사용자 상세 API의 `selectedCourse` 필드 제거
-- 시드 스크립트에서 `user_selected_courses` 쓰기 제거
-- 테이블 드롭 SQL 및 운영 절차 문서화
+- API
+  - `src/app/api/admin/home-banners/route.ts`
+    - GET: `home_banners` + `artworks` join
+    - POST: `artwork_id` 기반 생성
+  - `src/app/api/admin/home-banners/[id]/route.ts`
+    - PATCH: `is_active` 토글
+    - DELETE: hard delete + `display_order` 재시퀀싱
+  - `src/app/api/admin/home-banners/reorder/route.ts`
+    - 전체 배너 포함 검증 + reorder
+- Validator
+  - `src/lib/server/validators/admin.ts`
+    - `homeBannerCreateSchema = { artwork_id, is_active }`
+- Admin UI
+  - `src/app/admin/home-banners/page.tsx`
+    - 작품 목록 fetch(`/api/admin/artworks`) 후 선택 생성
+- Upload Presign
+  - `src/app/api/admin/uploads/presign/route.ts`
+    - 허용 폴더: `artworks/*`, `artists/profile*` (home-banners 미허용)
+- Seed
+  - `scripts/seed-mock-data.mjs`
+    - `seedHomeBanners(mockArtworkIds)` artwork 의존
 
-이번 변경에서 하지 않는다.
+즉, DB는 선행 변경 완료라고 가정하지만 코드가 아직 따라오지 못한 상태다.
 
-- `course_likes`, `course_checkins`, `created_by_user_id` 도메인 변경
-- 사용자/코스 관리자 기능의 추가 UI 개편
-- 신규 마이그레이션 프레임워크 도입
+## 3) 변경 설계 (코드 기준)
 
-## 5. 배포 전략 (중요)
+## 3.1 Home Banner API 계약 (최종)
+- `GET /api/admin/home-banners`
+  - 반환: `id, banner_image_url, display_order, is_active, created_at, updated_at`
+- `POST /api/admin/home-banners`
+  - 입력: `{ banner_image_url: string(url), is_active: boolean }`
+  - `display_order`는 기존과 동일하게 `MAX+1`
+- `PATCH /api/admin/home-banners/:id`
+  - 기존처럼 `is_active` 토글 유지
+- `PATCH /api/admin/home-banners/:id/image`
+  - 입력: `{ banner_image_url: string(url) }`
+  - 역할: 특정 배너의 이미지 경로만 교체
+- `DELETE /api/admin/home-banners/:id`
+  - 기존처럼 hard delete + 재시퀀싱 유지
+- `PATCH /api/admin/home-banners/reorder`
+  - 기존 검증/재시퀀싱 유지
 
-`DB를 먼저 drop`하면 현재 API가 즉시 실패한다. 따라서 순서가 중요하다.
+## 3.2 관리자 UI 계약 (최종)
+- 작품 선택 영역 제거
+- 배너 이미지 업로드 필드 추가 (`FileUploadField` 재사용)
+- 생성 payload를 `{ banner_image_url, is_active }`로 전환
+- 목록의 artwork 컬럼을 banner image 컬럼으로 대체(썸네일 + URL)
+- 목록에서 이미지 교체 액션을 제공하고 전용 PATCH API를 호출
 
-1. 코드 선배포 (테이블 참조 제거)
-2. 동작 검증
-3. DB에서 `user_selected_courses` 테이블 drop
-4. 스키마 문서 갱신
+## 4) 단계별 작업 계획
 
-필요 시 2단계 배포로 진행:
-- Phase A: 코드 배포
-- Phase B: DB 변경
+## Step 1. 선행 스키마 전제 검증 [x]
 
-## 6. 상세 작업 계획
+코드 반영 전, 실제 운영/개발 DB가 아래를 만족하는지 확인한다.
+- `home_banners.banner_image_url` 존재
+- `home_banners.artwork_id` 미존재
 
-## Step 1) API 계약 변경
+이 단계는 검증만 하며, DDL 실행은 본 plan 범위 밖.
 
-파일: `src/app/api/admin/users/[id]/route.ts`
+## Step 2. 서버 validator 전환 [x]
 
-작업:
-- `SelectedCourseRow` 타입 삭제
-- `Promise.all`에서 선택코스 조회 쿼리 제거
-- 응답 객체에서 `selectedCourse` 제거
-
-Before (핵심):
-
-```ts
-type SelectedCourseRow = RowDataPacket & {
-  course_id: number;
-  selected_at: string;
-  title_ko: string;
-  title_en: string;
-  is_official: number;
-  deleted_at: string | null;
-};
-
-const [createdCourses, likedCourses, likedArtworks, stamps, selectedCourses] =
-  await Promise.all([
-    // ...
-    query<SelectedCourseRow[]>(
-      `SELECT usc.course_id, usc.created_at AS selected_at,
-              c.title_ko, c.title_en, c.is_official, c.deleted_at
-       FROM user_selected_courses usc
-       INNER JOIN courses c ON c.id = usc.course_id
-       WHERE usc.user_id = ?`,
-      [userId],
-    ),
-  ]);
-
-return ok({
-  user,
-  summary: { ... },
-  selectedCourse: selectedCourses[0] ?? null,
-  createdCourses,
-  likedCourses,
-  likedArtworks,
-  stamps,
-});
-```
-
-After (목표):
-
-```ts
-const [createdCourses, likedCourses, likedArtworks, stamps] = await Promise.all([
-  // createdCourses
-  // likedCourses
-  // likedArtworks
-  // stamps
-]);
-
-return ok({
-  user,
-  summary: {
-    createdCourses: createdCourses.length,
-    likedCourses: likedCourses.length,
-    likedArtworks: likedArtworks.length,
-    stamps: stamps.length,
-  },
-  createdCourses,
-  likedCourses,
-  likedArtworks,
-  stamps,
-});
-```
-
-API 계약 영향:
-- `GET /api/admin/users/:id` 응답에서 `selectedCourse` 필드가 제거된다.
-
-## Step 2) 관리자 사용자 상세 UI 변경
-
-파일: `src/app/admin/users/[id]/page.tsx`
+파일:
+- `src/lib/server/validators/admin.ts`
 
 작업:
-- `SelectedCourse` 타입 삭제
-- `UserDetail` 타입에서 `selectedCourse` 제거
-- 구조분해에서 `selectedCourse` 제거
-- "선택한 코스" 카드 섹션 전체 삭제
-- `Button` import가 해당 섹션에서만 쓰이면 정리
+- `homeBannerCreateSchema`
+  - 기존: `artwork_id`
+  - 변경: `banner_image_url: z.string().url()`
+- `homeBannerUpdateSchema`는 `is_active` 유지
+- 전용 이미지 교체 schema 추가
+  - 예: `homeBannerImageUpdateSchema = { banner_image_url: z.string().url() }`
 
-Before (핵심 타입/구조분해):
+## Step 3. Home Banner API 리팩터링 [x]
 
-```ts
-type UserDetail = {
-  user: UserProfile;
-  summary: { ... };
-  selectedCourse: SelectedCourse | null;
-  createdCourses: CreatedCourse[];
-  likedCourses: LikedCourse[];
-  likedArtworks: LikedArtwork[];
-  stamps: Stamp[];
-};
-
-const { user, summary, selectedCourse, createdCourses, likedCourses, likedArtworks, stamps } =
-  detail;
-```
-
-After (목표):
-
-```ts
-type UserDetail = {
-  user: UserProfile;
-  summary: {
-    createdCourses: number;
-    likedCourses: number;
-    likedArtworks: number;
-    stamps: number;
-  };
-  createdCourses: CreatedCourse[];
-  likedCourses: LikedCourse[];
-  likedArtworks: LikedArtwork[];
-  stamps: Stamp[];
-};
-
-const { user, summary, createdCourses, likedCourses, likedArtworks, stamps } = detail;
-```
-
-UI 섹션 제거 대상:
-
-```tsx
-<div className="rounded-md border p-4">
-  <h2 className="mb-3 text-lg font-semibold">선택한 코스</h2>
-  ...
-</div>
-```
-
-## Step 3) 시드 스크립트 변경
-
-파일: `scripts/seed-users-realistic.mjs`
+파일:
+- `src/app/api/admin/home-banners/route.ts`
+- `src/app/api/admin/home-banners/[id]/route.ts`
+- `src/app/api/admin/home-banners/reorder/route.ts`
 
 작업:
-- `INSERT INTO user_selected_courses` 쿼리 제거
-- `selectedCourseId` 변수명을 체크인 목적에 맞게 `checkinCourseId`로 변경
-- 체크인 생성은 기존처럼 유지
+- `route.ts GET`
+  - artworks join 제거
+  - `home_banners` 단일 조회로 변경
+- `route.ts POST`
+  - insert 컬럼을 `banner_image_url`로 전환
+- `[id]/route.ts`
+  - PATCH/DELETE는 기존 로직 유지, 컬럼명 전환 영향만 반영
+- `reorder/route.ts`
+  - 기존 로직 유지 (컬럼 독립적)
 
-Before (핵심):
+## Step 4. 이미지 교체 전용 PATCH API 추가 [x]
 
-```js
-const selectedCourseId = pick(courseIds, i);
+파일:
+- `src/app/api/admin/home-banners/[id]/image/route.ts` (신규)
 
-await connection.query(
-  `INSERT INTO user_selected_courses (user_id, course_id, created_at)
-   VALUES (?, ?, NOW())
-   ON DUPLICATE KEY UPDATE course_id = VALUES(course_id), created_at = VALUES(created_at)`,
-  [userId, selectedCourseId],
-);
+작업:
+- `PATCH` 메서드 구현
+- path `id` + body `banner_image_url` 검증
+- `banner_image_url`, `updated_at`만 업데이트
+- 대상 row 미존재 시 `404 NOT_FOUND`
+- 성공 시 업데이트된 배너 row 반환
 
-const [itemRows] = await connection.query(
-  `SELECT id AS course_item_id, course_id
-   FROM course_items
-   WHERE course_id = ?
-   ORDER BY seq ASC
-   LIMIT 2`,
-  [selectedCourseId],
-);
-```
+## Step 5. 업로드 presign 경로 확장 [x]
 
-After (목표):
+파일:
+- `src/app/api/admin/uploads/presign/route.ts`
 
-```js
-const checkinCourseId = pick(courseIds, i);
+작업:
+- 허용 폴더에 `home-banners` 또는 `home-banners/*` 추가
+- MIME 정책은 기존 `image/*` 규칙 재사용
 
-const [itemRows] = await connection.query(
-  `SELECT id AS course_item_id, course_id
-   FROM course_items
-   WHERE course_id = ?
-   ORDER BY seq ASC
-   LIMIT 2`,
-  [checkinCourseId],
-);
-```
+## Step 6. 관리자 페이지 전환 [x]
 
-## Step 4) DB 테이블 삭제 절차
+파일:
+- `src/app/admin/home-banners/page.tsx`
 
-테이블 삭제는 코드 배포 후 수행한다.
+작업:
+- 타입 변경
+  - `Banner`에서 `artwork_id`, `title_ko` 제거
+  - `banner_image_url` 추가
+- 상태/조회 정리
+  - `artworks`, `selectedArtworkId`, `fetchArtworks` 제거
+- 생성 폼 변경
+  - `FileUploadField` 추가 (`folder="home-banners"`, `accept="image/*"`)
+  - `banner_image_url` 필수 검증
+  - POST payload를 `{ banner_image_url, is_active }`로 전환
+- 목록 표시 변경
+  - artwork 컬럼 -> image 컬럼(미리보기/URL)
+- 이미지 교체 동선 추가
+  - 각 row에 이미지 업로드/입력 UI 노출
+  - `PATCH /api/admin/home-banners/:id/image` 호출로 해당 row 이미지 교체
+- 기존 액션 유지
+  - 위/아래 reorder, 활성/비활성 토글, 삭제
 
-구현 반영:
-- 수동 SQL 절차 문서화
+## Step 7. Mock seed 전환 [x]
 
-실행 시도 결과(2026-03-03):
-- 백업+DROP SQL 실행 시도
-- 실패 사유: `ER_TABLEACCESS_DENIED_ERROR` (현재 DB 계정에 `CREATE TABLE`, `DROP TABLE` 권한 없음)
-- 따라서 실제 DB drop은 권한 있는 계정으로 별도 실행 필요
+파일:
+- `scripts/seed-mock-data.mjs`
 
-권장 SQL 절차:
+작업:
+- `seedHomeBanners(mockArtworkIds)` 의존 제거
+- 홈 배너용 이미지 URL 생성 로직 사용
+- insert를 `banner_image_url` 기반으로 변경
 
-```sql
--- 1) 존재 확인
-SELECT COUNT(*) AS row_count FROM user_selected_courses;
+## Step 8. 문서 동기화 [x]
 
--- 2) 백업(선택)
-CREATE TABLE user_selected_courses_backup_20260303 AS
-SELECT * FROM user_selected_courses;
+파일:
+- `docs/db-schema.sql` (재export)
+- `docs/db-contract.md`
+- `docs/admin-backoffice.md`
+- 필요 시 `docs/research.md` Home Banner 섹션
 
--- 3) 삭제
-DROP TABLE IF EXISTS user_selected_courses;
-```
+반영 내용:
+- Home Banner가 artworks와 비연관 단일 테이블임을 명시
+- Home Banner 생성 기준이 `banner_image_url`임을 명시
 
-운영 체크:
-- 다른 서비스/잡이 테이블을 참조하지 않는지 사전 확인
-- 삭제 직후 관리자 `users/:id` API 재호출하여 500 여부 확인
+## Step 9. Git 반영 + PR 생성 [ ]
 
-## Step 5) 문서 동기화
+작업:
+- 변경사항 커밋 후 원격 브랜치(`feat/home-banner-image-decouple`)에 push
+- `.github/pull_request_template.md` 양식에 맞춰 PR 본문 작성
+  - `## 요약`
+  - `## 변경내용`
+  - `## 검증`
+  - `## 스크린샷`
+- PR 생성 후 링크를 공유하고, 해당 PR 기준으로 리뷰/판단 가능 상태로 마무리
 
-필수 업데이트:
-- `docs/db-schema.sql`: `pnpm db:schema:export`로 최신 스냅샷 반영
-- `README.md` 또는 `docs/admin-backoffice.md`:
-  - 사용자 상세에서 "선택한 코스" 정보 제거 명시
-- (선택) `research.md` 최신화
+## 5) 배포/실행 순서 (DB 선행 완료 가정)
 
-이번 작업에서 반영 완료:
-- `pnpm db:schema:export` 실행으로 `docs/db-schema.sql` 갱신
-- `docs/admin-backoffice.md`에 selected-course 도메인 제거 내용 반영
-- `docs/db-contract.md`에 deprecated 규칙 반영
+1. 브랜치 생성 + 캐시 선조치(0.1, 0.2)
+2. 코드 변경 적용 (Step 2~7)
+3. 로컬/스테이징 검증
+4. 문서 동기화 (Step 8)
+5. Git push + PR 생성 (Step 9)
+6. 릴리즈
 
-## 7. 검증 계획
+## 6) 검증 계획
 
-자동 검증:
+## 6.1 API 검증
+- `GET /api/admin/home-banners` 응답에 `banner_image_url` 존재
+- `POST`에서 `banner_image_url` 누락/비정상 URL 시 400
+- `POST` 성공 시 `display_order = max+1`
+- `PATCH /api/admin/home-banners/:id/image`로 이미지 교체 가능
+- `PATCH is_active`, `DELETE`, `reorder` 회귀 통과
 
-```bash
-pnpm lint
-pnpm build
-```
+## 6.2 업로드 검증
+- `POST /api/admin/uploads/presign` with `folder=home-banners` 성공
+- 업로드 완료 후 `banner_image_url` 미리보기 노출 확인
 
-E2E 자동 검증 (Playwright):
+## 6.3 UI 검증
+- `/admin/home-banners`에서 작품 선택 UI 미노출
+- 이미지 업로드 + 생성 + 토글 + reorder + 삭제 동작 확인
+- 기존 배너 이미지 교체 동작 확인(전용 PATCH API 경유)
+- 생성 실패 메시지(빈 값/잘못된 URL) 확인
 
-- 목적: `user_selected_courses` 제거 이후에도 `/admin/users/:id` 페이지가 오류 없이 렌더링되고, API 계약 변경(`selectedCourse` 제거)이 실제 화면에 반영되는지 확인
-- 권장 검증 흐름:
-1. 관리자 로그인
-2. `/admin/users` 진입 후 임의 사용자 상세 페이지 이동
-3. 상세 화면에 `"선택한 코스"` 섹션이 노출되지 않음을 확인
-4. 네트워크 응답(`/api/admin/users/:id`)에 `selectedCourse` 필드가 없음을 확인
-5. 생성 코스/좋아요 코스/좋아요 작품/스탬프 섹션은 정상 노출됨을 확인
+## 6.4 회귀 검증
+- `pnpm lint`
+- `pnpm build`
+- artists/artworks/courses/users 페이지 기본 진입 및 리스트 조회
+- 빌드 로그에 `Caching failed for pack` 재발 없음 확인
 
-Playwright 시나리오 예시:
+## 6.5 E2E 검증 방식 (Playwright Headed 필수)
+- E2E 검증은 Playwright(요청 표현: Playwrite)로 수행한다.
+- `headless` 모드는 사용하지 않고 실제 브라우저를 열어 검증한다.
+- 최소 시나리오:
+  - 로그인 -> `/admin/home-banners` 진입
+  - 배너 생성(이미지 업로드 포함)
+  - 배너 이미지 교체
+  - 활성/비활성 토글
+  - reorder
+  - 삭제
 
-```ts
-test("user detail page renders without selected-course domain", async ({ page }) => {
-  await page.goto("/admin/login");
-  await page.getByLabel("Email").fill(process.env.ADMIN_EMAIL!);
-  await page.getByLabel("Password").fill(process.env.ADMIN_PASSWORD!);
-  await page.getByRole("button", { name: "로그인" }).click();
+## 7) 완료 기준 (Definition of Done)
 
-  await page.goto("/admin/users");
-  await page.getByRole("link", { name: "상세" }).first().click();
+- [x] 코드가 `banner_image_url` 기반 Home Banner API/UI로 동작
+- [x] artworks 연동 없이 Home Banner 생성 가능
+- [x] 이미지 교체 전용 PATCH API(`/api/admin/home-banners/:id/image`) 동작
+- [x] presign API가 `home-banners/*` 허용
+- [x] mock seed가 artworks 비의존으로 동작
+- [x] 문서(`db-schema`, `db-contract`, `admin-backoffice`) 동기화
+- [x] Playwright headed(e2e) 검증 완료
+- [x] lint/build 통과
+- [x] `Caching failed for pack` 오류 재발 없이 빌드 통과
+- [ ] PR 템플릿 양식으로 PR 본문 작성 및 원격 PR 생성 완료
 
-  await expect(page.getByText("선택한 코스")).toHaveCount(0);
-  await expect(page.getByText("이 사용자가 만든 코스")).toBeVisible();
-  await expect(page.getByText("좋아요한 코스")).toBeVisible();
-  await expect(page.getByText("좋아요한 작품")).toBeVisible();
-  await expect(page.getByText("스탬프(체크인) 내역")).toBeVisible();
-});
-```
+## 8) 범위 외
 
-실행 결과 (2026-03-03):
-- UI 검증: `document.body.innerText.includes("선택한 코스") === false`
-- API 검증: `/api/admin/users/:id` 응답 키
-  - `["user","summary","createdCourses","likedCourses","likedArtworks","stamps"]`
-  - `selectedCourse` 키 미포함
-- 보존 섹션 검증:
-  - `"이 사용자가 만든 코스"` 노출
-  - `"좋아요한 코스"` 노출
-  - `"좋아요한 작품"` 노출
-  - `"스탬프(체크인) 내역"` 노출
-
-수동 검증:
-
-1. `/admin/users` 목록 진입
-2. `/admin/users/:id` 상세 진입
-3. "선택한 코스" 섹션이 없어졌는지 확인
-4. 생성 코스/좋아요 코스/좋아요 작품/스탬프 섹션 정상 렌더 확인
-5. 네트워크 응답에서 `selectedCourse` 필드 미포함 확인
-6. `pnpm db:seed:users` 실행 시 `user_selected_courses` 관련 오류가 없는지 확인
-
-## 8. 롤백 계획
-
-- 코드 롤백만 하고 DB를 이미 drop한 경우:
-  - 이전 코드가 `user_selected_courses` 조회를 시도하므로 장애 가능
-  - 따라서 DB drop 이후 롤백 시에는 백업 테이블에서 복원 필요
-
-복원 예시:
-
-```sql
-CREATE TABLE user_selected_courses AS
-SELECT * FROM user_selected_courses_backup_20260303;
-```
-
-## 9. 완료 기준 (Definition of Done)
-
-- `src/app/api/admin/users/[id]/route.ts`에서 `user_selected_courses` 참조 0건
-- `src/app/admin/users/[id]/page.tsx`에서 "선택한 코스" UI 및 타입 의존성 제거
-- `scripts/seed-users-realistic.mjs`에서 `user_selected_courses` 쓰기 제거
-- `pnpm lint`, `pnpm build` 통과
-- DB에서 `user_selected_courses` drop 실행 준비 완료(권한 계정으로 최종 실행 필요)
-- 문서(`db-schema.sql` 포함) 최신화
-
-## 10. 구현 순서 요약
-
-1. 코드 수정 (API + UI + seed)
-2. lint/build 검증
-3. 배포
-4. DB backup + drop
-5. smoke test
-6. schema/doc 갱신
+- Home Banner 공개용(앱/웹 소비) API 신설
+- CDN 무효화/이미지 리사이징 파이프라인 도입

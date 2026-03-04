@@ -1,5 +1,5 @@
 -- SteelArt dashboard schema snapshot
--- generated_at: 2026-03-03T11:59:08.677Z
+-- generated_at: 2026-03-04T06:02:24.710Z
 
 -- TABLE: artists
 CREATE TABLE `artists` (
@@ -102,16 +102,14 @@ CREATE TABLE `course_checkins` (
 -- TABLE: home_banners
 CREATE TABLE `home_banners` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `artwork_id` bigint(20) NOT NULL,
+  `banner_image_url` varchar(500) DEFAULT NULL,
   `display_order` int(11) NOT NULL,
   `is_active` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uq_home_banners_artwork` (`artwork_id`),
   UNIQUE KEY `uq_home_banners_display_order` (`display_order`),
-  KEY `idx_home_banners_order` (`display_order`),
-  CONSTRAINT `fk_home_banners_artwork` FOREIGN KEY (`artwork_id`) REFERENCES `artworks` (`id`) ON DELETE CASCADE
+  KEY `idx_home_banners_order` (`display_order`)
 ) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- TABLE: places
