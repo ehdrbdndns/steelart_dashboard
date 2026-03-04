@@ -1,5 +1,5 @@
 -- SteelArt dashboard schema snapshot
--- generated_at: 2026-03-04T06:02:24.710Z
+-- generated_at: 2026-03-04T12:17:40.920Z
 
 -- TABLE: artists
 CREATE TABLE `artists` (
@@ -28,8 +28,6 @@ CREATE TABLE `artworks` (
   `size_text_en` varchar(120) DEFAULT NULL,
   `description_ko` mediumtext NOT NULL,
   `description_en` mediumtext NOT NULL,
-  `photo_day_url` varchar(500) NOT NULL,
-  `photo_night_url` varchar(500) NOT NULL,
   `audio_url_ko` varchar(500) DEFAULT NULL,
   `audio_url_en` varchar(500) DEFAULT NULL,
   `likes_count` int(11) NOT NULL DEFAULT 0,
@@ -45,6 +43,17 @@ CREATE TABLE `artworks` (
   CONSTRAINT `fk_artworks_artist` FOREIGN KEY (`artist_id`) REFERENCES `artists` (`id`),
   CONSTRAINT `fk_artworks_place` FOREIGN KEY (`place_id`) REFERENCES `places` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=124 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- TABLE: artwork_images
+CREATE TABLE `artwork_images` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `artwork_id` bigint(20) NOT NULL,
+  `image_url` varchar(512) NOT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `idx_artwork_images_artwork_id` (`artwork_id`),
+  CONSTRAINT `fk_artwork_images_artwork` FOREIGN KEY (`artwork_id`) REFERENCES `artworks` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- TABLE: courses
 CREATE TABLE `courses` (
@@ -110,7 +119,7 @@ CREATE TABLE `home_banners` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_home_banners_display_order` (`display_order`),
   KEY `idx_home_banners_order` (`display_order`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- TABLE: places
 CREATE TABLE `places` (

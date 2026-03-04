@@ -75,23 +75,30 @@ const artworkBasePayloadSchema = z.object({
   description_en: z.string().min(1),
 });
 
-const artworkMediaUrlSchema = z.object({
-  photo_day_url: z.string().url().optional(),
-  photo_night_url: z.string().url().optional(),
+const artworkAudioUrlSchema = z.object({
   audio_url_ko: z.string().url().optional(),
   audio_url_en: z.string().url().optional(),
 });
 
+const artworkImagesSchema = z
+  .array(
+    z.object({
+      image_url: z.string().trim().url(),
+    }),
+  )
+  .min(1);
+
 export const artworkPayloadSchema = artworkBasePayloadSchema.extend({
-  photo_day_url: z.string().url(),
-  photo_night_url: z.string().url(),
   audio_url_ko: z.string().url(),
   audio_url_en: z.string().url(),
+  images: artworkImagesSchema,
 });
 
-export const artworkUpdatePayloadSchema = artworkBasePayloadSchema.merge(
-  artworkMediaUrlSchema,
-);
+export const artworkUpdatePayloadSchema = artworkBasePayloadSchema
+  .merge(artworkAudioUrlSchema)
+  .extend({
+    images: artworkImagesSchema,
+  });
 
 export const coursesQuerySchema = z.object({
   query: z.string().optional(),

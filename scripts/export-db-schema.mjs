@@ -12,6 +12,7 @@ if (missing.length > 0) {
 const tables = [
   "artists",
   "artworks",
+  "artwork_images",
   "courses",
   "course_items",
   "course_checkins",

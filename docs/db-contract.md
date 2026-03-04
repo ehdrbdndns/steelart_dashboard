@@ -7,6 +7,7 @@
 ## Covered Tables
 - `artists`
 - `artworks`
+- `artwork_images`
 - `courses`
 - `course_items`
 - `course_checkins`
@@ -22,15 +23,18 @@
 5. Soft delete domains (`artists`, `artworks`, `courses`) use `deleted_at` update/restore only.
 6. All API writes must use parameter binding (`?`) with mysql2.
 7. Home banner image replacement is handled by a dedicated endpoint (`PATCH /api/admin/home-banners/:id/image`).
+8. Artwork images are managed in `artwork_images` (1:N to `artworks`) and are replaced as a list on artwork save.
 
 ## Artwork Media Policy (Current Phase)
 - Upload uses S3 presigned URL (`POST /api/admin/uploads/presign`).
-- Artwork create requires all media URL fields:
-  - `photo_day_url`
-  - `photo_night_url`
+- Artwork image fields are stored in `artwork_images.image_url` (not in `artworks` table).
+- Artwork create requires:
+  - `images[]` (minimum 1)
   - `audio_url_ko`
   - `audio_url_en`
-- Artwork edit may omit media URL fields; omitted fields retain the current DB value.
+- Artwork edit uses list replacement for images:
+  - incoming `images[]` becomes the new image set for the artwork.
+- Artwork edit may omit audio URL fields; omitted values retain the current DB value.
 
 ## Artist Profile Image Policy
 - Artists table includes `profile_image_url`.

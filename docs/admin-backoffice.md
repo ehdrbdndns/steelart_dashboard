@@ -7,7 +7,7 @@
 - Home banners are managed as an independent image domain (`banner_image_url`, no artwork FK)
 - Home banner image replacement API: `PATCH /api/admin/home-banners/:id/image`
 - `course_items` add/reorder/delete with id-preserving reorder and checkin 409 guard
-- S3 presigned upload for artwork media (`photo_day_url`, `photo_night_url`, `audio_url_ko`, `audio_url_en`)
+- S3 presigned upload for artwork media (artwork images + `audio_url_ko`, `audio_url_en`)
 - Artist profile image upload (`profile_image_url`) with preview on artist form and list thumbnail
 
 ## Environment Variables
@@ -25,11 +25,12 @@
 - `POST /api/admin/uploads/presign` returns `{ uploadUrl, fileUrl }`.
 - Allowed MIME: `image/*`, `audio/*`.
 - Upload folder:
-  - `artworks/*` (artwork media)
+  - `artworks/*` (artwork images/audio)
   - `artists/profile` or `artists/profile/*` (artist profile image)
   - `home-banners` or `home-banners/*` (home banner image)
 - If AWS env is missing: `503 FEATURE_NOT_CONFIGURED`.
-- Artwork create requires all 4 media URLs; artwork edit keeps existing URL when media fields are omitted.
+- Artwork create requires image list(`images[]`, min 1) + `audio_url_ko` + `audio_url_en`.
+- Artwork edit replaces image list(`images[]`) and keeps existing audio URL when omitted.
 - Artist create requires `profile_image_url`; artist edit keeps existing URL when omitted.
 - Home banner create requires `banner_image_url`; image can be replaced via dedicated PATCH API.
 

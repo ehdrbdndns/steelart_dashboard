@@ -171,6 +171,31 @@ async function findOrCreateArtist(index) {
 async function findOrCreateArtwork(index, artistIds, placeIds) {
   const titleKo = `${MOCK_PREFIX} Artwork ${index}`;
   const titleEn = `${MOCK_PREFIX} Artwork ${index}`;
+  const seed = `mock-${index}`;
+
+  const ensureArtworkImages = async (artworkId) => {
+    const imageUrls = [
+      mediaUrl(seed, "photo-day.jpg"),
+      mediaUrl(seed, "photo-night.jpg"),
+      mediaUrl(seed, "photo-detail.jpg"),
+    ];
+
+    const [existingRows] = await connection.query(
+      `SELECT image_url FROM artwork_images WHERE artwork_id = ?`,
+      [artworkId],
+    );
+    const existingImageUrls = new Set(existingRows.map((row) => row.image_url));
+
+    for (const imageUrl of imageUrls) {
+      if (!existingImageUrls.has(imageUrl)) {
+        await connection.query(
+          `INSERT INTO artwork_images (artwork_id, image_url, created_at)
+           VALUES (?, ?, NOW())`,
+          [artworkId, imageUrl],
+        );
+      }
+    }
+  };
 
   const [rows] = await connection.query(
     `SELECT id FROM artworks WHERE title_ko = ? LIMIT 1`,
@@ -178,6 +203,7 @@ async function findOrCreateArtwork(index, artistIds, placeIds) {
   );
 
   if (rows[0]?.id) {
+    await ensureArtworkImages(rows[0].id);
     return rows[0].id;
   }
 
@@ -185,15 +211,14 @@ async function findOrCreateArtwork(index, artistIds, placeIds) {
   const placeId = placeIds[(index - 1) % placeIds.length];
   const category = index % 2 === 0 ? "STEEL_ART" : "PUBLIC_ART";
   const year = 1990 + ((index - 1) % 35);
-  const seed = `mock-${index}`;
 
   const [inserted] = await connection.query(
     `INSERT INTO artworks (
       title_ko, title_en, artist_id, place_id, category, production_year,
       size_text_ko, size_text_en, description_ko, description_en,
-      photo_day_url, photo_night_url, audio_url_ko, audio_url_en,
+      audio_url_ko, audio_url_en,
       likes_count, deleted_at, created_at, updated_at
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, NULL, NOW(), NOW())`,
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, NULL, NOW(), NOW())`,
     [
       titleKo,
       titleEn,
@@ -205,13 +230,12 @@ async function findOrCreateArtwork(index, artistIds, placeIds) {
       `${index}x${index}cm`,
       `${MOCK_PREFIX} description ko ${index}`,
       `${MOCK_PREFIX} description en ${index}`,
-      mediaUrl(seed, "photo-day.jpg"),
-      mediaUrl(seed, "photo-night.jpg"),
       mediaUrl(seed, "audio-ko.mp3"),
       mediaUrl(seed, "audio-en.mp3"),
     ],
   );
 
+  await ensureArtworkImages(inserted.insertId);
   return inserted.insertId;
 }
 

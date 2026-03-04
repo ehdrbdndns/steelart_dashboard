@@ -4,7 +4,9 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { PageTitle } from "@/components/admin/page-title";
 import { PaginationControls } from "@/components/admin/pagination-controls";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   buildQuery,
   requestJson,
@@ -19,11 +21,15 @@ type Artwork = {
   artist_name_ko: string;
   place_name_ko: string;
   category: string;
-  production_year: number;
+  production_year: number | null;
+  thumbnail_image_url: string | null;
   deleted_at: string | null;
 };
 
 type Option = { id: number; name_ko: string };
+
+const selectClassName =
+  "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50";
 
 export default function ArtworksPage() {
   const [items, setItems] = useState<Artwork[]>([]);
@@ -134,13 +140,12 @@ export default function ArtworksPage() {
       />
 
       <div className="mb-4 grid grid-cols-1 gap-2 md:grid-cols-4 xl:grid-cols-8">
-        <input
+        <Input
           value={query}
           onChange={(event) => {
             setPage(1);
             setQuery(event.target.value);
           }}
-          className="rounded-md border px-3 py-2"
           placeholder="검색어"
         />
         <select
@@ -149,7 +154,7 @@ export default function ArtworksPage() {
             setPage(1);
             setCategory(event.target.value);
           }}
-          className="rounded-md border px-3 py-2"
+          className={selectClassName}
         >
           <option value="">category 전체</option>
           <option value="STEEL_ART">STEEL_ART</option>
@@ -161,7 +166,7 @@ export default function ArtworksPage() {
             setPage(1);
             setArtistId(event.target.value);
           }}
-          className="rounded-md border px-3 py-2"
+          className={selectClassName}
         >
           <option value="">artist</option>
           {artists.map((artist) => (
@@ -174,7 +179,7 @@ export default function ArtworksPage() {
             setPage(1);
             setZoneId(event.target.value);
           }}
-          className="rounded-md border px-3 py-2"
+          className={selectClassName}
         >
           <option value="">zone</option>
           {zones.map((zone) => (
@@ -187,7 +192,7 @@ export default function ArtworksPage() {
             setPage(1);
             setPlaceId(event.target.value);
           }}
-          className="rounded-md border px-3 py-2"
+          className={selectClassName}
         >
           <option value="">place</option>
           {places.map((place) => (
@@ -200,7 +205,7 @@ export default function ArtworksPage() {
             setPage(1);
             setDeleted(event.target.value as "exclude" | "only" | "all");
           }}
-          className="rounded-md border px-3 py-2"
+          className={selectClassName}
         >
           <option value="exclude">삭제 제외</option>
           <option value="only">삭제만</option>
@@ -219,6 +224,7 @@ export default function ArtworksPage() {
           <thead className="bg-slate-50 dark:bg-slate-900">
             <tr>
               <th className="px-3 py-2 text-left">ID</th>
+              <th className="px-3 py-2 text-left">대표 이미지</th>
               <th className="px-3 py-2 text-left">title_ko</th>
               <th className="px-3 py-2 text-left">artist</th>
               <th className="px-3 py-2 text-left">place</th>
@@ -231,22 +237,42 @@ export default function ArtworksPage() {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={8} className="px-3 py-8 text-center text-muted-foreground">로딩 중...</td>
+                <td colSpan={9} className="px-3 py-8 text-center text-muted-foreground">로딩 중...</td>
               </tr>
             ) : items.length === 0 ? (
               <tr>
-                <td colSpan={8} className="px-3 py-8 text-center text-muted-foreground">데이터가 없습니다.</td>
+                <td colSpan={9} className="px-3 py-8 text-center text-muted-foreground">데이터가 없습니다.</td>
               </tr>
             ) : (
               items.map((item) => (
-                <tr key={item.id} className="border-t">
+                <tr key={item.id} className="border-t align-top">
                   <td className="px-3 py-2">{item.id}</td>
+                  <td className="px-3 py-2">
+                    {item.thumbnail_image_url ? (
+                      <div className="h-14 w-20 overflow-hidden rounded-md border bg-muted/20">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={item.thumbnail_image_url}
+                          alt={`artwork-${item.id}-thumbnail`}
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
+                    ) : (
+                      <span className="text-xs text-muted-foreground">미등록</span>
+                    )}
+                  </td>
                   <td className="px-3 py-2">{item.title_ko}</td>
                   <td className="px-3 py-2">{item.artist_name_ko}</td>
                   <td className="px-3 py-2">{item.place_name_ko}</td>
                   <td className="px-3 py-2">{item.category}</td>
-                  <td className="px-3 py-2">{item.production_year}</td>
-                  <td className="px-3 py-2">{item.deleted_at ? "Y" : "N"}</td>
+                  <td className="px-3 py-2">{item.production_year ?? "-"}</td>
+                  <td className="px-3 py-2">
+                    {item.deleted_at ? (
+                      <Badge variant="destructive">삭제됨</Badge>
+                    ) : (
+                      <Badge variant="secondary">활성</Badge>
+                    )}
+                  </td>
                   <td className="px-3 py-2">
                     <div className="flex gap-2">
                       <Button asChild variant="outline" size="sm">

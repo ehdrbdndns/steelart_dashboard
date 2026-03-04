@@ -32,7 +32,7 @@ type CourseItem = {
   seq: number;
   title_ko: string;
   title_en: string;
-  photo_day_url: string;
+  thumbnail_image_url: string | null;
 };
 
 type ArtworkOption = {

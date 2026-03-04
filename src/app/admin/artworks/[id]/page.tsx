@@ -18,10 +18,14 @@ type Artwork = {
   size_text_en: string;
   description_ko: string;
   description_en: string;
-  photo_day_url: string;
-  photo_night_url: string;
   audio_url_ko: string | null;
   audio_url_en: string | null;
+  images: {
+    id: number;
+    artwork_id: number;
+    image_url: string;
+    created_at: string | null;
+  }[];
 };
 
 export default function EditArtworkPage() {

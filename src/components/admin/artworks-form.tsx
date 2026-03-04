@@ -1,11 +1,22 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { FileUploadField } from "@/components/admin/file-upload-field";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { requestJson, requestJsonWithMeta } from "@/lib/client/admin-api";
 import { confirmAction } from "@/lib/client/confirm-action";
 import { artworkCategorySchema } from "@/lib/server/validators/admin";
@@ -29,18 +40,19 @@ const schema = z.object({
   size_text_en: z.string().min(1),
   description_ko: z.string().min(1),
   description_en: z.string().min(1),
-  photo_day_url: optionalUrlSchema,
-  photo_night_url: optionalUrlSchema,
   audio_url_ko: optionalUrlSchema,
   audio_url_en: optionalUrlSchema,
 });
 
 type FormValues = z.infer<typeof schema>;
-type MediaFieldKey =
-  | "photo_day_url"
-  | "photo_night_url"
-  | "audio_url_ko"
-  | "audio_url_en";
+type AudioFieldKey = "audio_url_ko" | "audio_url_en";
+
+type ArtworkImage = {
+  id: number;
+  artwork_id: number;
+  image_url: string;
+  created_at: string | null;
+};
 
 type ArtworkInitialData = {
   id?: number;
@@ -54,16 +66,23 @@ type ArtworkInitialData = {
   size_text_en?: string;
   description_ko?: string;
   description_en?: string;
-  photo_day_url?: string | null;
-  photo_night_url?: string | null;
   audio_url_ko?: string | null;
   audio_url_en?: string | null;
+  images?: ArtworkImage[];
 };
 
 type SelectOption = {
   id: number;
   name_ko: string;
 };
+
+type ArtworkImageDraft = {
+  key: string;
+  image_url: string;
+};
+
+const selectClassName =
+  "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50";
 
 export function ArtworksForm({
   mode,
@@ -77,6 +96,26 @@ export function ArtworksForm({
   const [artists, setArtists] = useState<SelectOption[]>([]);
   const [places, setPlaces] = useState<SelectOption[]>([]);
   const [error, setError] = useState("");
+  const imageDraftIndex = useRef(0);
+
+  const createImageDraft = (imageUrl = ""): ArtworkImageDraft => {
+    imageDraftIndex.current += 1;
+    return {
+      key: `image-draft-${Date.now()}-${imageDraftIndex.current}`,
+      image_url: imageUrl,
+    };
+  };
+
+  const [imageDrafts, setImageDrafts] = useState<ArtworkImageDraft[]>(() => {
+    const existingImages = initialData?.images ?? [];
+    if (existingImages.length > 0) {
+      return existingImages.map((image, index) => ({
+        key: `existing-image-${image.id}-${index}`,
+        image_url: image.image_url,
+      }));
+    }
+    return [createImageDraft()];
+  });
 
   const {
     control,
@@ -98,8 +137,6 @@ export function ArtworksForm({
       size_text_en: initialData?.size_text_en ?? "",
       description_ko: initialData?.description_ko ?? "",
       description_en: initialData?.description_en ?? "",
-      photo_day_url: initialData?.photo_day_url ?? "",
-      photo_night_url: initialData?.photo_night_url ?? "",
       audio_url_ko: initialData?.audio_url_ko ?? "",
       audio_url_en: initialData?.audio_url_en ?? "",
     },
@@ -125,23 +162,50 @@ export function ArtworksForm({
     void fetchOptions();
   }, []);
 
+  const moveImage = (fromIndex: number, toIndex: number) => {
+    if (toIndex < 0 || toIndex >= imageDrafts.length) {
+      return;
+    }
+    setImageDrafts((previous) => {
+      const next = [...previous];
+      const [moved] = next.splice(fromIndex, 1);
+      next.splice(toIndex, 0, moved);
+      return next;
+    });
+  };
+
   const onSubmit = async (values: FormValues) => {
     setError("");
-    const requiredMediaFields: MediaFieldKey[] = [
-      "photo_day_url",
-      "photo_night_url",
-      "audio_url_ko",
-      "audio_url_en",
-    ];
 
+    const requiredAudioFields: AudioFieldKey[] = ["audio_url_ko", "audio_url_en"];
     if (mode === "create") {
-      const hasMissingMedia = requiredMediaFields.some(
+      const hasMissingAudio = requiredAudioFields.some(
         (key) => values[key].trim().length === 0,
       );
-      if (hasMissingMedia) {
-        setError("생성 시 이미지/오디오 4개 파일을 모두 업로드해야 합니다.");
+      if (hasMissingAudio) {
+        setError("생성 시 오디오 2개 파일을 모두 업로드해야 합니다.");
         return;
       }
+    }
+
+    const normalizedImageUrls = imageDrafts.map((image) => image.image_url.trim());
+
+    if (normalizedImageUrls.some((imageUrl) => imageUrl.length === 0)) {
+      setError("이미지 URL이 비어 있는 항목이 있습니다.");
+      return;
+    }
+
+    const hasInvalidImage = normalizedImageUrls.some(
+      (imageUrl) => !z.string().url().safeParse(imageUrl).success,
+    );
+    if (hasInvalidImage) {
+      setError("유효하지 않은 이미지 URL이 있습니다.");
+      return;
+    }
+
+    if (normalizedImageUrls.length === 0) {
+      setError("작품 이미지는 최소 1장 필요합니다.");
+      return;
     }
 
     if (
@@ -157,10 +221,11 @@ export function ArtworksForm({
     try {
       const payload = {
         ...values,
-        photo_day_url: values.photo_day_url.trim() || undefined,
-        photo_night_url: values.photo_night_url.trim() || undefined,
         audio_url_ko: values.audio_url_ko.trim() || undefined,
         audio_url_en: values.audio_url_en.trim() || undefined,
+        images: normalizedImageUrls.map((imageUrl) => ({
+          image_url: imageUrl,
+        })),
       };
 
       if (mode === "create") {
@@ -183,193 +248,252 @@ export function ArtworksForm({
 
   return (
     <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-      <div className="rounded-md border border-blue-300 bg-blue-50 px-3 py-2 text-sm text-blue-900">
-        {mode === "create"
-          ? "생성 시 이미지 2개/오디오 2개 파일 업로드가 필요합니다."
-          : "수정 시 교체가 필요한 파일만 업로드하세요. 업로드하지 않은 URL은 기존값을 유지합니다."}
-      </div>
+      <Card className="border-blue-300 bg-blue-50">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-base text-blue-900">미디어 입력 정책</CardTitle>
+          <CardDescription className="text-blue-800">
+            {mode === "create"
+              ? "생성 시 작품 이미지는 최소 1장, 오디오 2개(ko/en)는 필수입니다."
+              : "수정 시 오디오는 필요한 파일만 교체하세요. 이미지는 현재 목록 기준으로 전체 저장됩니다."}
+          </CardDescription>
+        </CardHeader>
+      </Card>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <div className="space-y-1">
-          <label className="text-sm font-medium">title_ko</label>
-          <input className="w-full rounded-md border px-3 py-2" {...register("title_ko")} />
-          {errors.title_ko ? <p className="text-sm text-red-500">필수 입력입니다.</p> : null}
-        </div>
-        <div className="space-y-1">
-          <label className="text-sm font-medium">title_en</label>
-          <input className="w-full rounded-md border px-3 py-2" {...register("title_en")} />
-          {errors.title_en ? <p className="text-sm text-red-500">필수 입력입니다.</p> : null}
-        </div>
-      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle>기본 정보</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="space-y-1">
+              <Label htmlFor="title_ko">title_ko</Label>
+              <Input id="title_ko" {...register("title_ko")} />
+              {errors.title_ko ? <p className="text-sm text-red-500">필수 입력입니다.</p> : null}
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="title_en">title_en</Label>
+              <Input id="title_en" {...register("title_en")} />
+              {errors.title_en ? <p className="text-sm text-red-500">필수 입력입니다.</p> : null}
+            </div>
+          </div>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <div className="space-y-1">
-          <label className="text-sm font-medium">artist_id</label>
-          <select
-            className="w-full rounded-md border px-3 py-2"
-            {...register("artist_id", { valueAsNumber: true })}
-          >
-            <option value="0">선택</option>
-            {artists.map((artist) => (
-              <option key={artist.id} value={artist.id}>
-                {artist.name_ko}
-              </option>
-            ))}
-          </select>
-          {errors.artist_id ? <p className="text-sm text-red-500">필수 입력입니다.</p> : null}
-        </div>
-        <div className="space-y-1">
-          <label className="text-sm font-medium">place_id</label>
-          <select
-            className="w-full rounded-md border px-3 py-2"
-            {...register("place_id", { valueAsNumber: true })}
-          >
-            <option value="0">선택</option>
-            {places.map((place) => (
-              <option key={place.id} value={place.id}>
-                {place.name_ko}
-              </option>
-            ))}
-          </select>
-          {errors.place_id ? <p className="text-sm text-red-500">필수 입력입니다.</p> : null}
-        </div>
-      </div>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="space-y-1">
+              <Label htmlFor="artist_id">artist_id</Label>
+              <select
+                id="artist_id"
+                className={selectClassName}
+                {...register("artist_id", { valueAsNumber: true })}
+              >
+                <option value="0">선택</option>
+                {artists.map((artist) => (
+                  <option key={artist.id} value={artist.id}>
+                    {artist.name_ko}
+                  </option>
+                ))}
+              </select>
+              {errors.artist_id ? <p className="text-sm text-red-500">필수 입력입니다.</p> : null}
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="place_id">place_id</Label>
+              <select
+                id="place_id"
+                className={selectClassName}
+                {...register("place_id", { valueAsNumber: true })}
+              >
+                <option value="0">선택</option>
+                {places.map((place) => (
+                  <option key={place.id} value={place.id}>
+                    {place.name_ko}
+                  </option>
+                ))}
+              </select>
+              {errors.place_id ? <p className="text-sm text-red-500">필수 입력입니다.</p> : null}
+            </div>
+          </div>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <div className="space-y-1">
-          <label className="text-sm font-medium">category</label>
-          <select className="w-full rounded-md border px-3 py-2" {...register("category")}>
-            <option value="STEEL_ART">STEEL_ART</option>
-            <option value="PUBLIC_ART">PUBLIC_ART</option>
-          </select>
-          {errors.category ? <p className="text-sm text-red-500">필수 입력입니다.</p> : null}
-        </div>
-        <div className="space-y-1">
-          <label className="text-sm font-medium">production_year</label>
-          <input
-            type="number"
-            className="w-full rounded-md border px-3 py-2"
-            {...register("production_year", { valueAsNumber: true })}
-          />
-          {errors.production_year ? <p className="text-sm text-red-500">필수 입력입니다.</p> : null}
-        </div>
-      </div>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="space-y-1">
+              <Label htmlFor="category">category</Label>
+              <select id="category" className={selectClassName} {...register("category")}>
+                <option value="STEEL_ART">STEEL_ART</option>
+                <option value="PUBLIC_ART">PUBLIC_ART</option>
+              </select>
+              {errors.category ? <p className="text-sm text-red-500">필수 입력입니다.</p> : null}
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="production_year">production_year</Label>
+              <Input
+                id="production_year"
+                type="number"
+                {...register("production_year", { valueAsNumber: true })}
+              />
+              {errors.production_year ? (
+                <p className="text-sm text-red-500">필수 입력입니다.</p>
+              ) : null}
+            </div>
+          </div>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <div className="space-y-1">
-          <label className="text-sm font-medium">size_text_ko</label>
-          <input className="w-full rounded-md border px-3 py-2" {...register("size_text_ko")} />
-          {errors.size_text_ko ? <p className="text-sm text-red-500">필수 입력입니다.</p> : null}
-        </div>
-        <div className="space-y-1">
-          <label className="text-sm font-medium">size_text_en</label>
-          <input className="w-full rounded-md border px-3 py-2" {...register("size_text_en")} />
-          {errors.size_text_en ? <p className="text-sm text-red-500">필수 입력입니다.</p> : null}
-        </div>
-      </div>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="space-y-1">
+              <Label htmlFor="size_text_ko">size_text_ko</Label>
+              <Input id="size_text_ko" {...register("size_text_ko")} />
+              {errors.size_text_ko ? <p className="text-sm text-red-500">필수 입력입니다.</p> : null}
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="size_text_en">size_text_en</Label>
+              <Input id="size_text_en" {...register("size_text_en")} />
+              {errors.size_text_en ? <p className="text-sm text-red-500">필수 입력입니다.</p> : null}
+            </div>
+          </div>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <div className="space-y-1">
-          <label className="text-sm font-medium">description_ko</label>
-          <textarea
-            className="w-full rounded-md border px-3 py-2"
-            rows={4}
-            {...register("description_ko")}
-          />
-          {errors.description_ko ? <p className="text-sm text-red-500">필수 입력입니다.</p> : null}
-        </div>
-        <div className="space-y-1">
-          <label className="text-sm font-medium">description_en</label>
-          <textarea
-            className="w-full rounded-md border px-3 py-2"
-            rows={4}
-            {...register("description_en")}
-          />
-          {errors.description_en ? <p className="text-sm text-red-500">필수 입력입니다.</p> : null}
-        </div>
-      </div>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="space-y-1">
+              <Label htmlFor="description_ko">description_ko</Label>
+              <Textarea id="description_ko" rows={4} {...register("description_ko")} />
+              {errors.description_ko ? (
+                <p className="text-sm text-red-500">필수 입력입니다.</p>
+              ) : null}
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="description_en">description_en</Label>
+              <Textarea id="description_en" rows={4} {...register("description_en")} />
+              {errors.description_en ? (
+                <p className="text-sm text-red-500">필수 입력입니다.</p>
+              ) : null}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <div className="space-y-1">
-          <Controller
-            control={control}
-            name="photo_day_url"
-            render={({ field }) => (
+      <Card>
+        <CardHeader>
+          <CardTitle>작품 이미지</CardTitle>
+          <CardDescription>여러 장 이미지를 추가하고 순서를 조정할 수 있습니다.</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          {imageDrafts.map((draft, index) => (
+            <div key={draft.key} className="space-y-3 rounded-md border p-3">
+              <div className="flex items-center justify-between gap-2">
+                <Badge variant="secondary">이미지 {index + 1}</Badge>
+                <div className="flex gap-2">
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="outline"
+                    onClick={() => moveImage(index, index - 1)}
+                    disabled={index === 0}
+                  >
+                    위로
+                  </Button>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="outline"
+                    onClick={() => moveImage(index, index + 1)}
+                    disabled={index === imageDrafts.length - 1}
+                  >
+                    아래로
+                  </Button>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="destructive"
+                    onClick={() =>
+                      setImageDrafts((previous) =>
+                        previous.length <= 1
+                          ? previous
+                          : previous.filter((item) => item.key !== draft.key),
+                      )
+                    }
+                    disabled={imageDrafts.length <= 1}
+                  >
+                    삭제
+                  </Button>
+                </div>
+              </div>
+
               <FileUploadField
-                label="photo_day_url"
-                value={typeof field.value === "string" ? field.value : ""}
-                folder="artworks/photo-day"
+                label={`image_url #${index + 1}`}
+                value={draft.image_url}
+                folder="artworks/images"
                 accept="image/*"
                 required={mode === "create"}
-                onChange={field.onChange}
+                imagePreviewClassName="h-24 w-40 max-w-full rounded-md"
+                imagePreviewImageClassName="object-cover"
+                onChange={(nextValue) =>
+                  setImageDrafts((previous) =>
+                    previous.map((item) =>
+                      item.key === draft.key
+                        ? {
+                            ...item,
+                            image_url: nextValue,
+                          }
+                        : item,
+                    ),
+                  )
+                }
               />
-            )}
-          />
-          {errors.photo_day_url ? (
-            <p className="text-sm text-red-500">유효한 URL이어야 합니다.</p>
-          ) : null}
-        </div>
-        <div className="space-y-1">
-          <Controller
-            control={control}
-            name="photo_night_url"
-            render={({ field }) => (
-              <FileUploadField
-                label="photo_night_url"
-                value={typeof field.value === "string" ? field.value : ""}
-                folder="artworks/photo-night"
-                accept="image/*"
-                required={mode === "create"}
-                onChange={field.onChange}
-              />
-            )}
-          />
-          {errors.photo_night_url ? (
-            <p className="text-sm text-red-500">유효한 URL이어야 합니다.</p>
-          ) : null}
-        </div>
-      </div>
+            </div>
+          ))}
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <div className="space-y-1">
-          <Controller
-            control={control}
-            name="audio_url_ko"
-            render={({ field }) => (
-              <FileUploadField
-                label="audio_url_ko"
-                value={typeof field.value === "string" ? field.value : ""}
-                folder="artworks/audio-ko"
-                accept="audio/*"
-                required={mode === "create"}
-                onChange={field.onChange}
-              />
-            )}
-          />
-          {errors.audio_url_ko ? (
-            <p className="text-sm text-red-500">유효한 URL이어야 합니다.</p>
-          ) : null}
-        </div>
-        <div className="space-y-1">
-          <Controller
-            control={control}
-            name="audio_url_en"
-            render={({ field }) => (
-              <FileUploadField
-                label="audio_url_en"
-                value={typeof field.value === "string" ? field.value : ""}
-                folder="artworks/audio-en"
-                accept="audio/*"
-                required={mode === "create"}
-                onChange={field.onChange}
-              />
-            )}
-          />
-          {errors.audio_url_en ? (
-            <p className="text-sm text-red-500">유효한 URL이어야 합니다.</p>
-          ) : null}
-        </div>
-      </div>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() =>
+              setImageDrafts((previous) => [...previous, createImageDraft()])
+            }
+          >
+            이미지 행 추가
+          </Button>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>오디오</CardTitle>
+        </CardHeader>
+        <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div className="space-y-1">
+            <Controller
+              control={control}
+              name="audio_url_ko"
+              render={({ field }) => (
+                <FileUploadField
+                  label="audio_url_ko"
+                  value={typeof field.value === "string" ? field.value : ""}
+                  folder="artworks/audio-ko"
+                  accept="audio/*"
+                  required={mode === "create"}
+                  onChange={field.onChange}
+                />
+              )}
+            />
+            {errors.audio_url_ko ? (
+              <p className="text-sm text-red-500">유효한 URL이어야 합니다.</p>
+            ) : null}
+          </div>
+          <div className="space-y-1">
+            <Controller
+              control={control}
+              name="audio_url_en"
+              render={({ field }) => (
+                <FileUploadField
+                  label="audio_url_en"
+                  value={typeof field.value === "string" ? field.value : ""}
+                  folder="artworks/audio-en"
+                  accept="audio/*"
+                  required={mode === "create"}
+                  onChange={field.onChange}
+                />
+              )}
+            />
+            {errors.audio_url_en ? (
+              <p className="text-sm text-red-500">유효한 URL이어야 합니다.</p>
+            ) : null}
+          </div>
+        </CardContent>
+      </Card>
 
       {error ? <p className="text-sm text-red-500">{error}</p> : null}
 
