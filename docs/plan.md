@@ -200,7 +200,7 @@ Home Banner를 artworks 비의존 단일 도메인으로 전환하고, 관리자
 - Home Banner가 artworks와 비연관 단일 테이블임을 명시
 - Home Banner 생성 기준이 `banner_image_url`임을 명시
 
-## Step 9. Git 반영 + PR 생성 [ ]
+## Step 9. Git 반영 + PR 생성 [x]
 
 작업:
 - 변경사항 커밋 후 원격 브랜치(`feat/home-banner-image-decouple`)에 push
@@ -267,7 +267,7 @@ Home Banner를 artworks 비의존 단일 도메인으로 전환하고, 관리자
 - [x] Playwright headed(e2e) 검증 완료
 - [x] lint/build 통과
 - [x] `Caching failed for pack` 오류 재발 없이 빌드 통과
-- [ ] PR 템플릿 양식으로 PR 본문 작성 및 원격 PR 생성 완료
+- [x] PR 템플릿 양식으로 PR 본문 작성 및 원격 PR 생성 완료
 
 ## 8) 범위 외
 
