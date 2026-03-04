@@ -198,6 +198,8 @@ export default function HomeBannersPage() {
             folder="home-banners"
             accept="image/*"
             required
+            imagePreviewClassName="h-24 w-36 max-w-full rounded-md"
+            imagePreviewImageClassName="object-cover"
             onChange={setCreateBannerImageUrl}
           />
           <div className="flex flex-col justify-between gap-3">
@@ -251,7 +253,7 @@ export default function HomeBannersPage() {
                   <td className="px-3 py-2">
                     {item.banner_image_url ? (
                       <div className="space-y-2">
-                        <div className="h-20 w-20 overflow-hidden rounded-md border bg-muted/20">
+                        <div className="h-16 w-24 overflow-hidden rounded-md border bg-muted/20">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={item.banner_image_url}
@@ -312,6 +314,8 @@ export default function HomeBannersPage() {
                           value={imageDrafts[item.id] ?? ""}
                           folder="home-banners"
                           accept="image/*"
+                          imagePreviewClassName="h-16 w-24 max-w-full rounded-md"
+                          imagePreviewImageClassName="object-cover"
                           onChange={(value) =>
                             setImageDrafts((previous) => ({
                               ...previous,
