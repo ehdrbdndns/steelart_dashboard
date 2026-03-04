@@ -21,6 +21,7 @@ export default function HomeBannersPage() {
   const [createBannerImageUrl, setCreateBannerImageUrl] = useState("");
   const [imageDrafts, setImageDrafts] = useState<Record<number, string>>({});
   const [isActive, setIsActive] = useState(true);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [error, setError] = useState("");
   const [actionError, setActionError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -80,10 +81,24 @@ export default function HomeBannersPage() {
         }),
       });
       setCreateBannerImageUrl("");
+      setIsActive(true);
+      setIsCreateModalOpen(false);
       await fetchBanners();
     } catch (createError) {
       setActionError(createError instanceof Error ? createError.message : "추가 실패");
     }
+  };
+
+  const openCreateModal = () => {
+    setActionError("");
+    setCreateBannerImageUrl("");
+    setIsActive(true);
+    setIsCreateModalOpen(true);
+  };
+
+  const closeCreateModal = () => {
+    setActionError("");
+    setIsCreateModalOpen(false);
   };
 
   const mutateToggle = async (id: number, nextValue: boolean) => {
@@ -190,36 +205,79 @@ export default function HomeBannersPage() {
         description="홈 배너를 이미지 업로드 기반으로 추가/교체/정렬/활성화/삭제합니다. 삭제는 복구 불가(하드 삭제)입니다."
       />
 
-      <div className="mb-4 rounded-md border p-4">
-        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-          <FileUploadField
-            label="새 배너 이미지"
-            value={createBannerImageUrl}
-            folder="home-banners"
-            accept="image/*"
-            required
-            imagePreviewClassName="h-24 w-36 max-w-full rounded-md"
-            imagePreviewImageClassName="object-cover"
-            onChange={setCreateBannerImageUrl}
-          />
-          <div className="flex flex-col justify-between gap-3">
-            <label className="flex items-center gap-2 text-sm">
-              <input
-                type="checkbox"
-                checked={isActive}
-                onChange={(event) => setIsActive(event.target.checked)}
-              />
-              is_active
-            </label>
-            <Button type="button" onClick={() => void handleCreate()}>
-              배너 추가
-            </Button>
-          </div>
-        </div>
+      <div className="mb-4 flex items-center justify-between gap-3 rounded-md border bg-muted/20 p-3">
+        <p className="text-sm text-muted-foreground">
+          새 홈 배너는 모달에서 이미지 업로드 후 추가합니다.
+        </p>
+        <Button type="button" onClick={openCreateModal}>
+          새 배너 추가
+        </Button>
       </div>
 
+      {isCreateModalOpen ? (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/45 p-4"
+          onClick={(event) => {
+            if (event.target === event.currentTarget) {
+              closeCreateModal();
+            }
+          }}
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="create-home-banner-title"
+            className="w-full max-w-xl rounded-lg border bg-background p-4 shadow-lg"
+          >
+            <div className="mb-3 flex items-center justify-between">
+              <h2 id="create-home-banner-title" className="text-lg font-semibold">
+                새 홈 배너 추가
+              </h2>
+              <Button type="button" size="sm" variant="ghost" onClick={closeCreateModal}>
+                닫기
+              </Button>
+            </div>
+
+            <div className="space-y-4">
+              <FileUploadField
+                label="새 배너 이미지"
+                value={createBannerImageUrl}
+                folder="home-banners"
+                accept="image/*"
+                required
+                imagePreviewClassName="h-24 w-36 max-w-full rounded-md"
+                imagePreviewImageClassName="object-cover"
+                onChange={setCreateBannerImageUrl}
+              />
+
+              <label className="flex items-center gap-2 text-sm">
+                <input
+                  type="checkbox"
+                  checked={isActive}
+                  onChange={(event) => setIsActive(event.target.checked)}
+                />
+                is_active
+              </label>
+
+              {actionError ? <p className="text-sm text-red-500">{actionError}</p> : null}
+
+              <div className="flex justify-end gap-2">
+                <Button type="button" variant="outline" onClick={closeCreateModal}>
+                  취소
+                </Button>
+                <Button type="button" onClick={() => void handleCreate()}>
+                  배너 추가
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
       {error ? <p className="mb-4 text-sm text-red-500">{error}</p> : null}
-      {actionError ? <p className="mb-4 text-sm text-red-500">{actionError}</p> : null}
+      {!isCreateModalOpen && actionError ? (
+        <p className="mb-4 text-sm text-red-500">{actionError}</p>
+      ) : null}
 
       <div className="overflow-hidden rounded-md border">
         <table className="w-full border-collapse text-sm">
