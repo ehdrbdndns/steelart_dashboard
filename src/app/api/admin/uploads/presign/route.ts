@@ -30,8 +30,11 @@ export async function POST(request: NextRequest) {
     const isArtistProfileFolder =
       payload.folder === "artists/profile" ||
       payload.folder.startsWith("artists/profile/");
+    const isHomeBannerFolder =
+      payload.folder === "home-banners" ||
+      payload.folder.startsWith("home-banners/");
 
-    if (!isArtworkFolder && !isArtistProfileFolder) {
+    if (!isArtworkFolder && !isArtistProfileFolder && !isHomeBannerFolder) {
       return fail(
         400,
         "VALIDATION_ERROR",

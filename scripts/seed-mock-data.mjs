@@ -43,6 +43,14 @@ function artistProfileUrl(seed) {
   return `${base}/artists/${seed}/profile.jpg`;
 }
 
+function homeBannerImageUrl(index) {
+  const base = (process.env.MOCK_MEDIA_BASE_URL || DEFAULT_MEDIA_BASE_URL).replace(
+    /\/+$/,
+    "",
+  );
+  return `${base}/home-banners/banner-${index}.jpg`;
+}
+
 function seededRandom(min, max, seed) {
   const x = Math.sin(seed) * 10000;
   const fraction = x - Math.floor(x);
@@ -270,11 +278,13 @@ async function seedCourseItems(courseId, courseIndex, artworkIds) {
   }
 }
 
-async function seedHomeBanners(mockArtworkIds) {
-  for (const artworkId of mockArtworkIds) {
+async function seedHomeBanners() {
+  for (let index = 1; index <= TARGET.banners; index += 1) {
+    const bannerImageUrl = homeBannerImageUrl(index);
+
     const [existingRows] = await connection.query(
-      `SELECT id FROM home_banners WHERE artwork_id = ? LIMIT 1`,
-      [artworkId],
+      `SELECT id FROM home_banners WHERE banner_image_url = ? LIMIT 1`,
+      [bannerImageUrl],
     );
 
     if (existingRows[0]?.id) {
@@ -288,9 +298,9 @@ async function seedHomeBanners(mockArtworkIds) {
     const nextOrder = orderRows[0]?.next_order || 1;
 
     await connection.query(
-      `INSERT INTO home_banners (artwork_id, display_order, is_active, created_at, updated_at)
+      `INSERT INTO home_banners (banner_image_url, display_order, is_active, created_at, updated_at)
        VALUES (?, ?, 1, NOW(), NOW())`,
-      [artworkId, nextOrder],
+      [bannerImageUrl, nextOrder],
     );
   }
 
@@ -330,7 +340,7 @@ try {
     await seedCourseItems(courseIds[i], i + 1, artworkIds);
   }
 
-  await seedHomeBanners(artworkIds.slice(0, TARGET.banners));
+  await seedHomeBanners();
 
   console.log("Mock seed completed successfully.");
   console.log(
