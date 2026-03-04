@@ -35,6 +35,11 @@ function mediaUrl(seed, fileName) {
   return `${base}/artworks/${seed}/${fileName}`;
 }
 
+function artworkImageUrl(seed, variant) {
+  const encodedSeed = encodeURIComponent(`steelart-${seed}-${variant}`);
+  return `https://picsum.photos/seed/${encodedSeed}/1200/800`;
+}
+
 function artistProfileUrl(seed) {
   const base = (process.env.MOCK_MEDIA_BASE_URL || DEFAULT_MEDIA_BASE_URL).replace(
     /\/+$/,
@@ -175,9 +180,9 @@ async function findOrCreateArtwork(index, artistIds, placeIds) {
 
   const ensureArtworkImages = async (artworkId) => {
     const imageUrls = [
-      mediaUrl(seed, "photo-day.jpg"),
-      mediaUrl(seed, "photo-night.jpg"),
-      mediaUrl(seed, "photo-detail.jpg"),
+      artworkImageUrl(seed, "day"),
+      artworkImageUrl(seed, "night"),
+      artworkImageUrl(seed, "detail"),
     ];
 
     const [existingRows] = await connection.query(
