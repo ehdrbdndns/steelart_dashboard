@@ -283,11 +283,11 @@ export default function HomeBannersPage() {
         <table className="w-full border-collapse text-sm">
           <thead className="bg-slate-50 dark:bg-slate-900">
             <tr>
-              <th className="px-3 py-2 text-left">order</th>
-              <th className="px-3 py-2 text-left">ID</th>
-              <th className="px-3 py-2 text-left">image</th>
-              <th className="px-3 py-2 text-left">is_active</th>
-              <th className="px-3 py-2 text-left">actions</th>
+              <th className="px-3 py-2 text-left">노출 순서</th>
+              <th className="px-3 py-2 text-left">배너 번호</th>
+              <th className="px-3 py-2 text-left">배너 이미지</th>
+              <th className="px-3 py-2 text-left">노출 상태</th>
+              <th className="px-3 py-2 text-left">관리</th>
             </tr>
           </thead>
           <tbody>
@@ -327,7 +327,7 @@ export default function HomeBannersPage() {
                       <span className="text-xs text-muted-foreground">미등록</span>
                     )}
                   </td>
-                  <td className="px-3 py-2">{item.is_active ? "Y" : "N"}</td>
+                  <td className="px-3 py-2">{item.is_active ? "노출 중" : "숨김"}</td>
                   <td className="px-3 py-2">
                     <div className="space-y-3">
                       <div className="flex flex-wrap gap-2">
