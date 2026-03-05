@@ -75,6 +75,31 @@ type UserDetail = {
   stamps: Stamp[];
 };
 
+const residencyLabelMap: Record<UserProfile["residency"], string> = {
+  POHANG: "포항",
+  NON_POHANG: "포항 외",
+};
+
+const ageGroupLabelMap: Record<UserProfile["age_group"], string> = {
+  TEEN: "10대",
+  "20S": "20대",
+  "30S": "30대",
+  "40S": "40대",
+  "50S": "50대",
+  "60S": "60대",
+  "70_PLUS": "70대 이상",
+};
+
+const languageLabelMap: Record<UserProfile["language"], string> = {
+  ko: "한국어",
+  en: "영어",
+};
+
+const artworkCategoryLabelMap: Record<LikedArtwork["category"], string> = {
+  STEEL_ART: "스틸아트",
+  PUBLIC_ART: "공공미술",
+};
+
 function formatDateTime(value: string) {
   return new Date(value).toLocaleString("ko-KR");
 }
@@ -103,7 +128,7 @@ export default function UserDetailPage() {
   if (error) {
     return (
       <div>
-        <PageTitle title="Users" description="사용자 상세 조회 중 오류가 발생했습니다." />
+        <PageTitle title="사용자" description="사용자 상세 조회 중 오류가 발생했습니다." />
         <p className="text-sm text-red-500">{error}</p>
       </div>
     );
@@ -112,7 +137,7 @@ export default function UserDetailPage() {
   if (!detail) {
     return (
       <div>
-        <PageTitle title="Users" description="사용자 상세를 조회합니다." />
+        <PageTitle title="사용자" description="사용자 상세를 조회합니다." />
         <p>로딩 중...</p>
       </div>
     );
@@ -122,33 +147,33 @@ export default function UserDetailPage() {
 
   return (
     <div className="space-y-6">
-      <PageTitle title={`User #${user.id}`} description={`${user.nickname} 상세 정보`} />
+      <PageTitle title={`사용자 #${user.id}`} description={`${user.nickname} 상세 정보`} />
 
       <div className="rounded-md border p-4">
         <h2 className="mb-3 text-lg font-semibold">기본 정보</h2>
         <dl className="grid grid-cols-1 gap-2 text-sm md:grid-cols-2">
           <div>
-            <dt className="text-muted-foreground">nickname</dt>
+            <dt className="text-muted-foreground">닉네임</dt>
             <dd>{user.nickname}</dd>
           </div>
           <div>
-            <dt className="text-muted-foreground">residency</dt>
-            <dd>{user.residency}</dd>
+            <dt className="text-muted-foreground">거주지</dt>
+            <dd>{residencyLabelMap[user.residency]}</dd>
           </div>
           <div>
-            <dt className="text-muted-foreground">age_group</dt>
-            <dd>{user.age_group}</dd>
+            <dt className="text-muted-foreground">연령대</dt>
+            <dd>{ageGroupLabelMap[user.age_group]}</dd>
           </div>
           <div>
-            <dt className="text-muted-foreground">language</dt>
-            <dd>{user.language}</dd>
+            <dt className="text-muted-foreground">언어</dt>
+            <dd>{languageLabelMap[user.language]}</dd>
           </div>
           <div>
-            <dt className="text-muted-foreground">notifications_enabled</dt>
-            <dd>{user.notifications_enabled ? "Y" : "N"}</dd>
+            <dt className="text-muted-foreground">알림 수신 여부</dt>
+            <dd>{user.notifications_enabled ? "예" : "아니오"}</dd>
           </div>
           <div>
-            <dt className="text-muted-foreground">joined_at</dt>
+            <dt className="text-muted-foreground">가입 일시</dt>
             <dd>{formatDateTime(user.created_at)}</dd>
           </div>
         </dl>
@@ -184,8 +209,8 @@ export default function UserDetailPage() {
                 <div>
                   <p className="text-sm font-medium">{course.title_ko}</p>
                   <p className="text-xs text-muted-foreground">
-                    likes: {course.likes_count} / created: {formatDateTime(course.created_at)} / deleted:{" "}
-                    {course.deleted_at ? "Y" : "N"}
+                    좋아요 수: {course.likes_count} / 생성일: {formatDateTime(course.created_at)} / 삭제 여부:{" "}
+                    {course.deleted_at ? "예" : "아니오"}
                   </p>
                 </div>
                 <Button asChild variant="outline" size="sm">
@@ -208,7 +233,7 @@ export default function UserDetailPage() {
                 <div>
                   <p className="text-sm font-medium">{course.title_ko}</p>
                   <p className="text-xs text-muted-foreground">
-                    liked_at: {formatDateTime(course.liked_at)} / likes: {course.likes_count}
+                    좋아요 시각: {formatDateTime(course.liked_at)} / 좋아요 수: {course.likes_count}
                   </p>
                 </div>
                 <Button asChild variant="outline" size="sm">
@@ -231,8 +256,8 @@ export default function UserDetailPage() {
                 <div>
                   <p className="text-sm font-medium">{artwork.title_ko}</p>
                   <p className="text-xs text-muted-foreground">
-                    liked_at: {formatDateTime(artwork.liked_at)} / category: {artwork.category} / likes:{" "}
-                    {artwork.likes_count}
+                    좋아요 시각: {formatDateTime(artwork.liked_at)} / 작품 유형:{" "}
+                    {artworkCategoryLabelMap[artwork.category]} / 좋아요 수: {artwork.likes_count}
                   </p>
                 </div>
                 <Button asChild variant="outline" size="sm">
@@ -256,7 +281,7 @@ export default function UserDetailPage() {
                   {stamp.course_title_ko} / #{stamp.course_item_seq} / {stamp.artwork_title_ko}
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  stamped_at: {formatDateTime(stamp.stamped_at)}
+                  스탬프 시각: {formatDateTime(stamp.stamped_at)}
                 </p>
               </li>
             ))}

@@ -79,32 +79,32 @@ export function CoursesForm({
   return (
     <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
       <div className="space-y-1">
-        <label className="text-sm font-medium">title_ko</label>
+        <label className="text-sm font-medium">코스명(한국어)</label>
         <input className="w-full rounded-md border px-3 py-2" {...register("title_ko")} />
         {errors.title_ko ? <p className="text-sm text-red-500">필수 입력입니다.</p> : null}
       </div>
 
       <div className="space-y-1">
-        <label className="text-sm font-medium">title_en</label>
+        <label className="text-sm font-medium">코스명(영어)</label>
         <input className="w-full rounded-md border px-3 py-2" {...register("title_en")} />
         {errors.title_en ? <p className="text-sm text-red-500">필수 입력입니다.</p> : null}
       </div>
 
       <div className="space-y-1">
-        <label className="text-sm font-medium">description_ko</label>
+        <label className="text-sm font-medium">설명(한국어)</label>
         <textarea className="w-full rounded-md border px-3 py-2" rows={4} {...register("description_ko")} />
         {errors.description_ko ? <p className="text-sm text-red-500">필수 입력입니다.</p> : null}
       </div>
 
       <div className="space-y-1">
-        <label className="text-sm font-medium">description_en</label>
+        <label className="text-sm font-medium">설명(영어)</label>
         <textarea className="w-full rounded-md border px-3 py-2" rows={4} {...register("description_en")} />
         {errors.description_en ? <p className="text-sm text-red-500">필수 입력입니다.</p> : null}
       </div>
 
       <label className="flex items-center gap-2 text-sm">
         <input type="checkbox" {...register("is_official")} />
-        is_official
+        문화재단 인증 여부
       </label>
 
       {error ? <p className="text-sm text-red-500">{error}</p> : null}

@@ -59,14 +59,14 @@ export default function AdminLoginPage() {
         className="w-full max-w-md space-y-4 rounded-lg border bg-white p-6 shadow dark:bg-slate-900"
       >
         <div>
-          <h1 className="text-2xl font-semibold">SteelArt Admin Login</h1>
+          <h1 className="text-2xl font-semibold">SteelArt 관리자 로그인</h1>
           <p className="text-sm text-muted-foreground">
             관리자 이메일과 비밀번호를 입력하세요.
           </p>
         </div>
 
         <div className="space-y-1">
-          <label className="text-sm font-medium">Email</label>
+          <label className="text-sm font-medium">이메일</label>
           <input
             type="email"
             className="w-full rounded-md border px-3 py-2"
@@ -78,7 +78,7 @@ export default function AdminLoginPage() {
         </div>
 
         <div className="space-y-1">
-          <label className="text-sm font-medium">Password</label>
+          <label className="text-sm font-medium">비밀번호</label>
           <input
             type="password"
             className="w-full rounded-md border px-3 py-2"

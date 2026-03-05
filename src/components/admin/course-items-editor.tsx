@@ -74,7 +74,7 @@ function SortableRow({
           <p className="text-sm font-medium">
             {item.seq}. {item.title_ko}
           </p>
-          <p className="text-xs text-muted-foreground">course_item_id: {item.id}</p>
+          <p className="text-xs text-muted-foreground">코스 아이템 ID: {item.id}</p>
         </div>
       </div>
       <Button type="button" size="sm" variant="destructive" onClick={() => onDelete(item.id)}>
@@ -239,12 +239,12 @@ export function CourseItemsEditor({ courseId }: { courseId: number }) {
   return (
     <div className="space-y-4 rounded-md border p-4">
       <div>
-        <h3 className="text-lg font-semibold">Course Items</h3>
+        <h3 className="text-lg font-semibold">코스 구성 작품</h3>
         <p className="text-sm text-muted-foreground">
-          Drag & drop으로 순서를 변경하면 기존 course_item_id를 유지한 채 seq만 업데이트됩니다.
+          드래그 앤 드롭으로 순서를 변경하면 기존 코스 아이템 ID를 유지한 채 순번만 업데이트됩니다.
         </p>
         <p className="text-sm text-muted-foreground">
-          seq를 비워두면 마지막 순서에 추가됩니다.
+          순번을 비워두면 마지막 순서에 추가됩니다.
         </p>
       </div>
 
@@ -270,7 +270,7 @@ export function CourseItemsEditor({ courseId }: { courseId: number }) {
         <input
           type="number"
           className="rounded-md border px-3 py-2"
-          placeholder="삽입 seq(선택)"
+          placeholder="삽입 순번(선택)"
           value={insertSeq}
           onChange={(event) => setInsertSeq(event.target.value)}
         />

@@ -22,6 +22,14 @@ type Artist = {
   updated_at: string;
 };
 
+function getArtistTypeLabel(type: Artist["type"]) {
+  if (type === "COMPANY") {
+    return "단체";
+  }
+
+  return "개인";
+}
+
 export default function ArtistsPage() {
   const [items, setItems] = useState<Artist[]>([]);
   const [query, setQuery] = useState("");
@@ -93,7 +101,7 @@ export default function ArtistsPage() {
   return (
     <div>
       <PageTitle
-        title="Artists"
+        title="작가"
         description="작가를 생성/수정/삭제/복구합니다."
         ctaHref="/admin/artists/new"
         ctaLabel="새 작가"
@@ -117,9 +125,9 @@ export default function ArtistsPage() {
           }}
           className="rounded-md border px-3 py-2"
         >
-          <option value="">type 전체</option>
-          <option value="COMPANY">COMPANY</option>
-          <option value="INDIVIDUAL">INDIVIDUAL</option>
+          <option value="">구분 전체</option>
+          <option value="COMPANY">단체</option>
+          <option value="INDIVIDUAL">개인</option>
         </select>
         <select
           value={deleted}
@@ -146,12 +154,12 @@ export default function ArtistsPage() {
           <thead className="bg-slate-50 dark:bg-slate-900">
             <tr>
               <th className="px-3 py-2 text-left">ID</th>
-              <th className="px-3 py-2 text-left">profile</th>
-              <th className="px-3 py-2 text-left">name_ko</th>
-              <th className="px-3 py-2 text-left">name_en</th>
-              <th className="px-3 py-2 text-left">type</th>
-              <th className="px-3 py-2 text-left">deleted</th>
-              <th className="px-3 py-2 text-left">actions</th>
+              <th className="px-3 py-2 text-left">프로필 이미지</th>
+              <th className="px-3 py-2 text-left">이름(한국어)</th>
+              <th className="px-3 py-2 text-left">이름(영어)</th>
+              <th className="px-3 py-2 text-left">구분</th>
+              <th className="px-3 py-2 text-left">삭제 여부</th>
+              <th className="px-3 py-2 text-left">관리</th>
             </tr>
           </thead>
           <tbody>
@@ -177,7 +185,7 @@ export default function ArtistsPage() {
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={artist.profile_image_url}
-                          alt={`${artist.name_ko} profile`}
+                          alt={`${artist.name_ko} 프로필 이미지`}
                           className="h-full w-full object-contain"
                         />
                       </div>
@@ -187,8 +195,8 @@ export default function ArtistsPage() {
                   </td>
                   <td className="px-3 py-2">{artist.name_ko}</td>
                   <td className="px-3 py-2">{artist.name_en}</td>
-                  <td className="px-3 py-2">{artist.type}</td>
-                  <td className="px-3 py-2">{artist.deleted_at ? "Y" : "N"}</td>
+                  <td className="px-3 py-2">{getArtistTypeLabel(artist.type)}</td>
+                  <td className="px-3 py-2">{artist.deleted_at ? "예" : "아니오"}</td>
                   <td className="px-3 py-2">
                     <div className="flex gap-2">
                       <Button asChild variant="outline" size="sm">

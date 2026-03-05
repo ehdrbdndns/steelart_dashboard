@@ -23,18 +23,18 @@ export function ThemeToggle() {
           <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
           <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
           {hydrated && theme === "system" && <AutoThemeBadge />}
-          <span className="sr-only">Toggle theme</span>
+          <span className="sr-only">테마 변경</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => setTheme("light")}>
-          Light
+          라이트
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme("dark")}>
-          Dark
+          다크
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme("system")}>
-          System
+          시스템
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
@@ -44,7 +44,7 @@ export function ThemeToggle() {
 function AutoThemeBadge() {
   return (
     <span className="absolute -right-2 -top-2 flex h-4 items-center rounded-full bg-secondary px-1.5 text-[0.6rem] text-secondary-foreground ring-2 ring-background duration-300 animate-in zoom-in-50">
-      auto
+      자동
     </span>
   );
 }

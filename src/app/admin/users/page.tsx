@@ -28,6 +28,26 @@ type UserSummary = {
   joinedLast30Days: number;
 };
 
+const residencyLabelMap: Record<User["residency"], string> = {
+  POHANG: "포항",
+  NON_POHANG: "포항 외",
+};
+
+const ageGroupLabelMap: Record<User["age_group"], string> = {
+  TEEN: "10대",
+  "20S": "20대",
+  "30S": "30대",
+  "40S": "40대",
+  "50S": "50대",
+  "60S": "60대",
+  "70_PLUS": "70대 이상",
+};
+
+const languageLabelMap: Record<User["language"], string> = {
+  ko: "한국어",
+  en: "영어",
+};
+
 function formatDateTime(value: string) {
   return new Date(value).toLocaleString("ko-KR");
 }
@@ -98,7 +118,7 @@ export default function UsersPage() {
 
   return (
     <div>
-      <PageTitle title="Users" description="가입 사용자 현황과 목록을 조회합니다." />
+      <PageTitle title="사용자" description="가입 사용자 현황과 목록을 조회합니다." />
 
       <div className="mb-4 grid grid-cols-2 gap-2 md:grid-cols-4">
         <div className="rounded-md border p-3">
@@ -137,9 +157,9 @@ export default function UsersPage() {
           }}
           className="rounded-md border px-3 py-2"
         >
-          <option value="">residency 전체</option>
-          <option value="POHANG">POHANG</option>
-          <option value="NON_POHANG">NON_POHANG</option>
+          <option value="">거주지 전체</option>
+          <option value="POHANG">포항</option>
+          <option value="NON_POHANG">포항 외</option>
         </select>
         <select
           value={ageGroup}
@@ -149,14 +169,14 @@ export default function UsersPage() {
           }}
           className="rounded-md border px-3 py-2"
         >
-          <option value="">age_group 전체</option>
-          <option value="TEEN">TEEN</option>
-          <option value="20S">20S</option>
-          <option value="30S">30S</option>
-          <option value="40S">40S</option>
-          <option value="50S">50S</option>
-          <option value="60S">60S</option>
-          <option value="70_PLUS">70_PLUS</option>
+          <option value="">연령대 전체</option>
+          <option value="TEEN">10대</option>
+          <option value="20S">20대</option>
+          <option value="30S">30대</option>
+          <option value="40S">40대</option>
+          <option value="50S">50대</option>
+          <option value="60S">60대</option>
+          <option value="70_PLUS">70대 이상</option>
         </select>
         <select
           value={language}
@@ -166,9 +186,9 @@ export default function UsersPage() {
           }}
           className="rounded-md border px-3 py-2"
         >
-          <option value="">language 전체</option>
-          <option value="ko">ko</option>
-          <option value="en">en</option>
+          <option value="">언어 전체</option>
+          <option value="ko">한국어</option>
+          <option value="en">영어</option>
         </select>
         <Button type="button" variant="outline" onClick={() => void fetchUsers()}>
           조회
@@ -182,13 +202,13 @@ export default function UsersPage() {
           <thead className="bg-slate-50 dark:bg-slate-900">
             <tr>
               <th className="px-3 py-2 text-left">ID</th>
-              <th className="px-3 py-2 text-left">nickname</th>
-              <th className="px-3 py-2 text-left">residency</th>
-              <th className="px-3 py-2 text-left">age_group</th>
-              <th className="px-3 py-2 text-left">language</th>
-              <th className="px-3 py-2 text-left">noti</th>
-              <th className="px-3 py-2 text-left">joined_at</th>
-              <th className="px-3 py-2 text-left">actions</th>
+              <th className="px-3 py-2 text-left">닉네임</th>
+              <th className="px-3 py-2 text-left">거주지</th>
+              <th className="px-3 py-2 text-left">연령대</th>
+              <th className="px-3 py-2 text-left">언어</th>
+              <th className="px-3 py-2 text-left">알림 수신</th>
+              <th className="px-3 py-2 text-left">가입 일시</th>
+              <th className="px-3 py-2 text-left">관리</th>
             </tr>
           </thead>
           <tbody>
@@ -209,10 +229,10 @@ export default function UsersPage() {
                 <tr key={user.id} className="border-t">
                   <td className="px-3 py-2">{user.id}</td>
                   <td className="px-3 py-2">{user.nickname}</td>
-                  <td className="px-3 py-2">{user.residency}</td>
-                  <td className="px-3 py-2">{user.age_group}</td>
-                  <td className="px-3 py-2">{user.language}</td>
-                  <td className="px-3 py-2">{user.notifications_enabled ? "Y" : "N"}</td>
+                  <td className="px-3 py-2">{residencyLabelMap[user.residency]}</td>
+                  <td className="px-3 py-2">{ageGroupLabelMap[user.age_group]}</td>
+                  <td className="px-3 py-2">{languageLabelMap[user.language]}</td>
+                  <td className="px-3 py-2">{user.notifications_enabled ? "예" : "아니오"}</td>
                   <td className="px-3 py-2">{formatDateTime(user.created_at)}</td>
                   <td className="px-3 py-2">
                     <Button asChild variant="outline" size="sm">

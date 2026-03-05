@@ -9,34 +9,34 @@ export type AdminNavigation = {
 };
 
 export const siteConfig = {
-  title: "SteelArt Admin",
-  description: "SteelArt mobile content backoffice",
+  title: "SteelArt 관리자",
+  description: "SteelArt 모바일 콘텐츠 백오피스",
 };
 
 export const adminNavigations: AdminNavigation[] = [
   {
     icon: Users,
-    name: "Users",
+    name: "사용자",
     href: "/admin/users",
   },
   {
     icon: UserSquare2,
-    name: "Artists",
+    name: "작가",
     href: "/admin/artists",
   },
   {
     icon: Image,
-    name: "Artworks",
+    name: "작품",
     href: "/admin/artworks",
   },
   {
     icon: Route,
-    name: "Courses",
+    name: "코스",
     href: "/admin/courses",
   },
   {
     icon: LayoutGrid,
-    name: "Home Banners",
+    name: "홈 배너",
     href: "/admin/home-banners",
   },
 ];

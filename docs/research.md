@@ -1,714 +1,189 @@
-# SteelArt Dashboard 심층 분석 보고서
+# 영문 표기 전수 조사 보고서
 
-작성일: 2026-03-04  
+작성일: 2026-03-05  
 분석 대상: `/Users/donggyunyang/code/steelart_dashboard`
 
-## 1) 분석 목적과 범위
+## 1) 목적
 
-요청사항에 따라 저장소를 전체 재점검하고, 기존 `docs/research.md`와 현재 코드 간 불일치를 수정했다.
+관리자 백오피스에서 사용자에게 노출되는 영어 표기를 한국어로 전환하기 위해,
+현재 코드베이스의 영문 표기를 전수 조사하고 변경 기준을 정리한다.
 
-이번 분석에서 실제로 확인한 범위:
-- 런타임/빌드/환경 변수/미들웨어/인증
-- `src/app/admin/*` 전체 페이지 동작
-- `src/app/api/admin/*` 전체 라우트(SQL/검증/에러 처리)
-- `src/components/admin/*` 폼/에디터/업로드/요청 오버레이
-- `docs/db-schema.sql`, `docs/db-contract.md`, `docs/admin-backoffice.md` 정합성
-- `scripts/*`(schema export/seed/backfill)
-- Home Banner 연관 코드 전수 확인(UI/API/DB/시드/네비게이션)
+## 2) 조사 범위
 
-검증 실행:
-- `pnpm lint` 통과
-- `pnpm build` 통과
-
----
-
-## 2) 전체 요약 (핵심 결론)
-
-이 프로젝트는 **Next.js 15 App Router 기반 관리자 백오피스**다.
-
-핵심 특성:
-- 인증: NextAuth Credentials + ENV 단일 관리자 계정
-- 보호: `middleware.ts`가 `/admin/*`, `/api/admin/*`를 토큰 기반 보호
-- 데이터 접근: ORM 없이 `mysql2` raw SQL + 파라미터 바인딩
-- 업로드: 서버 Presign 발급 후 브라우저가 S3에 직접 `PUT`
-- 주요 도메인: `users`, `artists`, `artworks`, `courses`, `course_items`, `home_banners`
-- 삭제 정책: artist/artwork/course는 soft delete, home_banners는 hard delete
-- 순서 무결성: `course_items.seq`, `home_banners.display_order`를 트랜잭션 내 재시퀀싱
-
-현재 상태 요약:
-- 운영 백오피스로 동작 완성도 높음
-- 과거 차트 템플릿 코드는 라우팅 상 미사용 상태로 잔존
-- 기존 research 문서의 구버전 서술 일부를 현재 코드 기준으로 정정해 반영함
-
----
-
-## 3) 기술 스택/런타임/코드 규모
-
-### 프레임워크 및 라이브러리
-- Next.js `15.0.6` (App Router)
-- React `19 RC`
-- TypeScript `strict`
-- Tailwind CSS + shadcn/ui + Radix UI
-- NextAuth `4.x` (Credentials)
-- mysql2
-- zod + react-hook-form
-- AWS SDK v3 S3 + presigner
-- dnd-kit (Course Items drag reorder)
-- jotai/visactor(레거시 차트 코드 영역)
-
-### 실행 스크립트 (`package.json`)
-- `pnpm dev`, `pnpm build`, `pnpm start`, `pnpm lint`
-- `pnpm db:schema:export`
-- `pnpm db:seed:mock`
-- `pnpm db:seed:users`
-- `pnpm db:backfill:artist-profile`
-
-### 환경 변수
-- 인증: `NEXTAUTH_URL`, `NEXTAUTH_SECRET`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`
-- DB: `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`
-- Seed/Mock: `MOCK_MEDIA_BASE_URL`, `ALLOW_MOCK_SEED`
-- S3: `AWS_REGION`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_S3_BUCKET`
-
-### 코드량(재계산)
-- `src` 내 `ts/tsx/css` 파일 수: 106
-- 총 라인 수: 7,182 LOC
-
----
-
-## 4) 요청 처리 흐름 (End-to-End)
-
-1. 브라우저가 `/admin/*` 접근
-2. `middleware.ts`가 토큰 유무 확인
-3. 미인증:
-- 페이지: `/admin/login` 리다이렉트
-- API: `401 { error: { code:"UNAUTHORIZED" ... } }`
-4. 로그인 성공 시 NextAuth JWT 세션 발급
-5. 클라이언트가 `requestJson`/`requestJsonWithMeta`로 `/api/admin/*` 호출
-6. API Route가 zod 검증 + SQL 실행
-7. 응답 규약:
-- 성공: `{ data, meta? }`
-- 실패: `{ error: { code, message, details? } }`
-8. 클라이언트는 실패 시 `error.message`를 그대로 표시
-
-보조 동작:
-- `/api/admin/*` 호출은 전역 pending 카운트 추적
-- 300ms 초과 시 `AdminApiBlockingOverlay` 표시 및 body scroll 잠금
-
----
-
-## 5) 인증/인가 상세
-
-### NextAuth 설정 (`src/lib/auth/config.ts`)
-- Credentials Provider
-- `ADMIN_EMAIL`, `ADMIN_PASSWORD`와 평문 비교
-- 성공 시 `role: "admin"`를 token/session에 저장
-
-### Middleware (`src/middleware.ts`)
-- matcher: `/admin/:path*`, `/api/admin/:path*`
-- 로그인 페이지(`/admin/login`)에서 토큰 존재 시 `/admin/artists` 이동
-- 보호 경로에서 토큰 미존재 시 차단
-- `authorized: () => true`로 두고 내부 로직에서 직접 분기
-
-보안 관찰:
-- role 기반 미들웨어 분기는 없음(토큰 유무 중심)
-- 단일 관리자 모델에는 충분하지만 다중 권한 확장성은 낮음
-
----
-
-## 6) 관리자 페이지 동작 요약
-
-### 6.1 Users
-- 목록: 닉네임/거주지/연령/언어 + 페이지네이션
-- 요약 카드: 총 가입/오늘/7일/30일
-- 상세: 기본정보, 생성 코스, 좋아요 코스/작품, 체크인
-
-### 6.2 Artists
-- 목록: query/type/deleted 필터 + 페이지네이션
-- 생성/수정 폼 + `profile_image_url` 업로드
-- 생성 시 프로필 이미지 필수, 수정 시 생략 가능(기존값 유지)
-- soft delete/restore 지원
-
-### 6.3 Artworks
-- 목록: query/category/artist/zone/place/deleted 필터
-- 생성/수정 폼 + 다건 이미지 + 오디오2 업로드
-- 생성 시 `images[]`(최소 1장) + 오디오 2개 필수
-- 수정 시 이미지 목록 전체 교체, 오디오는 미입력 시 기존값 유지
-- soft delete/restore 지원
-  
-※ Artwork는 아래 16장에서 테이블/연계/변경 파급까지 별도로 심층 분석.
-
-### 6.4 Courses + Course Items
-- 코스 CRUD + soft delete/restore
-- 상세 페이지에서 Course Items 관리
-- DnD reorder + 아이템 추가/삭제
-- reorder/delete는 트랜잭션으로 `seq` 1..N 재정렬
-- 체크인 존재 아이템 삭제 시 409 `CHECKIN_EXISTS`
-
-### 6.5 Home Banners
-- 홈 배너 추가(이미지 업로드/URL), 이미지 교체, 활성/비활성, 순서 변경, 삭제
-- 삭제는 hard delete(복구 불가)
-- 순서 변경 시 전체 배너 순서(payload 전체)를 서버에 전송
-
-※ Home Banner는 아래 7장에서 별도로 심층 분석.
-
----
-
-## 7) Home Banner 심층 분석 (핵심)
-
-## 7.1 관련 파일 맵
-
-- UI
-- `src/app/admin/home-banners/page.tsx`
-- 네비게이션
+대상:
+- `src/app/admin/*`
+- `src/components/admin/*`
+- `src/components/nav/*`
+- `src/components/theme-toggle.tsx`
 - `src/config/site.tsx`
+- `src/lib/auth/config.ts` (로그인 관련 노출 문자열)
+
+비대상(번역 비권장):
+- API 경로, DB 컬럼명, SQL alias
+- Zod schema key, TypeScript 타입/필드명
+- enum 저장값 원문(예: `COMPANY`, `STEEL_ART`)
+
+## 3) 영문 표기 현황
+
+### 3.1 글로벌 네비게이션/브랜드
+
+- `src/config/site.tsx`
+  - `SteelArt Admin`
+  - `Users`, `Artists`, `Artworks`, `Courses`, `Home Banners`
+- `src/components/nav/admin-side-nav.tsx`
+  - `SteelArt Admin`
 - `src/components/nav/admin-top-nav.tsx`
-- API
-- `src/app/api/admin/home-banners/route.ts`
-- `src/app/api/admin/home-banners/[id]/route.ts`
-- `src/app/api/admin/home-banners/[id]/image/route.ts`
-- `src/app/api/admin/home-banners/reorder/route.ts`
-- 검증 스키마
-- `src/lib/server/validators/admin.ts`
-- DB 계약
-- `docs/db-schema.sql` (`home_banners`)
-- 시드
-- `scripts/seed-mock-data.mjs` (`seedHomeBanners`)
-
-## 7.2 데이터 모델/제약
-
-`home_banners` 테이블 핵심:
-- 컬럼: `id`, `banner_image_url`, `display_order`, `is_active`, `created_at`, `updated_at`
-- 제약:
-- `UNIQUE(display_order)` → 순번 중복 금지
-
-의미:
-- 배너는 독립 테이블로 artworks와 비연관
-- 순서 중복은 DB 레벨에서도 차단
-
-## 7.3 Admin UI 동작 상세 (`/admin/home-banners`)
-
-초기 로딩:
-- 배너 목록 호출: `GET /api/admin/home-banners`
-
-UI 상태:
-- `createBannerImageUrl`: 생성 대상 배너 이미지 URL
-- `imageDrafts`: 배너별 이미지 교체 draft
-- `isActive`: 생성 시 활성 여부(기본 `true`)
-- `items`: 서버 배너 목록(`is_active`는 number로 처리)
-
-사용자 액션:
-1. 배너 추가
-- 이미지 URL이 비어 있으면 클라이언트 에러
-- 확인창 후 `POST /api/admin/home-banners` 요청
-- 성공 시 목록 재조회
-
-2. 활성/비활성 토글
-- 확인창 후 `PATCH /api/admin/home-banners/:id` with `{ is_active }`
-- 성공 시 목록 재조회
-
-3. 순서 변경(위/아래)
-- 클릭 시 클라이언트에서 배열 재배치
-- `PATCH /api/admin/home-banners/reorder`에 **전체 항목 id+display_order(1..N)** 전달
-- 실패 시 에러 표시 후 목록 재조회
-
-4. 이미지 교체
-- 배너별 입력/업로드 UI에서 이미지 URL 변경
-- `PATCH /api/admin/home-banners/:id/image` 요청
-- 성공 시 목록 재조회
-
-5. 삭제
-- 확인창 후 `DELETE /api/admin/home-banners/:id`
-- 성공 시 목록 재조회
-
-UI 제약/관찰:
-- DnD 없이 위/아래 버튼 방식
-- 배너 row마다 이미지 교체 UI가 렌더링되어 목록이 길어질수록 화면 밀도가 높아짐
-
-## 7.4 API 상세
-
-### A. `GET /api/admin/home-banners`
-
-SQL:
-- `home_banners` 단일 조회
-- `ORDER BY display_order ASC`
-
-반환 필드:
-- 배너 기본 필드(`banner_image_url` 포함)
-
-특성:
-- `is_active` 필터 없음(활성/비활성 모두 반환)
-
-### B. `POST /api/admin/home-banners`
-
-입력 검증:
-- `homeBannerCreateSchema`
-- `{ banner_image_url: string(url), is_active: boolean }`
-
-트랜잭션 처리:
-1. `SELECT COALESCE(MAX(display_order), 0) + 1 ... FOR UPDATE`
-2. 해당 순서로 insert
-3. 생성 row 조회 후 반환
-
-실패 케이스:
-- URL 형식 오류: `400 VALIDATION_ERROR`
-
-### C. `PATCH /api/admin/home-banners/:id`
-
-입력 검증:
-- path: `idParamSchema`
-- body: `homeBannerUpdateSchema` (`{ is_active: boolean }`)
-
-처리:
-- `is_active`, `updated_at` 업데이트
-- row 재조회
-- row 없으면 404
-
-### D. `PATCH /api/admin/home-banners/:id/image`
-
-입력 검증:
-- path: `idParamSchema`
-- body: `homeBannerImageUpdateSchema` (`{ banner_image_url: string(url) }`)
-
-처리:
-- `banner_image_url`, `updated_at` 업데이트
-- row 재조회
-- row 없으면 404
-
-### E. `DELETE /api/admin/home-banners/:id`
-
-트랜잭션 처리:
-1. 대상 row hard delete
-2. 남은 배너 `display_order ASC FOR UPDATE` 조회
-3. `display_order += 1000` 일괄 이동
-4. 1..N으로 순차 재배치(`updated_at` 갱신)
-
-특성:
-- 삭제 후 순번 구멍이 남지 않도록 즉시 재시퀀싱
-- 복구 API 없음
-
-### F. `PATCH /api/admin/home-banners/reorder`
-
-입력 검증:
-- `homeBannerReorderSchema` (`items` 최소 1개)
-- 중복 `id` 금지
-- 중복 `display_order` 금지
-- `display_order`는 1..N 연속값 강제
-
-트랜잭션 처리:
-1. DB 현재 배너 `id` 전체를 `FOR UPDATE`로 잠금 조회
-2. 요청 payload가 "전체 배너"를 정확히 포함하는지 검사(개수/ID set 비교)
-3. `display_order += 1000` 일괄 이동
-4. payload 순서대로 목표 `display_order` 적용
-
-보호 효과:
-- 부분 reorder/누락 reorder를 차단해 무결성 유지
-- stale payload를 서버가 거부할 수 있어 동시 수정 충돌 완화
-
-## 7.5 정렬 무결성 알고리즘의 공통 패턴
-
-Home Banner에서 순서 변경 관련 모든 경로는 다음 패턴을 공유한다.
-- 현재 순번을 먼저 `+1000`으로 옮겨 unique 충돌 회피
-- 이후 최종 순번(1..N)을 다시 부여
-
-이 방식은 `UNIQUE(display_order)` 제약이 있는 환경에서 안전한 재정렬 패턴이다.
-
-## 7.6 Home Banner와 다른 도메인의 연계
-
-`uploads/presign` 연계:
-- 홈 배너 이미지 업로드는 `folder=home-banners`를 허용하도록 확장됨
-- MIME은 기존 정책대로 `image/*` 허용
-
-네비게이션 연계:
-- 사이드바 항목: `Home Banners`
-- 상단 타이틀 path 매핑: `/admin/home-banners` -> `Home Banners`
-
-시드 연계:
-- `seed-mock-data.mjs`는 artwork 비의존으로 home banner 이미지 URL을 생성해 배너를 채움
-
-## 7.7 Home Banner 운영 리스크/개선 포인트
-
-1. `banner_image_url` nullable row 처리
-- DB가 nullable이면 과거 데이터에서 null 가능성이 있어 UI fallback 처리 필요
-
-2. 이미지 품질/규격 통제
-- URL 기반 저장이므로 해상도/비율/용량 정책이 별도 강제되지 않음
-
-3. row 단위 업로드 UI 밀도
-- 목록이 길어질수록 이미지 교체 UI가 반복 렌더링되어 사용성 저하 가능
-
----
-
-## 8) API 공통 레이어
-
-공통 응답(`src/lib/server/api-response.ts`):
-- 성공: `ok(data, meta?)`
-- 실패: `fail(status, code, message, details?)`
-
-공통 에러 매핑:
-- ZodError -> `400 VALIDATION_ERROR`
-- `ER_DUP_ENTRY` -> `409 CONFLICT`
-- `ER_NO_REFERENCED_ROW_2` -> `400 REFERENCE_ERROR`
-- 그 외 -> `500 INTERNAL_SERVER_ERROR`
-
-모든 관리자 API route는 `dynamic = "force-dynamic"` 선언으로 캐시 회피.
-
----
-
-## 9) DB 문서/코드 정합성
-
-기준 문서:
-- `docs/db-schema.sql`
-- `docs/db-contract.md`
-- `docs/admin-backoffice.md`
-
-핵심 관찰:
-1. `home_banners` 계약(하드 삭제 + 재시퀀싱)은 코드와 일치
-2. 사용자 상세 API/UI 및 시드 스크립트의 활동 데이터 처리 흐름은 현재 코드와 일치
-3. `docs/db-schema.sql`은 백오피스 핵심 8개 테이블 중심 스냅샷이라 `users`/likes 계열 테이블은 포함되지 않음
-4. 하지만 코드상 users 도메인은 `users`, `course_likes`, `artwork_likes`, `course_checkins`, `courses`, `course_items`, `artworks`를 조회
-
----
-
-## 10) 스크립트 분석
-
-### `scripts/export-db-schema.mjs`
-- 지정 8개 테이블 `SHOW CREATE TABLE`
-- `docs/db-schema.sql` 갱신
-
-### `scripts/seed-mock-data.mjs`
-- non-production + `ALLOW_MOCK_SEED=true` 가드
-- zones/places/artists/artworks/courses/course_items/home_banners 생성
-- 배너 `display_order`와 코스 아이템 `seq` 재정렬 포함
-
-### `scripts/seed-users-realistic.mjs`
-- non-production + `ALLOW_MOCK_SEED=true` 가드
-- 사용자 샘플 생성/업데이트
-- 사용자 생성 코스 연결
-- `course_likes`, `artwork_likes`, `course_checkins` 생성
-
-### `scripts/backfill-artist-profile-image.mjs`
-- non-production + `ALLOW_MOCK_SEED=true` 가드
-- 빈 `artists.profile_image_url`을 기본 URL로 백필
-
----
-
-## 11) 프론트 공통 인프라
-
-### Admin API Client (`src/lib/client/admin-api.ts`)
-- 공통 `fetch` 래퍼
-- 응답 형태 강제 파싱
-- `/api/admin/*` 자동 pending 추적
-
-### 요청 차단 오버레이 (`AdminApiBlockingOverlay`)
-- pending > 0 상태가 300ms 넘으면 표시
-- 표시 중 body overflow 잠금
-
-### 파일 업로드 (`FileUploadField`)
-- `POST /api/admin/uploads/presign`
-- presigned URL로 브라우저 직접 `PUT`
-- 성공 시 `fileUrl`을 폼에 반영
-- 이미지/오디오 미리보기 제공
-
----
-
-## 12) 남아있는 템플릿/미사용 코드
-
-현재 라우팅 기준 미사용 가능성이 높은 영역:
-- `src/components/chart-blocks/*`
-- `src/data/*`
-- `src/lib/atoms.ts`
-
-근거:
-- 루트(`/`)는 `/admin/login`으로 redirect
-- admin 페이지에서 차트 블록을 import하지 않음
-
----
-
-## 13) 품질 상태 (재검증)
-
-실행 결과:
-- `pnpm lint`: 통과
-- `pnpm build`: 통과
-
-빌드 산출 관찰:
-- `/admin/home-banners` 포함 admin 페이지는 정적 프리렌더 + 클라이언트 fetch 조합
-- `/api/admin/*`는 동적 서버 처리
-- middleware 번들 활성
-
----
-
-## 14) 주요 리스크 및 개선 제안
-
-1. 인증 비밀 관리
-- 현재 관리자 비밀번호 평문 비교
-- 개선: 해시 비교 또는 Secret Manager 기반 운용
-
-2. Home Banner UX
-- row 단위 이미지 교체 UI 밀도 개선(목록 길이 대응)
-- 배너 생성/교체 UX 단순화(모달/드로어 분리) 검토
-
-3. Home Banner 정책 명확화
-- `banner_image_url` nullable 데이터 정리 및 not-null 강제 시점 정의
-- 이미지 비율/해상도/용량 정책(업로드 전 검증) 정의
-
-4. 문서 스키마 범위 명시 강화
-- `docs/db-schema.sql`이 일부 테이블만 다룬다는 점을 상단에 더 명확히 고지
-
-5. 레거시 차트 코드 정리
-- 운영 백오피스와 무관한 템플릿 코드 분리/삭제
-
----
-
-## 15) 최종 판단
-
-이 저장소는 **SteelArt 운영 백오피스 MVP로 실동작 가능한 상태**다.
-
-특히 Home Banner는:
-- 추가/토글/재정렬/삭제 기능이 모두 구현되어 있고,
-- DB 제약 + 트랜잭션 + 재시퀀싱으로 순서 무결성을 강하게 유지하며,
-- 하드 삭제 정책과 운영 UI가 일관되게 맞춰져 있다.
-
-이번 문서 수정에서 기존 `research.md`의 불일치(일부 구버전 상태값)를 최신 코드 기준으로 정정했고, Home Banner 연관 구현을 UI/API/DB/스크립트/운영 리스크까지 확장해 반영했다.
-
----
-
-## 16) Artwork 심층 분석 (`artwork_images` 반영 후)
-
-## 16.1 관련 파일 맵
-
-- UI 페이지
-  - `src/app/admin/artworks/page.tsx`
-  - `src/app/admin/artworks/new/page.tsx`
-  - `src/app/admin/artworks/[id]/page.tsx`
-  - `src/components/admin/artworks-form.tsx`
-- API
-  - `src/app/api/admin/artworks/route.ts`
-  - `src/app/api/admin/artworks/[id]/route.ts`
-  - `src/app/api/admin/artworks/[id]/soft-delete/route.ts`
-  - `src/app/api/admin/artworks/[id]/restore/route.ts`
-- 연계 API/컴포넌트
-  - `src/app/api/admin/courses/[id]/items/route.ts`
-  - `src/components/admin/course-items-editor.tsx`
-  - `src/app/api/admin/users/[id]/route.ts`
-- 스키마/검증/업로드/시드
-  - `docs/db-schema.sql`
-  - `src/lib/server/validators/admin.ts`
-  - `src/app/api/admin/uploads/presign/route.ts`
-  - `scripts/seed-mock-data.mjs`
-
-## 16.2 데이터 모델/제약
-
-현재 구조는 `artworks` + `artwork_images` 분리 모델:
-
-- `artworks`
-  - 작품 본문/관계/오디오 중심
-  - `audio_url_ko`, `audio_url_en` 유지
-  - `photo_day_url`, `photo_night_url` 제거됨
-- `artwork_images`
-  - `id`, `artwork_id`, `image_url`, `created_at`
-  - FK: `artwork_id -> artworks.id ON DELETE CASCADE`
-  - 정렬 컬럼은 없고 `id ASC`를 사실상 표시 순서로 사용
-
-운영 의미:
-- Artwork는 다건 이미지를 갖는다.
-- Artwork 삭제 시 이미지 row도 함께 정리된다.
-
-## 16.3 관리자 목록 페이지 동작 (`/admin/artworks`)
-
-필터:
-- `query`, `category`, `artistId`, `zoneId`, `placeId`, `deleted`, `page`, `size`
-
-조회:
-- `GET /api/admin/artworks`
-- 서버는 `artwork_images`에서 `MIN(id)` 이미지를 대표 썸네일(`thumbnail_image_url`)로 계산
-
-목록 컬럼:
-- `ID`, `대표 이미지`, `title_ko`, `artist`, `place`, `category`, `year`, `deleted`, `actions`
-
-삭제 상태 표기:
-- 기존 Y/N에서 Badge 기반 상태 표기로 전환(`활성`, `삭제됨`)
-
-## 16.4 생성/수정 폼 상세 (`ArtworksForm`)
-
-UI 구조:
-- shadcn 중심 구성(`Card`, `Input`, `Textarea`, `Label`, `Badge`, `Button`)
-- 이미지 섹션:
-  - 다건 업로드
-  - 항목별 미리보기
-  - 위/아래 순서 이동
-  - 삭제/추가
-- 오디오 섹션:
-  - `audio_url_ko`, `audio_url_en`
-
-폼 정책:
-- 생성:
-  - `images[]` 최소 1장 필수
-  - 오디오 2개 필수
-- 수정:
-  - 이미지 목록 전체를 저장 payload로 전달(리스트 교체)
-  - 오디오는 미입력 시 기존 DB 값 유지
-
-업로드 폴더:
-- 이미지: `artworks/images`
-- 오디오: `artworks/audio-ko`, `artworks/audio-en`
-
-## 16.5 Artwork API 상세
-
-### A. `GET /api/admin/artworks`
-- 기존 필터/페이지네이션 유지
-- `thumbnail_image_url` 추가 반환
-- 구현 방식:
-  - `artwork_images` 그룹에서 `MIN(id)` 대표 이미지 추출 후 LEFT JOIN
-
-### B. `POST /api/admin/artworks`
-- 입력:
-  - 기본 작품 필드
-  - `audio_url_ko`, `audio_url_en`
-  - `images: [{ image_url }]` (min 1)
-- 처리:
-  - 트랜잭션으로 `artworks` insert
-  - 이어서 `artwork_images` 다건 insert
-  - 최종 `artwork + images[]` 반환
-
-### C. `GET /api/admin/artworks/:id`
-- `artworks` 단건 + `artwork_images` 목록(`ORDER BY id ASC`) 반환
-- 미존재 시 `404 NOT_FOUND`
-
-### D. `PUT /api/admin/artworks/:id`
-- 입력:
-  - 기본 필드 + optional audio + `images[]`
-- 처리:
-  1. 기존 row 확인(미존재면 404)
-  2. 기본 필드 update
-  3. 오디오는 `payload ?? existing` fallback
-  4. 기존 `artwork_images` 전체 삭제
-  5. 새 `images[]` 전체 insert
-  6. 최종 `artwork + images[]` 반환
-
-### E/F. soft delete / restore
-- 기존 정책 유지(`deleted_at` 갱신)
-
-## 16.6 Artwork 연계 도메인 영향
-
-1) Course Items
-- `/api/admin/courses/:id/items`는 작품 대표 이미지를
-  `artwork_images`의 첫 이미지(`MIN(id)`)에서 조회
-- 응답 필드가 `photo_day_url` -> `thumbnail_image_url`로 변경됨
-
-2) Users 상세
-- users 상세 API는 title/category/likes 중심이라 직접 영향은 제한적
-- 다만 artwork FK/soft delete 체계는 동일하게 의존
-
-3) Seed
-- `seed-mock-data.mjs`:
-  - artworks insert에서 day/night 컬럼 제거
-  - artwork_images를 작품당 다건으로 보장
-
-## 16.7 리스크 및 개선 포인트
-
-1. 이미지 정렬 컬럼 부재
-- 현재 순서는 `id ASC` 기반
-- 명시적 정렬 요구가 커지면 `display_order` 컬럼 도입이 필요
-
-2. 리스트 교체 방식 비용
-- 수정 시 이미지를 전체 삭제 후 재insert하므로 대용량 이미지 세트에서 비용 증가 가능
-
-3. 옵션 조회 상한
-- 아티스트 옵션 조회가 `size=100` 고정이라 데이터 증가 시 탐색성 저하 가능
-
-## 16.8 검증 체크리스트 (현재 반영 기준)
-
-1. `/admin/artworks` 목록/필터/대표 이미지 렌더링
-2. 작품 생성(다건 이미지 + 오디오) 성공
-3. 작품 수정(이미지 순서 변경/삭제/추가) 성공
-4. soft delete/restore 성공
-5. `/admin/courses/:id` 코스 아이템 조회/추가 정상
-6. `pnpm exec tsc --noEmit`, `pnpm lint`, `pnpm build` 통과
-
----
-
-## 17) ArtworkFestivalYear 반영 상태 (`artwork_festivals`)
-
-요청된 ArtworkFestivalYear는 실DB 기준 테이블명 `artwork_festivals`로 구현되며, 현재 백오피스 코드에 연동이 반영된 상태다.
-
-## 17.1 실DB 테이블 구조
-
-`artwork_festivals`:
-- `id` bigint PK
-- `artwork_id` bigint NOT NULL
-- `year` varchar(10) NOT NULL
-- `created_at` datetime
-- `UNIQUE (artwork_id, year)`
-- FK: `artwork_id -> artworks.id ON DELETE CASCADE`
-
-의미:
-- 작품당 여러 축제연도(1:N)를 저장
-- 같은 작품 내 중복연도는 DB에서 차단
-- 작품 하드삭제 시 축제연도도 CASCADE로 정리
-
-## 17.2 서버 계약 반영
-
-파일: `src/lib/server/validators/admin.ts`
-- `artworkPayloadSchema`, `artworkUpdatePayloadSchema`에 `festival_years` 추가
-- 검증/정규화:
-  - trim
-  - 빈 문자열 제거
-  - `YYYY` 포맷(4자리 숫자) 검증
-  - 중복 제거
-
-## 17.3 Artwork API 반영
-
-### 목록 `GET /api/admin/artworks`
-파일: `src/app/api/admin/artworks/route.ts`
-- `artwork_festivals` 집계 LEFT JOIN 추가
-- 응답에 `festival_years_summary` 포함
-  - `GROUP_CONCAT(year ORDER BY CAST(year AS UNSIGNED) DESC)` 기반
-
-### 생성 `POST /api/admin/artworks`
-파일: `src/app/api/admin/artworks/route.ts`
-- 기존 `artworks + artwork_images` 저장 트랜잭션에
-  `artwork_festivals` 다건 insert 추가
-- 생성 응답에 `festival_years: string[]` 포함
-
-### 단건 `GET /api/admin/artworks/:id`
-파일: `src/app/api/admin/artworks/[id]/route.ts`
-- `artwork_festivals` 조회 후 `festival_years: string[]` 반환
-
-### 수정 `PUT /api/admin/artworks/:id`
-파일: `src/app/api/admin/artworks/[id]/route.ts`
-- 트랜잭션 내 replacement 전략 적용:
-  1. `DELETE FROM artwork_festivals WHERE artwork_id = ?`
-  2. 정규화된 `festival_years` 재insert
-- 결과 응답에 `festival_years: string[]` 포함
-
-## 17.4 Admin UI 반영
-
-파일:
-- `src/components/admin/artworks-form.tsx`
-- `src/app/admin/artworks/[id]/page.tsx`
-- `src/app/admin/artworks/page.tsx`
-
-반영 내용:
-- 생성/수정 폼에 `축제 연도` 다건 입력 섹션 추가
-- 저장 payload에 `festival_years[]` 포함
-- 수정 페이지 초기값(`initialData.festival_years`) 바인딩
-- 목록 페이지에 `festival_years_summary` 컬럼 추가
-
-## 17.5 문서/시드 반영
-
-파일:
-- `scripts/export-db-schema.mjs`
-- `docs/db-schema.sql`
-- `docs/db-contract.md`
-- `docs/admin-backoffice.md`
-- `scripts/seed-mock-data.mjs`
-
-반영 내용:
-- 스키마 export 대상에 `artwork_festivals` 포함
-- 운영/계약 문서에 축제연도 저장 규칙 추가
-- mock seed에서 작품별 `artwork_festivals` 보강 로직 추가
-
-## 17.6 남은 운영 고려사항
-
-1. `year`가 `varchar(10)`이므로 포맷 정책(`YYYY`)을 앱 레벨에서 계속 강제해야 한다.
-2. 목록 API는 요약 문자열 중심이므로, 상세 분석/필터 고도화가 필요하면 별도 필드 확장이 필요하다.
+  - `Artists`, `Artworks`, `Courses`, `Home Banners`, `Admin`
+
+### 3.2 로그인
+
+- `src/app/admin/login/page.tsx`
+  - `SteelArt Admin Login`
+  - `Email`, `Password`
+- `src/lib/auth/config.ts`
+  - `Admin Credentials`, `Email`, `Password`, `SteelArt Admin`
+
+### 3.3 Users 화면
+
+- `src/app/admin/users/page.tsx`
+  - 페이지 타이틀: `Users`
+  - 필터/옵션: `residency`, `age_group`, `language`, `POHANG`, `NON_POHANG`, `TEEN`, `20S`...
+  - 컬럼: `nickname`, `residency`, `age_group`, `language`, `noti`, `joined_at`, `actions`
+  - 값: `Y/N`
+- `src/app/admin/users/[id]/page.tsx`
+  - `Users`, `User #id`
+  - 키/로그: `nickname`, `residency`, `age_group`, `language`, `notifications_enabled`, `joined_at`, `likes`, `liked_at`, `category`, `stamped_at`
+  - 값: `Y/N`, `STEEL_ART/PUBLIC_ART`
+
+### 3.4 Artists 화면
+
+- `src/app/admin/artists/page.tsx`
+  - 페이지 타이틀: `Artists`
+  - 필터: `type 전체`, `COMPANY`, `INDIVIDUAL`
+  - 컬럼: `profile`, `name_ko`, `name_en`, `type`, `deleted`, `actions`
+  - 값: `Y/N`
+- `src/components/admin/artists-form.tsx`
+  - 선택값: `COMPANY`, `INDIVIDUAL`
+
+### 3.5 Courses 화면
+
+- `src/app/admin/courses/page.tsx`
+  - 페이지 타이틀: `Courses`
+  - 필터: `is_official 전체`
+  - 컬럼: `title_ko`, `is_official`, `deleted`, `actions`
+  - 값: `Y/N`
+- `src/components/admin/courses-form.tsx`
+  - 라벨: `title_ko`, `title_en`, `description_ko`, `description_en`, `is_official`
+- `src/components/admin/course-items-editor.tsx`
+  - `Course Items`, `Drag & drop`, `course_item_id`, `seq`
+
+### 3.6 Home Banners 화면
+
+- `src/app/admin/home-banners/page.tsx`
+  - 페이지 타이틀: `Home Banners`
+  - 체크박스 라벨: `is_active`
+  - 이미지 alt: `banner-{id}`
+
+### 3.7 테마 토글
+
+- `src/components/theme-toggle.tsx`
+  - `Light`, `Dark`, `System`, `auto`
+  - `Toggle theme` (접근성 텍스트)
+
+### 3.8 Artwork 화면
+
+- 최근 작업으로 목록/수정 폼의 핵심 라벨은 상당수 한국어화됨.
+- 잔여 점검 대상은 enum/코드값이 그대로 노출되는 경로 여부.
+
+## 4) 한국어 전환 기준
+
+### 4.1 원칙
+
+1. 저장/계약 값은 유지한다.
+2. 화면 렌더링 시점에 한국어 라벨로 변환한다.
+3. 초기 운영 단계에서는 필요시 괄호 병기 허용 (`단체(COMPANY)`).
+
+### 4.2 표준 매핑안
+
+- 메뉴/페이지
+  - `Users` -> `사용자`
+  - `Artists` -> `작가`
+  - `Artworks` -> `작품`
+  - `Courses` -> `코스`
+  - `Home Banners` -> `홈 배너`
+  - `Admin` -> `관리자`
+- 공통 필드
+  - `Email` -> `이메일`
+  - `Password` -> `비밀번호`
+  - `actions` -> `관리`
+  - `profile` -> `프로필 이미지`
+  - `joined_at` -> `가입 일시`
+- `is_official` -> `문화재단 인증 여부`
+  - `is_active` -> `노출 활성화`
+  - `Y/N` -> 문맥별 `예/아니오` 또는 `활성/비활성`
+- 사용자 도메인
+  - `residency` -> `거주지`
+  - `age_group` -> `연령대`
+  - `language` -> `언어`
+  - `noti` -> `알림 수신`
+  - `nickname` -> `닉네임`
+- enum 표시
+  - `COMPANY` -> `단체`, `INDIVIDUAL` -> `개인`
+  - `POHANG` -> `포항`, `NON_POHANG` -> `포항 외`
+  - `TEEN/20S/30S/40S/50S/60S/70_PLUS` -> `10대/20대/30대/40대/50대/60대/70대 이상`
+  - `ko/en` -> `한국어/영어`
+  - `STEEL_ART/PUBLIC_ART` -> `스틸아트/공공미술`
+- 기타
+  - `Light/Dark/System/auto` -> `라이트/다크/시스템/자동`
+  - `Course Items` -> `코스 구성 작품`
+  - `Drag & drop` -> `드래그 앤 드롭`
+  - `seq` -> `순번`
+  - `course_item_id` -> `코스 아이템 ID`
+
+## 5) 우선순위
+
+1순위:
+- 글로벌 네비/탑바/페이지 타이틀
+- 로그인 (`Email`, `Password`)
+- Users/Artists/Courses 목록 컬럼/필터
+
+2순위:
+- Users 상세의 영문 키/활동 로그 문구
+- Course Items 에디터 (`Course Items`, `Drag & drop`, `seq`)
+
+3순위:
+- 테마 토글(`Light/Dark/System/auto`)
+- alt/accessibility 영문 텍스트(`profile`, `banner-{id}`)
+
+## 6) 주의사항
+
+- enum 원문값 자체를 변경하면 API/DB 호환성 문제가 발생할 수 있다.
+- 반드시 UI 표시 문자열만 한국어화하고, 저장값/계약값은 유지한다.
+
+## 7) 구현 반영 결과 (2026-03-05)
+
+본 문서 기준 전환 범위를 실제 코드에 반영했다.
+
+- 글로벌/네비게이션: `Users/Artists/Artworks/Courses/Home Banners/Admin` 표시를 한국어로 통일
+- 로그인/테마: `Email/Password`, `Light/Dark/System/auto`, 접근성 라벨 한국어화
+- Users: 목록/상세 라벨 및 enum 출력값 한국어화, `Y/N` -> `예/아니오`
+- Artists: 목록/폼 라벨 한국어화, `COMPANY/INDIVIDUAL` 화면 표시를 `단체/개인`으로 매핑
+- Courses: 목록/폼/코스 아이템 에디터 라벨 한국어화
+- Home Banners: 페이지/상태/모달/접근성 텍스트 한국어화
+- Artwork: 잔여 점검 포함, 화면 표시 enum을 한국어로 유지
+
+검증 결과:
+- 정적 검증: `pnpm exec tsc --noEmit`, `pnpm lint`, `pnpm build` 통과
+- Playwright headed E2E: 로그인, 메뉴/탑바, Users/Artists/Courses/Home Banners/Artworks 조회 및 저장/삭제/복구 동작 확인
+
+스크린샷(갱신):
+- `docs/pr-assets/ko-login-page.png`
+- `docs/pr-assets/ko-users-list.png`
+- `docs/pr-assets/ko-user-detail.png`
+- `docs/pr-assets/ko-artists-list.png`
+- `docs/pr-assets/ko-artist-edit.png`
+- `docs/pr-assets/ko-courses-list.png`
+- `docs/pr-assets/ko-artworks-list.png`
+- `docs/pr-assets/ko-artwork-edit.png`
+- `docs/pr-assets/ko-home-banners-list.png`
+- `docs/pr-assets/ko-home-banners-create-modal.png`

@@ -15,7 +15,7 @@ export function AdminSideNav() {
   return (
     <aside className="w-64 shrink-0 border-r border-border bg-slate-50/80 p-4 dark:bg-slate-900/40">
       <div className="mb-6">
-        <h1 className="text-lg font-semibold">SteelArt Admin</h1>
+        <h1 className="text-lg font-semibold">SteelArt 관리자</h1>
         <p className="text-sm text-muted-foreground">콘텐츠 백오피스</p>
       </div>
       <nav className="flex flex-col gap-1">
