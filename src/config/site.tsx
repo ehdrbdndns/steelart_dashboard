@@ -2,7 +2,6 @@ import {
   type LucideIcon,
   Image,
   LayoutGrid,
-  MapPinned,
   Route,
   UserSquare2,
   Users,
@@ -36,11 +35,6 @@ export const adminNavigations: AdminNavigation[] = [
     icon: Image,
     name: "작품",
     href: "/admin/artworks",
-  },
-  {
-    icon: MapPinned,
-    name: "장소",
-    href: "/admin/places",
   },
   {
     icon: Route,

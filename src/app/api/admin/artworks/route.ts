@@ -136,6 +136,20 @@ export async function POST(request: NextRequest) {
     const payload = artworkPayloadSchema.parse(await request.json());
 
     const created = await withTransaction(async (connection) => {
+      const [insertedPlace] = await connection.query<ResultSetHeader>(
+        `INSERT INTO places (
+           name_ko, name_en, address, lat, lng, zone_id, deleted_at, created_at, updated_at
+         ) VALUES (?, ?, ?, ?, ?, ?, NULL, NOW(), NOW())`,
+        [
+          payload.place.name_ko,
+          payload.place.name_en,
+          payload.place.address,
+          payload.place.lat,
+          payload.place.lng,
+          payload.place.zone_id ?? null,
+        ],
+      );
+
       const [inserted] = await connection.query<ResultSetHeader>(
         `INSERT INTO artworks (
             title_ko, title_en, artist_id, place_id, category, production_year,
@@ -147,7 +161,7 @@ export async function POST(request: NextRequest) {
           payload.title_ko,
           payload.title_en,
           payload.artist_id,
-          payload.place_id,
+          insertedPlace.insertId,
           payload.category,
           payload.production_year,
           payload.size_text_ko,
@@ -193,9 +207,19 @@ export async function POST(request: NextRequest) {
          ORDER BY CAST(\`year\` AS UNSIGNED) DESC, \`year\` DESC`,
         [inserted.insertId],
       );
+      const [placeRows] = await connection.query<RowDataPacket[]>(
+        `SELECT p.id, p.zone_id, z.name_ko AS zone_name_ko, p.name_ko, p.name_en, p.address,
+                CAST(p.lat AS DOUBLE) AS lat, CAST(p.lng AS DOUBLE) AS lng,
+                p.deleted_at, p.created_at, p.updated_at
+         FROM places p
+         LEFT JOIN zones z ON z.id = p.zone_id
+         WHERE p.id = ?`,
+        [insertedPlace.insertId],
+      );
 
       return {
         ...artworkRows[0],
+        place: placeRows[0] ?? null,
         images: imageRows,
         festival_years: festivalRows.map((row) => row.year),
       };

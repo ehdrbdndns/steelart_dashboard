@@ -104,7 +104,6 @@ const artworkBasePayloadSchema = z.object({
   title_ko: z.string().min(1),
   title_en: z.string().min(1),
   artist_id: z.coerce.number().int().positive(),
-  place_id: z.coerce.number().int().positive(),
   category: artworkCategorySchema,
   production_year: z.coerce.number().int().positive(),
   size_text_ko: z.string().min(1),
@@ -112,6 +111,8 @@ const artworkBasePayloadSchema = z.object({
   description_ko: z.string().min(1),
   description_en: z.string().min(1),
 });
+
+const artworkPlacePayloadSchema = placeBasePayloadSchema;
 
 const artworkAudioUrlSchema = z.object({
   audio_url_ko: z.string().url().optional(),
@@ -140,6 +141,7 @@ const artworkFestivalYearsSchema = z
   .transform((years) => Array.from(new Set(years)));
 
 export const artworkPayloadSchema = artworkBasePayloadSchema.extend({
+  place: artworkPlacePayloadSchema,
   audio_url_ko: z.string().url(),
   audio_url_en: z.string().url(),
   images: artworkImagesSchema,
@@ -149,6 +151,7 @@ export const artworkPayloadSchema = artworkBasePayloadSchema.extend({
 export const artworkUpdatePayloadSchema = artworkBasePayloadSchema
   .merge(artworkAudioUrlSchema)
   .extend({
+    place: artworkPlacePayloadSchema,
     images: artworkImagesSchema,
     festival_years: artworkFestivalYearsSchema,
   });

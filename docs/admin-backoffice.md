@@ -3,16 +3,17 @@
 ## Implemented Areas
 - Admin auth (`/admin/login`) with NextAuth Credentials and ENV single account
 - Protected admin pages and `/api/admin/*` with middleware
-- CRUD APIs and admin pages for `artists`, `artworks`, `courses`, `places`, `home_banners`
+- CRUD APIs and admin pages for `artists`, `artworks`, `courses`, `home_banners`
 - Home banners are managed as an independent image domain (`banner_image_url`, no artwork FK)
 - Home banner image replacement API: `PATCH /api/admin/home-banners/:id/image`
 - `course_items` add/reorder/delete with id-preserving reorder and checkin 409 guard
 - S3 presigned upload for artwork media (artwork images + `audio_url_ko`, `audio_url_en`)
 - Artwork festival year management (`festival_years[]` -> `artwork_festivals`)
 - Artist profile image upload (`profile_image_url`) with preview on artist form and list thumbnail
-- Places form supports Kakao Maps based auto geocoding from address to `lat`/`lng`
-- Places `lat`/`lng` remain manually editable after auto geocoding
-- Places soft delete is guarded by active artwork reference check (`409 PLACE_IN_USE`)
+- Artwork form includes embedded Place fields (name/address/zone/lat/lng) and creates Place together
+- Artwork form supports Kakao geocoding (`address` -> `lat`/`lng`) and map preview marker
+- Artwork update uses shared-place guard: updates place directly when unshared, otherwise clones place and rebinds only current artwork
+- `/admin/places*` routes are redirected to artwork pages (Place standalone menu removed)
 
 ## Environment Variables
 - Core auth/db:
@@ -41,6 +42,8 @@
 - Artwork edit replaces image list(`images[]`) and keeps existing audio URL when omitted.
 - Artwork create/edit supports `festival_years[]` (trim + dedupe + `YYYY` validation).
 - Artwork save replaces `artwork_festivals` rows for the target artwork.
+- Artwork create/edit includes embedded `place` payload:
+  - `place.name_ko`, `place.name_en`, `place.address`, `place.zone_id`, `place.lat`, `place.lng`
 - Artist create requires `profile_image_url`; artist edit keeps existing URL when omitted.
 - Home banner create requires `banner_image_url`; image can be replaced via dedicated PATCH API.
 
@@ -74,7 +77,7 @@
   - verify S3 bucket CORS and Vercel/localhost origins are configured.
 - Mock seed blocked:
   - set `ALLOW_MOCK_SEED=true`, and do not run in production.
-- place form auto geocode does not work:
+- artwork form place geocode/map does not work:
   - verify `KAKAO_REST_API_KEY` is set.
   - verify REST API is enabled for the app and key is valid in Kakao developer console.
   - if SDK warning appears, verify `NEXT_PUBLIC_KAKAO_MAP_SDK_KEY` and allowed web domain (`localhost`/production).
@@ -82,5 +85,6 @@
 ## Notes
 - `home_banners` uses hard delete by requirement.
 - `home_banners` is independent from `artworks` and stores `banner_image_url` directly.
-- `places` uses soft delete and blocks deletion while referenced by active artworks.
+- `places` is no longer managed as a standalone admin menu; it is managed through artwork create/edit flow.
+- `places` soft delete guard(`PLACE_IN_USE`) remains on API for data safety/compatibility.
 - Existing template routes were removed and root redirects to admin entry.

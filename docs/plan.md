@@ -1,397 +1,199 @@
-# Plan: Places CRUD + 카카오 지도 기반 자동 위경도 입력
+# Plan: Artwork-Place 백오피스 통합(백오피스 1:1 운영 모델)
 
 작성일: 2026-03-05  
+최종 업데이트: 2026-03-05  
 대상 저장소: `/Users/donggyunyang/code/steelart_dashboard`  
 작업 브랜치: `codex/feta/place-crud`
 
 ## 0) 계획 수립 근거 (실제 코드 확인)
 
-요청대로 변경 계획 작성 전 실제 소스 파일을 읽고 현재 상태를 확인했다.
+요청대로 계획 작성 전 실제 소스를 읽고 구조를 확인했다.
 
-확인한 파일:
-
-- Places/API/검증
-  - `src/app/api/admin/places/route.ts`
-  - `src/lib/server/validators/admin.ts`
-  - `src/lib/server/sql.ts`
-  - `src/lib/server/api-response.ts`
-- CRUD 패턴 레퍼런스
-  - `src/app/api/admin/artists/route.ts`
-  - `src/app/api/admin/artists/[id]/route.ts`
-  - `src/app/api/admin/artists/[id]/soft-delete/route.ts`
-  - `src/app/api/admin/artists/[id]/restore/route.ts`
-  - `src/app/api/admin/courses/route.ts`
-  - `src/app/api/admin/courses/[id]/route.ts`
-  - `src/app/admin/artists/page.tsx`
-  - `src/app/admin/courses/page.tsx`
-  - `src/components/admin/artists-form.tsx`
-- Places 연계 사용처
-  - `src/app/admin/artworks/page.tsx`
-  - `src/components/admin/artworks-form.tsx`
+확인 파일:
+- DB/계약: `docs/db-schema.sql`, `docs/db-contract.md`
+- Artwork API/UI:
   - `src/app/api/admin/artworks/route.ts`
-- 네비게이션/클라이언트/환경변수 패턴
+  - `src/app/api/admin/artworks/[id]/route.ts`
+  - `src/components/admin/artworks-form.tsx`
+  - `src/app/admin/artworks/page.tsx`
+  - `src/app/admin/artworks/new/page.tsx`
+  - `src/app/admin/artworks/[id]/page.tsx`
+- Place API/UI:
+  - `src/app/api/admin/places/route.ts`
+  - `src/app/api/admin/places/[id]/route.ts`
+  - `src/app/api/admin/places/geocode/route.ts`
+  - `src/components/admin/places-form.tsx`
+  - `src/app/admin/places/page.tsx`
+  - `src/app/admin/places/new/page.tsx`
+  - `src/app/admin/places/[id]/page.tsx`
+- 공통/네비게이션/검증:
+  - `src/lib/server/validators/admin.ts`
   - `src/config/site.tsx`
   - `src/components/nav/admin-top-nav.tsx`
-  - `src/lib/client/admin-api.ts`
-  - `src/lib/server/env.ts`
-  - `.env.example`
-  - `src/app/api/admin/uploads/presign/route.ts`
 
-확인 결과 핵심:
+## 1) 목표와 범위
 
-1. `places`는 현재 `GET /api/admin/places`만 존재한다.
-2. Admin에 places 전용 목록/생성/수정 페이지가 없다.
-3. 지도/카카오/지오코딩 관련 코드가 현재 저장소에 없다.
-4. `places.lat/lng`는 DB에서 NOT NULL이므로 생성/수정 UX에서 반드시 다뤄야 한다.
+1. Place 독립 관리 메뉴/페이지를 제거한다.
+2. Artwork 생성/수정 시 Place 정보를 함께 입력하고 저장한다.
+3. 주소 입력 시 lat/lng 자동 반영 + 수동 수정 + 지도 미리보기 UX를 제공한다.
+4. 물리 모델 N:1은 유지하되, 백오피스 운영은 1:1처럼 안전하게 동작시킨다.
 
-## 1) 요구사항 정리
+## 2) 상세 단계 및 완료 상태
 
-이번 구현의 핵심 요구:
+## Step 1. 계약 재정의 (Validation + Payload)
 
-1. Admin에서 Place CRUD 가능
-2. 주소 입력 시 위도/경도가 자동 채워짐
-3. 자동 채워진 위도/경도는 사용자가 수동으로 수정 가능
-4. 위경도 자동 조회는 카카오 지도 기반으로 구현
-5. 마지막 단계는 반드시 PR 작성(스크린샷 포함)
+상태: [x]
 
-## 2) 설계 방향
-
-### 2.1 카카오 기반 위경도 자동 입력 방식
-
-선택:
-- 클라이언트에서 Kakao Maps JS SDK(`services` 라이브러리 포함)를 로드하고
-- `addressSearch`로 주소 -> 좌표 변환
-- 결과 1순위를 `lat/lng` 필드에 자동 반영
-
-이유:
-
-1. “카카오 지도 사용” 요구에 직접 부합
-2. 관리자가 입력 즉시 결과 확인 가능 (UX 즉시성)
-3. 별도 서버 geocode proxy 없이도 빠르게 구현 가능
-
-### 2.2 자동 입력 + 수동 수정 충돌 정책
-
-정책:
-
-1. 주소 입력이 변경되면 디바운스 후 자동 지오코딩 실행
-2. 자동 결과가 있으면 `lat/lng`를 업데이트
-3. 사용자는 `lat/lng` 입력 필드를 언제든 수동 수정 가능
-4. 저장 시점 최종 값은 입력창 값(수동 수정 포함)을 그대로 사용
-
-보완 UX:
-
-1. `좌표 다시 찾기` 버튼 제공
-2. `자동 입력됨` / `수동 수정됨` 상태 텍스트 제공
-3. 자동 조회 실패 시 에러 표시하되 저장 자체는 막지 않음(수동 입력 가능)
-
-### 2.3 기존 사용처 호환성
-
-현재 artworks가 `/api/admin/places?deleted=exclude`를 옵션 목록으로 사용하므로, places API 확장 시 기존 응답 소비를 깨지 않도록 설계한다.
-
-## 3) 대상 산출물
-
-1. Places CRUD API
-2. Places Admin 페이지(목록/생성/수정)
-3. PlacesForm의 주소-좌표 자동 입력 UX (Kakao Maps)
-4. 네비게이션 연결
-5. 환경변수/운영문서 업데이트
-6. PR 작성
-
-## 4) 상세 구현 단계
-
-## Step 0. 선행 준비 (필수) [x]
-
-### Step 0-1. `main` 최신 내용 동기화 [x]
-
-구현 작업 전에 현재 브랜치를 `main` 최신 상태와 먼저 동기화한다.
-
-권장 절차:
-
-1. `git fetch origin`
-2. 현재 브랜치에서 `origin/main` 병합 또는 리베이스
-3. 충돌 해결 후 `pnpm lint`/`pnpm build`로 베이스 안정성 확인
-
-완료 기준:
-- 현재 브랜치가 `main` 최신 변경을 포함한 상태에서 구현 시작
-
-실행 결과:
-- `git fetch origin` 후 `origin/main` 동기화 완료
-- 현재 상태: `HEAD...origin/main = 0 / 0` (동일)
-
-### Step 0-2. 카카오 키 선설정 [x]
-
-실제 구현 전에 카카오 키를 먼저 세팅한다.
-
-작업:
-
-1. 로컬 `.env`에 `NEXT_PUBLIC_KAKAO_MAP_APP_KEY` 추가
-2. 카카오 콘솔에서 개발 도메인(`localhost`) 허용 설정 확인
-3. SDK 로딩 사전 점검(키 누락/권한 오류 메시지 확인)
-
-완료 기준:
-- 키 누락 없이 카카오 SDK 로드 가능한 환경이 준비된 상태
-
-실행 결과:
-- 로컬 `.env`에 `NEXT_PUBLIC_KAKAO_MAP_APP_KEY` 엔트리 추가 완료
-- 현재 값은 실제 키로 설정된 상태 확인
-
-## Step 1. Validator 확장 [x]
-
-대상:
+완료 내용:
 - `src/lib/server/validators/admin.ts`
+  - `artworkPayloadSchema`, `artworkUpdatePayloadSchema`를 `place` 객체 기반으로 전환
+  - `place_id` 직접 입력 계약 제거
+- `src/components/admin/artworks-form.tsx`
+  - 폼 타입/submit payload를 `place` 객체 계약으로 동기화
 
-추가:
+## Step 2. Artwork 생성 API 통합 저장
 
-1. `placesQuerySchema`
-  - `query`, `zoneId`, `deleted`, `page`, `size`
-2. `placeCreatePayloadSchema`
-3. `placeUpdatePayloadSchema`
-4. 필드 검증
-  - `name_ko`, `name_en`: trim + min(1)
-  - `address`: optional/nullable
-  - `lat`: number, -90~90
-  - `lng`: number, -180~180
-  - `zone_id`: optional/nullable positive int
+상태: [x]
 
-완료 기준:
-- place 관련 API에서 파라미터/바디를 공통 스키마로 검증
+완료 내용:
+- `src/app/api/admin/artworks/route.ts`
+  - 트랜잭션에서 place insert -> artwork insert -> images/festival insert 순으로 저장
+  - 응답에 `place` 포함
 
-실행 결과:
-- `src/lib/server/validators/admin.ts` 반영 완료
-  - `placesQuerySchema`
-  - `placeCreatePayloadSchema`
-  - `placeUpdatePayloadSchema`
+## Step 3. Artwork 수정 시 1:1 운영 전략 반영
 
-## Step 2. Places 목록/생성 API 확장 [x]
+상태: [x]
 
-대상:
-- `src/app/api/admin/places/route.ts`
+완료 내용:
+- `src/app/api/admin/artworks/[id]/route.ts`
+  - 공유 place 검사 쿼리 추가
+  - 공유 없음: 기존 place update
+  - 공유 있음: 신규 place 생성 + 현재 artwork만 rebind
+  - GET/PUT 응답에 `place` 객체 반환
 
-작업:
+## Step 4. Artwork 폼에 Place 섹션 통합
 
-1. GET 확장
-  - 기존 필터(query/zoneId/deleted) 유지
-  - page/size 있으면 pagination meta 반환
-  - page/size 없으면 기존과 동일한 전체 목록 반환(artworks 호환)
-  - `zones` LEFT JOIN으로 `zone_name_ko` 포함
-  - `address`, `lat`, `lng`, `created_at`, `updated_at` 포함
-2. POST 추가
-  - create payload insert
-  - 생성 row 재조회 반환
+상태: [x]
 
-완료 기준:
-- `/api/admin/places`에서 목록 + 생성 동작
+완료 내용:
+- `src/components/admin/artworks-form.tsx`
+  - 설치 장소 select(`place_id`) 제거
+  - Place 입력 섹션 통합
+  - 주소 debounce geocode + 수동 재조회 버튼
+  - lat/lng 수동 수정 가능
+  - 카카오 지도 미리보기/마커 렌더
 
-실행 결과:
-- `src/app/api/admin/places/route.ts` 반영 완료
-  - GET: 기존 호환(비페이지) + 페이지네이션 모드(meta) 동시 지원
-  - GET: `zones` LEFT JOIN, `address/lat/lng/created_at/updated_at` 반환 확장
-  - POST: place 생성 후 row 재조회 반환 추가
+## Step 5. Place 페이지/진입점 제거
 
-## Step 3. Places 단건/수정 API 추가 [x]
+상태: [x]
 
-신규:
-- `src/app/api/admin/places/[id]/route.ts`
+완료 내용:
+- 메뉴/타이틀 제거:
+  - `src/config/site.tsx`
+  - `src/components/nav/admin-top-nav.tsx`
+- 구 경로 redirect:
+  - `src/app/admin/places/page.tsx` -> `/admin/artworks`
+  - `src/app/admin/places/new/page.tsx` -> `/admin/artworks/new`
+  - `src/app/admin/places/[id]/page.tsx` -> `/admin/artworks`
 
-작업:
+## Step 6. Artwork 목록 UX 동기화
 
-1. GET by id
-2. PUT by id
-3. 없으면 `404 NOT_FOUND`
+상태: [x]
 
-완료 기준:
-- 수정 페이지에서 조회/저장 가능
+완료 내용:
+- `/admin/artworks` 목록에서 장소 컬럼/필터 유지 확인
+- Artwork 통합 생성으로 추가된 place가 목록/필터에 즉시 노출됨을 확인
 
-실행 결과:
-- `src/app/api/admin/places/[id]/route.ts` 추가 완료
-  - GET `/api/admin/places/:id`
-  - PUT `/api/admin/places/:id`
-  - 404 `NOT_FOUND` 처리
+## Step 7. Place API 정리 전략
 
-## Step 4. Places soft-delete/restore API 추가 [x]
+상태: [x]
 
-신규:
-- `src/app/api/admin/places/[id]/soft-delete/route.ts`
-- `src/app/api/admin/places/[id]/restore/route.ts`
+완료 내용:
+- `POST /api/admin/places/geocode`는 유지
+- places CRUD API는 호환/안정성 목적으로 유지
+- 운영 UX에서는 places 화면 진입 제거로 역할 분리 완료
 
-soft-delete 규칙:
+## Step 8. 문서/운영 가이드 업데이트
 
-1. active artwork 참조 검사
-  - `SELECT COUNT(*) ...`
-2. count > 0이면 `409 PLACE_IN_USE`
-3. 아니면 `deleted_at = NOW()`
+상태: [x]
 
-restore 규칙:
+완료 내용:
+- `docs/research.md` 전면 갱신 (현재 구현/검증 기준)
+- `docs/admin-backoffice.md` 정책/키/운영 내용 동기화
+- `docs/db-contract.md` 통합 운영 규칙 반영
+- 본 문서(`docs/plan.md`) 단계 완료 체크 반영
 
-1. `deleted_at = NULL`
-2. `affectedRows = 0`이면 404
+## Step 9. 검증 계획 실행
 
-완료 기준:
-- 삭제/복구 정책이 artworks 연계와 충돌 없이 동작
+상태: [x]
 
-실행 결과:
-- `src/app/api/admin/places/[id]/soft-delete/route.ts` 추가 완료
-- `src/app/api/admin/places/[id]/restore/route.ts` 추가 완료
-- `soft-delete`에서 active artwork 참조 검사 + `409 PLACE_IN_USE` 반영 완료
+검증 결과:
+1. 정적 검증: PASS
+- `pnpm exec tsc --noEmit`
+- `pnpm lint`
+- `pnpm build`
 
-## Step 5. PlacesForm 구현 (카카오 지도 자동 위경도 포함) [x]
+2. Playwright 직접 시나리오 검증: PASS
+- Artwork 생성 시 Place 동시 생성 성공
+- 주소 입력 시 자동 geocode 반영, 위도 수동 수정 반영, 지도 마커 표시
+- 공유 Place 수정 시 clone-and-rebind 동작 확인
+- Place 메뉴 제거 및 `/admin/places*` 리다이렉트 확인
 
-신규:
-- `src/components/admin/places-form.tsx`
+3. DB 교차 확인: PASS
+- 신규 artwork(id=126) <-> 신규 place(id=22) 연결 확인 (검증 시점 기준)
+- 공유 분기 테스트 후 artwork(id=1) place_id=23, artwork(id=21) place_id=1 유지 확인 (검증 시점 기준)
 
-핵심 UX:
+증적 스크린샷:
+- `docs/pr-assets/e2e-01-nav-no-place-menu.png`
+- `docs/pr-assets/e2e-02-artwork-place-geocode-map.png`
+- `docs/pr-assets/e2e-03-artwork-create-success.png`
+- `docs/pr-assets/e2e-04-place-route-redirect.png`
 
-1. 필드
-  - `name_ko`, `name_en`, `zone_id`, `address`, `lat`, `lng`
-2. 주소 입력 시 자동 좌표 찾기
-  - 디바운스(예: 500~700ms)
-  - `kakao.maps.services.Geocoder().addressSearch(...)`
-  - 성공 시 `setValue("lat")`, `setValue("lng")`
-3. 수동 수정
-  - `lat/lng` Input은 항상 editable
-  - 자동 반영 후에도 사용자가 숫자값 직접 변경 가능
-4. 상태 표시
-  - 로딩/실패/성공/수동수정 상태 메시지
-5. 보조 액션
-  - `좌표 다시 찾기` 버튼(수동 트리거)
+## Step 10. PR 작성 및 리뷰 준비
 
-Kakao 스크립트 로딩:
+상태: [x]
 
-1. `next/script` 또는 동적 로더 사용
-2. SDK URL에 `libraries=services` 포함
-3. `autoload=false`일 경우 `kakao.maps.load` 처리
-4. SDK 준비 전에는 자동 geocode 비활성 + 안내 문구
+완료 내용:
+- PR 본문에 포함할 항목 준비 완료
+- PR 초안 문서 작성: `docs/pr-assets/artwork-place-integration-pr.md`
+  - 변경 배경(Artwork-Place 통합 목적)
+  - API 계약 before/after
+  - shared place clone 규칙
+  - 정적 검증 로그
+  - Playwright 시나리오/스크린샷 링크
 
-완료 기준:
-- 주소 입력으로 좌표 자동 채움 + 수동 수정 + 저장 가능
+권장 PR 본문 템플릿:
 
-실행 결과:
-- `src/components/admin/places-form.tsx` 추가 완료
-  - 카카오 SDK 로딩 + 주소 입력 디바운스 자동 지오코딩
-  - `lat/lng` 자동 채움
-  - `lat/lng` 수동 수정 가능
-  - `좌표 다시 찾기` 수동 트리거 제공
-- `src/types/kakao-maps.d.ts` 추가로 SDK 타입 선언 반영
+```md
+## Summary
+- Artwork 생성/수정 폼에 Place 입력 통합
+- Place 독립 메뉴 제거 및 구 경로 리다이렉트
+- Artwork 수정 시 shared place clone-and-rebind 적용
 
-## Step 6. Places 페이지 구성 [x]
+## API Contract Changes
+- Before: artwork payload에 `place_id` 필수
+- After: artwork payload에 `place` 객체 필수 (`name/address/zone/lat/lng`)
 
-신규:
-- `src/app/admin/places/page.tsx`
-- `src/app/admin/places/new/page.tsx`
-- `src/app/admin/places/[id]/page.tsx`
+## Verification
+- pnpm exec tsc --noEmit
+- pnpm lint
+- pnpm build
+- Playwright headed/manual scenarios PASS
 
-구성:
+## Screenshots
+- docs/pr-assets/e2e-01-nav-no-place-menu.png
+- docs/pr-assets/e2e-02-artwork-place-geocode-map.png
+- docs/pr-assets/e2e-03-artwork-create-success.png
+- docs/pr-assets/e2e-04-place-route-redirect.png
+```
 
-1. 목록 페이지
-  - 필터: query/zone/deleted/page/size
-  - 컬럼: id, name_ko, name_en, zone, address, lat, lng, deleted, actions
-  - 액션: 수정, 삭제, 복구
-2. 신규 페이지
-  - `PlacesForm mode="create"`
-3. 수정 페이지
-  - 단건 조회 후 `PlacesForm mode="edit"`
+## 3) 리스크와 대응
 
-완료 기준:
-- Place 관리의 CRUD UI 플로우 완성
+1. 외부 배치/직접 SQL로 shared place가 다시 생길 수 있음
+- 대응: 수정 API의 clone-and-rebind 방어 유지
 
-실행 결과:
-- `src/app/admin/places/page.tsx` 추가 완료
-- `src/app/admin/places/new/page.tsx` 추가 완료
-- `src/app/admin/places/[id]/page.tsx` 추가 완료
+2. geocode 실패 가능성
+- 대응: 수동 lat/lng 입력 경로 유지
 
-## Step 7. 네비게이션 반영 [x]
-
-대상:
-- `src/config/site.tsx`
-- `src/components/nav/admin-top-nav.tsx`
-
-작업:
-
-1. 사이드바 `Places` 항목 추가
-2. 상단 타이틀 매핑 `/admin/places` 추가
-
-완료 기준:
-- 메뉴에서 접근 가능
-
-실행 결과:
-- `src/config/site.tsx`에 장소 메뉴 추가 완료
-- `src/components/nav/admin-top-nav.tsx`에 `/admin/places` 타이틀 매핑 추가 완료
-
-## Step 8. 문서 동기화 [x]
-
-대상:
-- `docs/research.md`
-- `docs/admin-backoffice.md`
-- `docs/db-contract.md`
-- `.env.example` (카카오 키 항목 반영)
-
-반영:
-
-1. Places CRUD 구현 상태
-2. `PLACE_IN_USE` 삭제 정책
-3. 카카오 기반 주소->좌표 자동입력 UX
-4. 환경변수 요구사항
-
-실행 결과:
-- `.env.example`에 `NEXT_PUBLIC_KAKAO_MAP_APP_KEY` 추가 완료
-- `docs/db-contract.md` places soft-delete 정책/`PLACE_IN_USE` 규칙 반영 완료
-- `docs/admin-backoffice.md` places CRUD/카카오 geocode 정책 반영 완료
-- `docs/research.md` 구현 상태 반영 완료
-
-## Step 9. 검증 계획 [x]
-
-정적 검증:
-
-1. `pnpm exec tsc --noEmit`
-2. `pnpm lint`
-3. `pnpm build`
-
-수동 검증:
-
-1. Places 생성
-  - 주소 입력 시 lat/lng 자동 채움 확인
-  - 자동값 수동 수정 후 저장 확인
-2. Places 수정
-  - 주소 변경 시 lat/lng 재자동 채움 확인
-  - 수동 수정값 저장 확인
-3. geocode 실패 케이스
-  - 주소 미매칭/SDK 미로딩 시 에러 표기 + 수동 저장 가능 확인
-4. 삭제/복구
-  - 미참조 place 삭제/복구 성공
-  - 참조 place 삭제 시 `409 PLACE_IN_USE`
-5. 회귀
-  - artworks 목록/폼 장소 옵션 로딩 정상
-
-실행 결과:
-- `pnpm exec tsc --noEmit` 통과
-- `pnpm lint` 통과
-- `pnpm build` 통과
-
-## Step 10. Git/PR (항상 마지막) [x]
-
-마지막 단계는 반드시 PR 작성으로 종료한다.
-
-1. `git diff` / `git status` 점검
-2. 커밋
-3. 푸시
-4. PR 생성/업데이트
-  - `## 요약`
-  - `## 변경 내용`
-  - `## 검증`
-  - `## 스크린샷` (자동입력, 수동수정, 삭제차단 포함)
-
-실행 결과:
-- 브랜치 푸시 완료: `origin/codex/feta/place-crud`
-- PR 생성 완료: `https://github.com/ehdrbdndns/steelart_dashboard/pull/6`
-
-## 5) 완료 기준 (DoD)
-
-1. 현재 브랜치가 `main` 최신 변경을 포함한 상태에서 구현 시작됨
-2. `NEXT_PUBLIC_KAKAO_MAP_APP_KEY` 선설정 및 SDK 로딩 가능 상태 확인됨
-3. Places CRUD API/페이지 동작
-4. 주소 입력 시 카카오 기반 자동 lat/lng 입력 동작
-5. lat/lng 수동 수정 가능 및 저장 반영
-6. `PLACE_IN_USE` 차단 정책 동작
-7. artworks places 소비 흐름 무회귀
-8. 타입/린트/빌드 통과
-9. PR 작성 완료 (마지막 단계 준수)
+3. 지도 미리보기 실패(키/도메인 설정)
+- 대응: SDK 키/REST 키 분리, 도메인 허용 정책 문서화
