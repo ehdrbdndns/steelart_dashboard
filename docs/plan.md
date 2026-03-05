@@ -1,191 +1,331 @@
-# Plan: Artwork CRUD + `artwork_festivals` 동기화
+# Plan: 관리자 UI 영문 표기 한국어 전환 (표시 전용)
 
 작성일: 2026-03-05  
 대상 저장소: `/Users/donggyunyang/code/steelart_dashboard`
 
-## 0) 계획 수립 근거 (실코드/실DB 확인)
+## 0) 계획 수립 근거
 
-본 계획은 구현 전에 실제 코드/DB를 확인하고 작성했다.
+본 계획은 구현 전에 실제 코드 파일을 확인하고 작성했다.
 
-확인한 서버/클라이언트 파일:
-- `src/lib/server/validators/admin.ts`
-- `src/app/api/admin/artworks/route.ts`
-- `src/app/api/admin/artworks/[id]/route.ts`
-- `src/app/api/admin/artworks/[id]/soft-delete/route.ts`
-- `src/app/api/admin/artworks/[id]/restore/route.ts`
-- `src/components/admin/artworks-form.tsx`
-- `src/app/admin/artworks/page.tsx`
-- `src/app/admin/artworks/[id]/page.tsx`
-- `src/app/admin/artworks/new/page.tsx`
-- `src/app/api/admin/courses/[id]/items/route.ts`
+## 0.1 주석 반영 사항
+
+- 이번 작업은 **UI 표시 문자열 한국어화만 수행**한다.
+- 내부 로직/API/DB/검증 스키마/저장 enum 값은 변경하지 않는다.
+- 구현 시 diff 점검에서 `src/app/api/*`, `src/lib/server/*` 변경이 생기면 범위 이탈로 간주한다.
+- 작업 브랜치는 `feat/` 접두사 브랜치에서 진행한다.
+
+확인한 주요 파일:
+- `src/config/site.tsx`
+- `src/components/nav/admin-side-nav.tsx`
+- `src/components/nav/admin-top-nav.tsx`
+- `src/components/theme-toggle.tsx`
+- `src/app/admin/login/page.tsx`
+- `src/app/admin/users/page.tsx`
+- `src/app/admin/users/[id]/page.tsx`
+- `src/app/admin/artists/page.tsx`
+- `src/components/admin/artists-form.tsx`
+- `src/app/admin/courses/page.tsx`
+- `src/components/admin/courses-form.tsx`
 - `src/components/admin/course-items-editor.tsx`
-- `src/app/api/admin/users/[id]/route.ts`
-- `src/lib/server/tx.ts`
+- `src/app/admin/home-banners/page.tsx`
+- `src/app/admin/artworks/page.tsx`
+- `src/components/admin/artworks-form.tsx`
+- `docs/research.md` (영문 표기 전수 조사 섹션)
 
-확인한 문서/스크립트 파일:
-- `scripts/export-db-schema.mjs`
-- `scripts/seed-mock-data.mjs`
-- `docs/db-schema.sql`
-- `docs/db-contract.md`
-- `docs/admin-backoffice.md`
-- `docs/research.md`
+## 1) 목표
 
-실DB 확인 결과:
-- 테이블명: `artwork_festivals` (요청 표현 ArtworkFestivalYear에 해당)
-- DDL 핵심:
-  - `id` bigint PK
-  - `artwork_id` bigint NOT NULL
-  - `year` varchar(10) NOT NULL
-  - `created_at` datetime
-  - `UNIQUE (artwork_id, year)`
-  - FK: `artwork_id -> artworks.id ON DELETE CASCADE`
-- 현황: `artwork_festivals` 데이터 0건
+관리자 화면에서 사용자에게 노출되는 영어/개발자 표기를 한국어로 전환한다.
 
-## 1) 사용자 메모 반영 사항
+핵심 목표:
+- 메뉴/페이지 타이틀/컬럼/필터/버튼/상세 라벨을 한국어로 통일
+- enum 저장값은 유지하고 화면에서만 한국어로 표시
+- 기존 CRUD/API 동작은 100% 동일 유지
 
-- 작업 브랜치는 **현재 브랜치에서 진행**
-  - 현재 브랜치: `codex/feat/artwork-images-backoffice-refactor`
-- 최종 검증은 **Playwright headed(비-headless)** 로 수행
-- PR은 **기존 PR(#4)에 덧붙여 업데이트**
-- PR 스크린샷은 **기존 이미지 교체 방식**으로 갱신
-- 이번 단계는 **문서/계획 업데이트만 수행**하고 구현은 시작하지 않음
+## 2) 절대 제약 (변경 금지)
 
-## 2) 목표
+이번 작업에서는 아래 항목을 절대 변경하지 않는다.
 
-Artwork CRUD 시 `artwork_festivals`가 함께 CRUD되도록 백오피스를 확장한다.
+1. API/DB/스키마 계약
+- API 경로, 요청/응답 key, 쿼리 파라미터 key
+- DB 컬럼명/테이블명/SQL 구조
+- Zod schema key와 서버 검증 로직
 
-목표 상태:
-- 생성: 작품 생성 시 `festival_years[]` 저장
-- 조회: 작품 단건/목록에서 축제연도 확인 가능
-- 수정: 작품 수정 시 `festival_years[]` 동기화
-- 삭제/복구: soft delete/restore와 충돌 없이 유지
+2. 저장값/내부 enum 값
+- `COMPANY`, `INDIVIDUAL`
+- `STEEL_ART`, `PUBLIC_ART`
+- `POHANG`, `NON_POHANG`
+- `TEEN`, `20S`, `30S`, `40S`, `50S`, `60S`, `70_PLUS`
+- `ko`, `en`
 
-## 3) 적용 정책 (계약 초안)
+3. 비즈니스 로직
+- 생성/수정/삭제/복구 동작
+- 정렬/페이지네이션/필터링 조건
+- 권한/인증 흐름
 
-## 3.1 Payload 계약
-- create/update payload에 `festival_years: string[]` 추가
-- 정책:
-  - trim 적용
-  - 빈 문자열 제거
-  - 중복 제거
-  - 기본 포맷: `^\d{4}$` (예: `2024`)
-  - 빈 배열 허용
+## 2.1 범위 이탈 방지 체크
 
-## 3.2 Response 계약
-- `GET /api/admin/artworks/:id`
-  - `festival_years: string[]` 포함
-- `GET /api/admin/artworks`
-  - `festival_years_summary`(예: `2024, 2023`) 또는 배열 반환
-  - 1차 구현은 목록 가독성/쿼리 비용 관점에서 summary 문자열 우선
+- 허용 변경 경로(원칙):
+  - `src/app/admin/*`
+  - `src/components/admin/*`
+  - `src/components/nav/*`
+  - `src/components/theme-toggle.tsx`
+  - `src/config/site.tsx`
+  - 문서(`docs/*`)
+- 비허용 변경 경로(원칙):
+  - `src/app/api/*`
+  - `src/lib/server/*`
+  - `scripts/*`
 
-## 3.3 트랜잭션 정책
-- `artworks` 본문, `artwork_images`, `artwork_festivals` 저장은 동일 트랜잭션으로 처리
-- 수정은 list replacement 전략 적용:
-  - `DELETE FROM artwork_festivals WHERE artwork_id = ?`
-  - 정규화된 `festival_years` 재insert
+## 3) 전환 방식
+
+기본 원칙:
+- 화면 텍스트만 교체한다.
+- 내부 값은 유지하고, UI 렌더링 시 매핑해 보여준다.
+
+매핑 방식:
+- 단순 고정 텍스트: 직접 한국어 문자열로 교체
+- enum/코드값 출력: display helper 함수 또는 상수 매핑으로 한국어 노출
+
+## 3.1 영문 표기별 한국어 치환안 (구현 기준)
+
+아래는 실제 적용할 `영문 -> 한국어` 매핑이다.  
+주의: 좌측은 "표시 문자열" 기준이며, 내부 저장값/요청값은 그대로 유지한다.
+
+### A. 글로벌/네비게이션
+
+- `SteelArt Admin` -> `SteelArt 관리자`
+- `Admin` -> `관리자`
+- `Users` -> `사용자`
+- `Artists` -> `작가`
+- `Artworks` -> `작품`
+- `Courses` -> `코스`
+- `Home Banners` -> `홈 배너`
+
+### B. 로그인/테마
+
+- `SteelArt Admin Login` -> `SteelArt 관리자 로그인`
+- `Email` -> `이메일`
+- `Password` -> `비밀번호`
+- `Toggle theme` -> `테마 변경`
+- `Light` -> `라이트`
+- `Dark` -> `다크`
+- `System` -> `시스템`
+- `auto` -> `자동`
+
+### C. Users 목록/상세
+
+- `Users` -> `사용자`
+- `User #` -> `사용자 #`
+- `nickname` -> `닉네임`
+- `residency` -> `거주지`
+- `age_group` -> `연령대`
+- `language` -> `언어`
+- `noti` -> `알림 수신`
+- `joined_at` -> `가입 일시`
+- `actions` -> `관리`
+- `notifications_enabled` -> `알림 수신 여부`
+- `likes` -> `좋아요 수`
+- `liked_at` -> `좋아요 시각`
+- `category` -> `작품 유형`
+- `stamped_at` -> `스탬프 시각`
+- `Y` -> `예`
+- `N` -> `아니오`
+
+### D. Users enum 표시값
+
+- `POHANG` -> `포항`
+- `NON_POHANG` -> `포항 외`
+- `TEEN` -> `10대`
+- `20S` -> `20대`
+- `30S` -> `30대`
+- `40S` -> `40대`
+- `50S` -> `50대`
+- `60S` -> `60대`
+- `70_PLUS` -> `70대 이상`
+- `ko` -> `한국어`
+- `en` -> `영어`
+
+### E. Artists 목록/폼
+
+- `Artists` -> `작가`
+- `type 전체` -> `구분 전체`
+- `profile` -> `프로필 이미지`
+- `name_ko` -> `이름(한국어)`
+- `name_en` -> `이름(영어)`
+- `type` -> `구분`
+- `deleted` -> `삭제 여부`
+- `actions` -> `관리`
+- `COMPANY`(표시) -> `단체`
+- `INDIVIDUAL`(표시) -> `개인`
+- alt `profile` -> alt `프로필 이미지`
+- `Y` -> `예`
+- `N` -> `아니오`
+
+### F. Courses 목록/폼
+
+- `Courses` -> `코스`
+- `is_official 전체` -> `문화재단 인증 여부 전체`
+- `title_ko` -> `코스명(한국어)`
+- `title_en` -> `코스명(영어)`
+- `description_ko` -> `설명(한국어)`
+- `description_en` -> `설명(영어)`
+- `is_official` -> `문화재단 인증 여부`
+- `deleted` -> `삭제 여부`
+- `actions` -> `관리`
+- `Y` -> `예`
+- `N` -> `아니오`
+
+### G. Course Items 에디터
+
+- `Course Items` -> `코스 구성 작품`
+- `Drag & drop` -> `드래그 앤 드롭`
+- `course_item_id` -> `코스 아이템 ID`
+- `seq` -> `순번`
+- placeholder `삽입 seq(선택)` -> `삽입 순번(선택)`
+
+### H. Home Banners
+
+- `Home Banners` -> `홈 배너`
+- `is_active` -> `노출 활성화`
+- alt `banner-{id}` -> alt `배너-{id}`
+
+### I. Artwork 잔여 표기 (점검성)
+
+- `title_en`(표시 노출 시) -> `작품명(영어)`
+- `category`(표시 노출 시) -> `작품 유형`
+- `STEEL_ART`(표시) -> `스틸아트`
+- `PUBLIC_ART`(표시) -> `공공미술`
 
 ## 4) 상세 작업 단계
 
-## Step 0. 브랜치 전략 [x]
-- [x] 현재 브랜치에서 진행
-- [x] 새 브랜치 생성 없음
-- [x] 작업 브랜치: `codex/feat/artwork-images-backoffice-refactor`
+## Step 1. 글로벌 네비게이션/브랜드 한국어화 [x]
 
-## Step 1. Validator/타입 반영 [x]
-- 대상: `src/lib/server/validators/admin.ts`
-- [x] `artworkPayloadSchema`에 `festival_years` 추가
-- [x] `artworkUpdatePayloadSchema`에 `festival_years` 추가
-- [x] trim/중복제거/연도포맷 검증 반영
+대상:
+- `src/config/site.tsx`
+- `src/components/nav/admin-side-nav.tsx`
+- `src/components/nav/admin-top-nav.tsx`
 
-산출물:
-- 서버 입력계약 차원에서 축제연도 품질 보장
+작업:
+- 메뉴명 `Users/Artists/Artworks/Courses/Home Banners` -> 한국어
+- `Admin`, `SteelArt Admin` 노출 문구 한국어화
+- TopNav 경로별 타이틀 반환값 한국어화
 
-## Step 2. Artwork 목록 API 확장 [x]
-- 대상: `src/app/api/admin/artworks/route.ts`
-- [x] 목록 SQL에 `artwork_festivals` 집계 join 추가
-- [x] 응답 타입에 `festival_years_summary`(또는 배열) 추가
-- [x] 기존 필터/정렬/페이지네이션/대표이미지 로직 유지
+검증 포인트:
+- 좌측 메뉴/상단 타이틀이 페이지 이동 시 일관된 한국어로 노출
 
-쿼리 방향:
-- `GROUP_CONCAT(year ORDER BY CAST(year AS UNSIGNED) DESC)` 기반 summary 생성
+## Step 2. 로그인/테마 텍스트 한국어화 [x]
 
-## Step 3. Artwork 생성 API 확장 [x]
-- 대상: `src/app/api/admin/artworks/route.ts`
-- [x] 생성 트랜잭션에 `artwork_festivals` insert 추가
-- [x] insert 전 `festival_years` 정규화(중복 제거)
-- [x] 생성 응답에 `festival_years` 포함
+대상:
+- `src/app/admin/login/page.tsx`
+- `src/components/theme-toggle.tsx`
 
-## Step 4. Artwork 단건/수정 API 확장 [x]
-- 대상: `src/app/api/admin/artworks/[id]/route.ts`
-- [x] GET 응답에 `festival_years[]` 포함
-- [x] PUT에서 축제연도 replacement 적용
-- [x] `artworks + artwork_images + artwork_festivals`를 한 트랜잭션으로 유지
+작업:
+- 로그인 헤더/필드 라벨 `Email`, `Password` 한국어화
+- `Light/Dark/System/auto`, `Toggle theme` 한국어화
 
-## Step 5. Artwork UI 반영 (shadcn 적극 활용) [x]
-- 대상:
-  - `src/components/admin/artworks-form.tsx`
-  - `src/app/admin/artworks/[id]/page.tsx`
-  - `src/app/admin/artworks/page.tsx`
-- [x] 폼에 축제연도 다건 입력 UI 추가
-  - 행 추가/삭제 또는 chip 입력
-- [x] payload에 `festival_years[]` 반영
-- [x] 수정 초기값 바인딩
-- [x] 목록에 축제연도 컬럼(summary) 추가
-- [x] 기존 shadcn 스타일/구조 일관성 유지
+주의:
+- `src/lib/auth/config.ts`의 provider 내부 문자열은 사용 경로 확인 후 필요 최소 범위만 조정
+- 인증 로직 자체는 변경 금지
 
-## Step 6. 연계 코드 회귀 확인 [x]
-- 대상:
-  - `src/app/api/admin/courses/[id]/items/route.ts`
-  - `src/components/admin/course-items-editor.tsx`
-  - `src/app/api/admin/users/[id]/route.ts`
-- [x] Artwork 응답 확장 후 타입/사용부 영향 확인
-- [x] 기존 기능 회귀 없음 확인
+## Step 3. Users 화면 한국어화 [x]
 
-## Step 7. 문서/시드 동기화 [x]
-- 대상:
-  - `scripts/export-db-schema.mjs`
-  - `docs/db-schema.sql`
-  - `docs/db-contract.md`
-  - `docs/admin-backoffice.md`
-  - `docs/research.md`
-  - `scripts/seed-mock-data.mjs`(선택)
-- [x] schema export 대상에 `artwork_festivals` 포함
-- [x] 운영 문서에 제작연도 vs 축제연도 역할 분리 명시
-- [x] 필요 시 mock seed 축제연도 데이터 추가
+대상:
+- `src/app/admin/users/page.tsx`
+- `src/app/admin/users/[id]/page.tsx`
 
-## Step 8. 검증 [x]
+작업:
+- 페이지 타이틀/테이블 헤더/필터 라벨 한국어화
+- `residency`, `age_group`, `language`, `noti`, `joined_at`, `actions` 교체
+- 상세 페이지 키(`nickname`, `notifications_enabled`, `liked_at`, `stamped_at` 등) 교체
+- `Y/N` 표기를 문맥에 맞는 한국어로 통일
+- `category` 출력값은 한국어 매핑(`스틸아트/공공미술`)
+
+주의:
+- 필터 전송값(`POHANG`, `TEEN`, `ko` 등)은 유지
+
+## Step 4. Artists 화면 한국어화 [x]
+
+대상:
+- `src/app/admin/artists/page.tsx`
+- `src/components/admin/artists-form.tsx`
+
+작업:
+- 페이지 타이틀/헤더(`profile`, `name_ko`, `name_en`, `type`, `actions`) 한국어화
+- 필터 `type 전체` 및 값 표시 한국어화
+- enum 출력 매핑:
+  - `COMPANY` -> `단체`
+  - `INDIVIDUAL` -> `개인`
+
+주의:
+- select value는 기존 enum 원문 유지
+
+## Step 5. Courses 화면 한국어화 [x]
+
+대상:
+- `src/app/admin/courses/page.tsx`
+- `src/components/admin/courses-form.tsx`
+- `src/components/admin/course-items-editor.tsx`
+
+작업:
+- 목록 타이틀/컬럼/필터(`is_official`, `actions`) 한국어화
+- 폼 라벨(`title_ko`, `description_en`, `is_official`) 사용자 친화 한국어화
+- 코스 아이템 에디터 텍스트 교체:
+  - `Course Items`, `Drag & drop`, `course_item_id`, `seq`
+
+주의:
+- `seq` 계산/전송/정렬 로직 불변
+
+## Step 6. Home Banners/기타 잔여 표기 한국어화 [x]
+
+대상:
+- `src/app/admin/home-banners/page.tsx`
+- 필요 시 `src/components/admin/file-upload-field.tsx`의 노출 문구 점검
+
+작업:
+- 페이지 타이틀 `Home Banners` 한국어화
+- `is_active` 라벨 한국어화
+- alt/accessibility 텍스트 영문 잔여분 정리
+
+## Step 7. Artwork 잔여 영문 표기 점검 [x]
+
+대상:
+- `src/app/admin/artworks/page.tsx`
+- `src/components/admin/artworks-form.tsx`
+- `src/app/admin/artworks/[id]/page.tsx`
+
+작업:
+- 이미 한국어화된 영역 유지 확인
+- 남은 코드값 직접 노출 여부만 점검/보정
+
+## Step 8. 회귀 검증 [x]
 
 ## 8.1 정적 검증
-- [x] `pnpm exec tsc --noEmit` (작업 중 지속 실행)
+- [x] `pnpm exec tsc --noEmit`
 - [x] `pnpm lint`
 - [x] `pnpm build`
 
-## 8.2 E2E 검증 (Playwright headed)
-- [x] 로그인
-- [x] `/admin/artworks/new`: 축제연도 2~3개 입력 후 생성 성공
-- [x] `/admin/artworks/:id`: 축제연도 추가/삭제 후 저장 성공
-- [x] `/admin/artworks`: 축제연도 컬럼 노출 확인
-- [x] soft delete/restore 후 축제연도 유지 확인
+## 8.2 수동/E2E 검증 (Playwright headed)
+- [x] 로그인 페이지 한국어 라벨 확인
+- [x] 메뉴/탑바 전체 한국어 표기 확인
+- [x] Users/Artists/Courses/Home Banners/Artworks 주요 화면 확인
+- [x] 각 화면에서 조회/저장/삭제/복구 등 기존 동작 정상 확인
 
-## Step 9. Git/PR 업데이트 [x]
-- [x] 커밋/푸시 (현재 브랜치)
-- [x] 기존 PR(#4) 본문 업데이트
-  - `## 요약`
-  - `## 변경내용`
-  - `## 검증`
-  - `## 스크린샷`
-- [x] 스크린샷은 기존 파일 교체 방식으로 갱신
-  - 작품 생성(축제연도 입력)
-  - 작품 수정(축제연도 변경)
-  - 작품 목록(축제연도 표시)
+## Step 9. 문서/PR 반영 [x]
+
+- [x] `docs/research.md`와 구현 결과 일치 여부 점검
+- [x] PR 본문에 “표시 문자열 한국어화, 내부 로직 무변경” 명시
+- [x] 변경 화면 스크린샷 갱신
 
 ## 5) 완료 기준 (DoD)
 
-- [x] Artwork create/update에 `artwork_festivals` 동기화 반영
-- [x] Artwork detail/list에서 축제연도 확인 가능
-- [x] 폼에서 축제연도 CRUD 가능
-- [x] soft delete/restore 충돌 없음
-- [x] 문서/스키마 export 동기화 완료
-- [x] 타입체크/린트/빌드 통과
-- [x] Playwright headed E2E 통과
-- [x] 기존 PR 업데이트 + 스크린샷 교체 완료
+- [x] 사용자 노출 영문 표기가 한국어로 일관되게 전환됨
+- [x] 저장값/API/DB/검증/비즈니스 로직 변경 없음
+- [x] enum 값은 내부적으로 유지, UI 표시만 한국어 매핑
+- [x] `tsc/lint/build` 통과
+- [x] Playwright headed 검증 통과
+- [x] 문서/PR 반영 완료(스크린샷 포함)
+
+## 6) 구현 완료 메모
+
+- 본 문서의 Step 1~9를 순차 수행했고, 완료 시점마다 체크박스를 갱신했다.
+- 정적 검증(`tsc/lint/build`)과 Playwright headed E2E 검증을 모두 통과했다.

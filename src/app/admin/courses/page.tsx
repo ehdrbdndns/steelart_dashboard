@@ -92,7 +92,7 @@ export default function CoursesPage() {
   return (
     <div>
       <PageTitle
-        title="Courses"
+        title="코스"
         description="코스를 생성/수정/삭제하고 아이템 순서를 관리합니다."
         ctaHref="/admin/courses/new"
         ctaLabel="새 코스"
@@ -116,9 +116,9 @@ export default function CoursesPage() {
             setIsOfficial(event.target.value);
           }}
         >
-          <option value="">is_official 전체</option>
-          <option value="true">true</option>
-          <option value="false">false</option>
+          <option value="">문화재단 인증 여부 전체</option>
+          <option value="true">인증</option>
+          <option value="false">미인증</option>
         </select>
         <select
           className="rounded-md border px-3 py-2"
@@ -145,10 +145,10 @@ export default function CoursesPage() {
           <thead className="bg-slate-50 dark:bg-slate-900">
             <tr>
               <th className="px-3 py-2 text-left">ID</th>
-              <th className="px-3 py-2 text-left">title_ko</th>
-              <th className="px-3 py-2 text-left">is_official</th>
-              <th className="px-3 py-2 text-left">deleted</th>
-              <th className="px-3 py-2 text-left">actions</th>
+              <th className="px-3 py-2 text-left">코스명</th>
+              <th className="px-3 py-2 text-left">문화재단 인증 여부</th>
+              <th className="px-3 py-2 text-left">삭제 여부</th>
+              <th className="px-3 py-2 text-left">관리</th>
             </tr>
           </thead>
           <tbody>
@@ -165,8 +165,8 @@ export default function CoursesPage() {
                 <tr key={item.id} className="border-t">
                   <td className="px-3 py-2">{item.id}</td>
                   <td className="px-3 py-2">{item.title_ko}</td>
-                  <td className="px-3 py-2">{item.is_official ? "Y" : "N"}</td>
-                  <td className="px-3 py-2">{item.deleted_at ? "Y" : "N"}</td>
+                  <td className="px-3 py-2">{item.is_official ? "예" : "아니오"}</td>
+                  <td className="px-3 py-2">{item.deleted_at ? "예" : "아니오"}</td>
                   <td className="px-3 py-2">
                     <div className="flex gap-2">
                       <Button asChild variant="outline" size="sm">

@@ -201,7 +201,7 @@ export default function HomeBannersPage() {
   return (
     <div>
       <PageTitle
-        title="Home Banners"
+        title="홈 배너"
         description="홈 배너를 이미지 업로드 기반으로 추가/교체/정렬/활성화/삭제합니다. 삭제는 복구 불가(하드 삭제)입니다."
       />
 
@@ -256,7 +256,7 @@ export default function HomeBannersPage() {
                   checked={isActive}
                   onChange={(event) => setIsActive(event.target.checked)}
                 />
-                is_active
+                노출 활성화
               </label>
 
               {actionError ? <p className="text-sm text-red-500">{actionError}</p> : null}
@@ -315,7 +315,7 @@ export default function HomeBannersPage() {
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={item.banner_image_url}
-                            alt={`banner-${item.id}`}
+                            alt={`배너-${item.id}`}
                             className="h-full w-full object-cover"
                           />
                         </div>

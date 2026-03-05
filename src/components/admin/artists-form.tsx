@@ -123,22 +123,22 @@ export function ArtistsForm({
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div className="space-y-1">
-        <label className="text-sm font-medium">이름(한글)</label>
+        <label className="text-sm font-medium">이름(한국어)</label>
         <input className="w-full rounded-md border px-3 py-2" {...register("name_ko")} />
         {errors.name_ko ? <p className="text-sm text-red-500">{errors.name_ko.message}</p> : null}
       </div>
 
       <div className="space-y-1">
-        <label className="text-sm font-medium">이름(영문)</label>
+        <label className="text-sm font-medium">이름(영어)</label>
         <input className="w-full rounded-md border px-3 py-2" {...register("name_en")} />
         {errors.name_en ? <p className="text-sm text-red-500">{errors.name_en.message}</p> : null}
       </div>
 
       <div className="space-y-1">
-        <label className="text-sm font-medium">타입</label>
+        <label className="text-sm font-medium">구분</label>
         <select className="w-full rounded-md border px-3 py-2" {...register("type")}>
-          <option value="COMPANY">COMPANY</option>
-          <option value="INDIVIDUAL">INDIVIDUAL</option>
+          <option value="COMPANY">단체</option>
+          <option value="INDIVIDUAL">개인</option>
         </select>
         {errors.type ? <p className="text-sm text-red-500">{errors.type.message}</p> : null}
       </div>
