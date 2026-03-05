@@ -75,23 +75,45 @@ const artworkBasePayloadSchema = z.object({
   description_en: z.string().min(1),
 });
 
-const artworkMediaUrlSchema = z.object({
-  photo_day_url: z.string().url().optional(),
-  photo_night_url: z.string().url().optional(),
+const artworkAudioUrlSchema = z.object({
   audio_url_ko: z.string().url().optional(),
   audio_url_en: z.string().url().optional(),
 });
 
+const artworkImagesSchema = z
+  .array(
+    z.object({
+      image_url: z.string().trim().url(),
+    }),
+  )
+  .min(1);
+
+const FESTIVAL_YEAR_PATTERN = /^\d{4}$/;
+
+const artworkFestivalYearsSchema = z
+  .array(z.string())
+  .transform((years) =>
+    years.map((year) => year.trim()).filter((year) => year.length > 0),
+  )
+  .refine(
+    (years) => years.every((year) => FESTIVAL_YEAR_PATTERN.test(year)),
+    "축제 연도는 4자리 숫자여야 합니다.",
+  )
+  .transform((years) => Array.from(new Set(years)));
+
 export const artworkPayloadSchema = artworkBasePayloadSchema.extend({
-  photo_day_url: z.string().url(),
-  photo_night_url: z.string().url(),
   audio_url_ko: z.string().url(),
   audio_url_en: z.string().url(),
+  images: artworkImagesSchema,
+  festival_years: artworkFestivalYearsSchema,
 });
 
-export const artworkUpdatePayloadSchema = artworkBasePayloadSchema.merge(
-  artworkMediaUrlSchema,
-);
+export const artworkUpdatePayloadSchema = artworkBasePayloadSchema
+  .merge(artworkAudioUrlSchema)
+  .extend({
+    images: artworkImagesSchema,
+    festival_years: artworkFestivalYearsSchema,
+  });
 
 export const coursesQuerySchema = z.object({
   query: z.string().optional(),

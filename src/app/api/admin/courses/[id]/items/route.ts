@@ -16,7 +16,7 @@ type CourseItemRow = RowDataPacket & {
   artwork_id: number;
   title_ko: string;
   title_en: string;
-  photo_day_url: string;
+  thumbnail_image_url: string | null;
 };
 
 export async function GET(
@@ -29,9 +29,18 @@ export async function GET(
     const rows = await withTransaction(async (connection) => {
       const [result] = await connection.query<CourseItemRow[]>(
         `SELECT ci.id, ci.course_id, ci.seq, ci.artwork_id,
-                a.title_ko, a.title_en, a.photo_day_url
+                a.title_ko, a.title_en, thumb.image_url AS thumbnail_image_url
          FROM course_items ci
          INNER JOIN artworks a ON a.id = ci.artwork_id
+         LEFT JOIN (
+           SELECT ai.artwork_id, ai.image_url
+           FROM artwork_images ai
+           INNER JOIN (
+             SELECT artwork_id, MIN(id) AS first_image_id
+             FROM artwork_images
+             GROUP BY artwork_id
+           ) first_ai ON first_ai.first_image_id = ai.id
+         ) thumb ON thumb.artwork_id = a.id
          WHERE ci.course_id = ?
          ORDER BY ci.seq ASC`,
         [courseId],
