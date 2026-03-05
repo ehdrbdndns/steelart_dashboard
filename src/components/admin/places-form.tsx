@@ -438,10 +438,10 @@ export function PlacesForm({
       </div>
 
       <div className="space-y-1">
-        <Label htmlFor="address">주소</Label>
+        <Label htmlFor="address">주소(도로명)</Label>
         <Input
           id="address"
-          placeholder="주소를 입력하면 위도/경도가 자동으로 채워집니다."
+          placeholder="주소(도로명)를 입력하면 위도/경도가 자동으로 채워집니다."
           {...register("address")}
         />
         <div className="flex items-center gap-2">

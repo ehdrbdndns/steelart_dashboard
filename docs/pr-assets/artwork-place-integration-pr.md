@@ -45,7 +45,18 @@
 
 ## Screenshots
 
-- `docs/pr-assets/e2e-01-nav-no-place-menu.png`
-- `docs/pr-assets/e2e-02-artwork-place-geocode-map.png`
-- `docs/pr-assets/e2e-03-artwork-create-success.png`
-- `docs/pr-assets/e2e-04-place-route-redirect.png`
+### 1) 장소 메뉴 제거
+
+![장소 메뉴 제거](https://github.com/ehdrbdndns/steelart_dashboard/blob/codex/feta/place-crud/docs/pr-assets/e2e-01-nav-no-place-menu.png?raw=1)
+
+### 2) 주소(도로명) 기반 좌표 자동입력 + 지도 미리보기
+
+![주소 기반 geocode + 지도](https://github.com/ehdrbdndns/steelart_dashboard/blob/codex/feta/place-crud/docs/pr-assets/e2e-02-artwork-place-geocode-map.png?raw=1)
+
+### 3) Artwork + Place 통합 생성 결과
+
+![통합 생성 결과](https://github.com/ehdrbdndns/steelart_dashboard/blob/codex/feta/place-crud/docs/pr-assets/e2e-03-artwork-create-success.png?raw=1)
+
+### 4) /admin/places* 리다이렉트 결과
+
+![places redirect](https://github.com/ehdrbdndns/steelart_dashboard/blob/codex/feta/place-crud/docs/pr-assets/e2e-04-place-route-redirect.png?raw=1)

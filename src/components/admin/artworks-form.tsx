@@ -765,10 +765,10 @@ export function ArtworksForm({
           </div>
 
           <div className="space-y-1">
-            <Label htmlFor="place_address">주소</Label>
+            <Label htmlFor="place_address">주소(도로명)</Label>
             <Input
               id="place_address"
-              placeholder="주소를 입력하면 위도/경도가 자동으로 채워집니다."
+              placeholder="주소(도로명)를 입력하면 위도/경도가 자동으로 채워집니다."
               {...register("place.address")}
             />
             <div className="flex items-center gap-2">
