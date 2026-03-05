@@ -32,6 +32,18 @@ type Option = { id: number; name_ko: string };
 const selectClassName =
   "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50";
 
+function getCategoryLabel(category: string) {
+  if (category === "STEEL_ART") {
+    return "스틸아트";
+  }
+
+  if (category === "PUBLIC_ART") {
+    return "공공미술";
+  }
+
+  return category;
+}
+
 export default function ArtworksPage() {
   const [items, setItems] = useState<Artwork[]>([]);
   const [artists, setArtists] = useState<Option[]>([]);
@@ -134,8 +146,8 @@ export default function ArtworksPage() {
   return (
     <div>
       <PageTitle
-        title="Artworks"
-        description="작품과 미디어 URL을 관리합니다."
+        title="작품 관리"
+        description="작품 정보와 이미지를 관리합니다."
         ctaHref="/admin/artworks/new"
         ctaLabel="새 작품"
       />
@@ -157,9 +169,9 @@ export default function ArtworksPage() {
           }}
           className={selectClassName}
         >
-          <option value="">category 전체</option>
-          <option value="STEEL_ART">STEEL_ART</option>
-          <option value="PUBLIC_ART">PUBLIC_ART</option>
+          <option value="">작품 유형 전체</option>
+          <option value="STEEL_ART">스틸아트</option>
+          <option value="PUBLIC_ART">공공미술</option>
         </select>
         <select
           value={artistId}
@@ -169,7 +181,7 @@ export default function ArtworksPage() {
           }}
           className={selectClassName}
         >
-          <option value="">artist</option>
+          <option value="">작가 전체</option>
           {artists.map((artist) => (
             <option key={artist.id} value={artist.id}>{artist.name_ko}</option>
           ))}
@@ -182,7 +194,7 @@ export default function ArtworksPage() {
           }}
           className={selectClassName}
         >
-          <option value="">zone</option>
+          <option value="">권역 전체</option>
           {zones.map((zone) => (
             <option key={zone.id} value={zone.id}>{zone.name_ko}</option>
           ))}
@@ -195,7 +207,7 @@ export default function ArtworksPage() {
           }}
           className={selectClassName}
         >
-          <option value="">place</option>
+          <option value="">장소 전체</option>
           {places.map((place) => (
             <option key={place.id} value={place.id}>{place.name_ko}</option>
           ))}
@@ -226,14 +238,14 @@ export default function ArtworksPage() {
             <tr>
               <th className="px-3 py-2 text-left">ID</th>
               <th className="px-3 py-2 text-left">대표 이미지</th>
-              <th className="px-3 py-2 text-left">title_ko</th>
-              <th className="px-3 py-2 text-left">artist</th>
-              <th className="px-3 py-2 text-left">place</th>
-              <th className="px-3 py-2 text-left">category</th>
-              <th className="px-3 py-2 text-left">year</th>
-              <th className="px-3 py-2 text-left">축제연도</th>
-              <th className="px-3 py-2 text-left">deleted</th>
-              <th className="px-3 py-2 text-left">actions</th>
+              <th className="px-3 py-2 text-left">작품명</th>
+              <th className="px-3 py-2 text-left">작가</th>
+              <th className="px-3 py-2 text-left">설치 장소</th>
+              <th className="px-3 py-2 text-left">작품 유형</th>
+              <th className="px-3 py-2 text-left">제작 연도</th>
+              <th className="px-3 py-2 text-left">축제 참여 연도</th>
+              <th className="px-3 py-2 text-left">상태</th>
+              <th className="px-3 py-2 text-left">관리</th>
             </tr>
           </thead>
           <tbody>
@@ -266,7 +278,7 @@ export default function ArtworksPage() {
                   <td className="px-3 py-2">{item.title_ko}</td>
                   <td className="px-3 py-2">{item.artist_name_ko}</td>
                   <td className="px-3 py-2">{item.place_name_ko}</td>
-                  <td className="px-3 py-2">{item.category}</td>
+                  <td className="px-3 py-2">{getCategoryLabel(item.category)}</td>
                   <td className="px-3 py-2">{item.production_year ?? "-"}</td>
                   <td className="px-3 py-2">{item.festival_years_summary ?? "-"}</td>
                   <td className="px-3 py-2">
