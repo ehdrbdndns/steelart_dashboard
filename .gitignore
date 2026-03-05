@@ -8,6 +8,8 @@
 
 # testing
 /coverage
+.palywritght
+.playwright-cli
 
 # next.js
 /.next/
