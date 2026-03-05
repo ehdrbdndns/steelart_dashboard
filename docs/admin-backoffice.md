@@ -20,7 +20,9 @@
   - `ADMIN_EMAIL`, `ADMIN_PASSWORD`
   - `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`
 - Kakao Maps:
-  - `NEXT_PUBLIC_KAKAO_MAP_APP_KEY` (required for address -> lat/lng auto geocode UI)
+  - `NEXT_PUBLIC_KAKAO_MAP_SDK_KEY` (Kakao Maps JavaScript SDK key, client-side)
+  - `KAKAO_REST_API_KEY` (Kakao Local REST API key, server-side geocode)
+  - Legacy fallback: `NEXT_PUBLIC_KAKAO_MAP_APP_KEY` is still read if SDK key is unset
 - Mock seed mode:
   - `MOCK_MEDIA_BASE_URL` (optional)
   - `ALLOW_MOCK_SEED` (`true` required to run mock seed)
@@ -73,8 +75,9 @@
 - Mock seed blocked:
   - set `ALLOW_MOCK_SEED=true`, and do not run in production.
 - place form auto geocode does not work:
-  - verify `NEXT_PUBLIC_KAKAO_MAP_APP_KEY` is set.
-  - verify allowed web domain (`localhost`/production) is configured in Kakao developer console.
+  - verify `KAKAO_REST_API_KEY` is set.
+  - verify REST API is enabled for the app and key is valid in Kakao developer console.
+  - if SDK warning appears, verify `NEXT_PUBLIC_KAKAO_MAP_SDK_KEY` and allowed web domain (`localhost`/production).
 
 ## Notes
 - `home_banners` uses hard delete by requirement.

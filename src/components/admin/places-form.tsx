@@ -56,6 +56,12 @@ type GeocodeState = "idle" | "loading" | "success" | "error";
 
 type GeocodeTrigger = "auto" | "manual";
 
+type GeocodeResponse = {
+  lat: number;
+  lng: number;
+  matched_address: string;
+};
+
 export type PlaceInitialData = {
   id: number;
   zone_id: number | null;
@@ -79,22 +85,26 @@ export function PlacesForm({
   const router = useRouter();
   const [zones, setZones] = useState<ZoneOption[]>([]);
   const [error, setError] = useState("");
-  const [kakaoReady, setKakaoReady] = useState(false);
+  const [kakaoSdkReady, setKakaoSdkReady] = useState(false);
   const [kakaoLoadError, setKakaoLoadError] = useState("");
   const [geocodeState, setGeocodeState] = useState<GeocodeState>("idle");
   const [geocodeMessage, setGeocodeMessage] = useState("");
   const [coordinatesEdited, setCoordinatesEdited] = useState(false);
   const geocodeRequestIdRef = useRef(0);
-  const kakaoAppKey = (process.env.NEXT_PUBLIC_KAKAO_MAP_APP_KEY ?? "").trim();
-  const isKakaoEnabled = kakaoAppKey.length > 0;
+  const kakaoSdkKey = (
+    process.env.NEXT_PUBLIC_KAKAO_MAP_SDK_KEY ??
+    process.env.NEXT_PUBLIC_KAKAO_MAP_APP_KEY ??
+    ""
+  ).trim();
+  const isKakaoSdkEnabled = kakaoSdkKey.length > 0;
 
   const kakaoScriptSrc = useMemo(() => {
-    if (!isKakaoEnabled) {
+    if (!isKakaoSdkEnabled) {
       return "";
     }
 
-    return `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${encodeURIComponent(kakaoAppKey)}&autoload=false&libraries=services`;
-  }, [isKakaoEnabled, kakaoAppKey]);
+    return `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${encodeURIComponent(kakaoSdkKey)}&autoload=false&libraries=services`;
+  }, [isKakaoSdkEnabled, kakaoSdkKey]);
 
   const {
     register,
@@ -130,22 +140,22 @@ export function PlacesForm({
   }, []);
 
   useEffect(() => {
-    if (!isKakaoEnabled || typeof window === "undefined") {
+    if (!isKakaoSdkEnabled || typeof window === "undefined") {
       return;
     }
 
-    if (!window.kakao?.maps?.services) {
+    if (!window.kakao?.maps?.load) {
       return;
     }
 
     window.kakao.maps.load(() => {
-      setKakaoReady(true);
+      setKakaoSdkReady(true);
       setKakaoLoadError("");
     });
-  }, [isKakaoEnabled]);
+  }, [isKakaoSdkEnabled]);
 
   const geocodeAddress = useCallback(
-    (rawAddress: string, trigger: GeocodeTrigger) => {
+    async (rawAddress: string, trigger: GeocodeTrigger) => {
       const address = rawAddress.trim();
 
       if (!address) {
@@ -154,73 +164,56 @@ export function PlacesForm({
         return;
       }
 
-      if (!isKakaoEnabled) {
-        setGeocodeState("error");
-        setGeocodeMessage(
-          "카카오 앱 키가 설정되지 않아 좌표 자동 입력을 사용할 수 없습니다.",
-        );
-        return;
-      }
-
-      if (!kakaoReady || !window.kakao?.maps?.services) {
-        setGeocodeState("error");
-        setGeocodeMessage("카카오 지도 SDK가 아직 준비되지 않았습니다.");
-        return;
-      }
-
       const requestId = geocodeRequestIdRef.current + 1;
       geocodeRequestIdRef.current = requestId;
       setGeocodeState("loading");
       setGeocodeMessage("주소로 좌표를 찾는 중입니다...");
 
-      const geocoder = new window.kakao.maps.services.Geocoder();
-      geocoder.addressSearch(
-        address,
-        (result, status) => {
-          if (requestId !== geocodeRequestIdRef.current) {
-            return;
-          }
+      try {
+        const result = await requestJson<GeocodeResponse>("/api/admin/places/geocode", {
+          method: "POST",
+          body: JSON.stringify({ address }),
+        });
 
-          if (status !== window.kakao?.maps?.services.Status.OK || result.length === 0) {
-            setGeocodeState("error");
-            setGeocodeMessage("주소에 대한 좌표를 찾지 못했습니다. 직접 입력해주세요.");
-            return;
-          }
+        if (requestId !== geocodeRequestIdRef.current) {
+          return;
+        }
 
-          const firstResult = result[0];
-          const nextLat = Number(firstResult.y);
-          const nextLng = Number(firstResult.x);
+        if (!Number.isFinite(result.lat) || !Number.isFinite(result.lng)) {
+          setGeocodeState("error");
+          setGeocodeMessage("좌표 형식이 올바르지 않습니다. 직접 입력해주세요.");
+          return;
+        }
 
-          if (!Number.isFinite(nextLat) || !Number.isFinite(nextLng)) {
-            setGeocodeState("error");
-            setGeocodeMessage("좌표 형식이 올바르지 않습니다. 직접 입력해주세요.");
-            return;
-          }
+        setValue("lat", result.lat.toFixed(7), {
+          shouldDirty: true,
+          shouldValidate: true,
+        });
+        setValue("lng", result.lng.toFixed(7), {
+          shouldDirty: true,
+          shouldValidate: true,
+        });
+        setCoordinatesEdited(false);
+        setGeocodeState("success");
+        setGeocodeMessage(
+          trigger === "auto"
+            ? "주소 기반으로 좌표를 자동 입력했습니다."
+            : "좌표를 다시 조회해 반영했습니다.",
+        );
+      } catch (geocodeError) {
+        if (requestId !== geocodeRequestIdRef.current) {
+          return;
+        }
 
-          setValue("lat", nextLat.toFixed(7), {
-            shouldDirty: true,
-            shouldValidate: true,
-          });
-          setValue("lng", nextLng.toFixed(7), {
-            shouldDirty: true,
-            shouldValidate: true,
-          });
-          setCoordinatesEdited(false);
-          setGeocodeState("success");
-          setGeocodeMessage(
-            trigger === "auto"
-              ? "주소 기반으로 좌표를 자동 입력했습니다."
-              : "좌표를 다시 조회해 반영했습니다.",
-          );
-        },
-        {
-          analyze_type: "similar",
-          page: 1,
-          size: 1,
-        },
-      );
+        setGeocodeState("error");
+        setGeocodeMessage(
+          geocodeError instanceof Error
+            ? geocodeError.message
+            : "주소에 대한 좌표를 찾지 못했습니다. 직접 입력해주세요.",
+        );
+      }
     },
-    [isKakaoEnabled, kakaoReady, setValue],
+    [setValue],
   );
 
   useEffect(() => {
@@ -231,16 +224,12 @@ export function PlacesForm({
       return;
     }
 
-    if (!isKakaoEnabled || !kakaoReady) {
-      return;
-    }
-
     const timer = window.setTimeout(() => {
-      geocodeAddress(trimmedAddress, "auto");
+      void geocodeAddress(trimmedAddress, "auto");
     }, 600);
 
     return () => window.clearTimeout(timer);
-  }, [addressValue, geocodeAddress, isKakaoEnabled, kakaoReady]);
+  }, [addressValue, geocodeAddress]);
 
   const onSubmit = async (values: FormValues) => {
     setError("");
@@ -311,7 +300,7 @@ export function PlacesForm({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      {isKakaoEnabled ? (
+      {isKakaoSdkEnabled ? (
         <Script
           src={kakaoScriptSrc}
           strategy="afterInteractive"
@@ -322,7 +311,7 @@ export function PlacesForm({
             }
 
             window.kakao.maps.load(() => {
-              setKakaoReady(true);
+              setKakaoSdkReady(true);
               setKakaoLoadError("");
             });
           }}
@@ -368,8 +357,10 @@ export function PlacesForm({
           <Button
             type="button"
             variant="outline"
-            disabled={!addressValue.trim() || !isKakaoEnabled || !kakaoReady}
-            onClick={() => geocodeAddress(addressValue, "manual")}
+            disabled={!addressValue.trim() || geocodeState === "loading"}
+            onClick={() => {
+              void geocodeAddress(addressValue, "manual");
+            }}
           >
             좌표 다시 찾기
           </Button>
@@ -378,10 +369,13 @@ export function PlacesForm({
           ) : null}
         </div>
         {kakaoLoadError ? <p className="text-sm text-red-500">{kakaoLoadError}</p> : null}
-        {!isKakaoEnabled ? (
+        {!isKakaoSdkEnabled ? (
           <p className="text-sm text-muted-foreground">
-            카카오 앱 키가 설정되지 않아 좌표 자동 입력이 비활성화되었습니다.
+            지도 SDK 키가 없어 지도 기능이 비활성화되었습니다.
           </p>
+        ) : null}
+        {isKakaoSdkEnabled && !kakaoSdkReady && !kakaoLoadError ? (
+          <p className="text-sm text-muted-foreground">카카오 지도 SDK를 로드 중입니다.</p>
         ) : null}
         {geocodeState === "loading" ? (
           <p className="text-sm text-muted-foreground">{geocodeMessage}</p>

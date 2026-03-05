@@ -96,6 +96,10 @@ export const placeCreatePayloadSchema = placeBasePayloadSchema;
 
 export const placeUpdatePayloadSchema = placeBasePayloadSchema;
 
+export const placeGeocodePayloadSchema = z.object({
+  address: z.string().trim().min(1),
+});
+
 const artworkBasePayloadSchema = z.object({
   title_ko: z.string().min(1),
   title_en: z.string().min(1),
