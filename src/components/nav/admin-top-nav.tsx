@@ -7,6 +7,7 @@ function makeTitle(pathname: string) {
   if (pathname.startsWith("/admin/users")) return "사용자";
   if (pathname.startsWith("/admin/artists")) return "작가";
   if (pathname.startsWith("/admin/artworks")) return "작품";
+  if (pathname.startsWith("/admin/places")) return "장소";
   if (pathname.startsWith("/admin/courses")) return "코스";
   if (pathname.startsWith("/admin/home-banners")) return "홈 배너";
   return "관리자";

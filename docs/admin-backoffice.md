@@ -3,19 +3,24 @@
 ## Implemented Areas
 - Admin auth (`/admin/login`) with NextAuth Credentials and ENV single account
 - Protected admin pages and `/api/admin/*` with middleware
-- CRUD APIs and admin pages for `artists`, `artworks`, `courses`, `home_banners`
+- CRUD APIs and admin pages for `artists`, `artworks`, `courses`, `places`, `home_banners`
 - Home banners are managed as an independent image domain (`banner_image_url`, no artwork FK)
 - Home banner image replacement API: `PATCH /api/admin/home-banners/:id/image`
 - `course_items` add/reorder/delete with id-preserving reorder and checkin 409 guard
 - S3 presigned upload for artwork media (artwork images + `audio_url_ko`, `audio_url_en`)
 - Artwork festival year management (`festival_years[]` -> `artwork_festivals`)
 - Artist profile image upload (`profile_image_url`) with preview on artist form and list thumbnail
+- Places form supports Kakao Maps based auto geocoding from address to `lat`/`lng`
+- Places `lat`/`lng` remain manually editable after auto geocoding
+- Places soft delete is guarded by active artwork reference check (`409 PLACE_IN_USE`)
 
 ## Environment Variables
 - Core auth/db:
   - `NEXTAUTH_URL`, `NEXTAUTH_SECRET`
   - `ADMIN_EMAIL`, `ADMIN_PASSWORD`
   - `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`
+- Kakao Maps:
+  - `NEXT_PUBLIC_KAKAO_MAP_APP_KEY` (required for address -> lat/lng auto geocode UI)
 - Mock seed mode:
   - `MOCK_MEDIA_BASE_URL` (optional)
   - `ALLOW_MOCK_SEED` (`true` required to run mock seed)
@@ -67,8 +72,12 @@
   - verify S3 bucket CORS and Vercel/localhost origins are configured.
 - Mock seed blocked:
   - set `ALLOW_MOCK_SEED=true`, and do not run in production.
+- place form auto geocode does not work:
+  - verify `NEXT_PUBLIC_KAKAO_MAP_APP_KEY` is set.
+  - verify allowed web domain (`localhost`/production) is configured in Kakao developer console.
 
 ## Notes
 - `home_banners` uses hard delete by requirement.
 - `home_banners` is independent from `artworks` and stores `banner_image_url` directly.
+- `places` uses soft delete and blocks deletion while referenced by active artworks.
 - Existing template routes were removed and root redirects to admin entry.
