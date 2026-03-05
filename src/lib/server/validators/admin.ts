@@ -88,16 +88,31 @@ const artworkImagesSchema = z
   )
   .min(1);
 
+const FESTIVAL_YEAR_PATTERN = /^\d{4}$/;
+
+const artworkFestivalYearsSchema = z
+  .array(z.string())
+  .transform((years) =>
+    years.map((year) => year.trim()).filter((year) => year.length > 0),
+  )
+  .refine(
+    (years) => years.every((year) => FESTIVAL_YEAR_PATTERN.test(year)),
+    "축제 연도는 4자리 숫자여야 합니다.",
+  )
+  .transform((years) => Array.from(new Set(years)));
+
 export const artworkPayloadSchema = artworkBasePayloadSchema.extend({
   audio_url_ko: z.string().url(),
   audio_url_en: z.string().url(),
   images: artworkImagesSchema,
+  festival_years: artworkFestivalYearsSchema,
 });
 
 export const artworkUpdatePayloadSchema = artworkBasePayloadSchema
   .merge(artworkAudioUrlSchema)
   .extend({
     images: artworkImagesSchema,
+    festival_years: artworkFestivalYearsSchema,
   });
 
 export const coursesQuerySchema = z.object({

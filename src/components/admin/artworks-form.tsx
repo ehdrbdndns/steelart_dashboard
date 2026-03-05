@@ -29,6 +29,8 @@ const optionalUrlSchema = z
     "유효한 URL이어야 합니다.",
   );
 
+const FESTIVAL_YEAR_PATTERN = /^\d{4}$/;
+
 const schema = z.object({
   title_ko: z.string().min(1),
   title_en: z.string().min(1),
@@ -68,6 +70,7 @@ type ArtworkInitialData = {
   description_en?: string;
   audio_url_ko?: string | null;
   audio_url_en?: string | null;
+  festival_years?: string[];
   images?: ArtworkImage[];
 };
 
@@ -79,6 +82,11 @@ type SelectOption = {
 type ArtworkImageDraft = {
   key: string;
   image_url: string;
+};
+
+type FestivalYearDraft = {
+  key: string;
+  year: string;
 };
 
 const selectClassName =
@@ -97,12 +105,21 @@ export function ArtworksForm({
   const [places, setPlaces] = useState<SelectOption[]>([]);
   const [error, setError] = useState("");
   const imageDraftIndex = useRef(0);
+  const festivalYearDraftIndex = useRef(0);
 
   const createImageDraft = (imageUrl = ""): ArtworkImageDraft => {
     imageDraftIndex.current += 1;
     return {
       key: `image-draft-${Date.now()}-${imageDraftIndex.current}`,
       image_url: imageUrl,
+    };
+  };
+
+  const createFestivalYearDraft = (year = ""): FestivalYearDraft => {
+    festivalYearDraftIndex.current += 1;
+    return {
+      key: `festival-year-${Date.now()}-${festivalYearDraftIndex.current}`,
+      year,
     };
   };
 
@@ -116,6 +133,19 @@ export function ArtworksForm({
     }
     return [createImageDraft()];
   });
+
+  const [festivalYearDrafts, setFestivalYearDrafts] = useState<FestivalYearDraft[]>(
+    () => {
+      const existingFestivalYears = initialData?.festival_years ?? [];
+      if (existingFestivalYears.length > 0) {
+        return existingFestivalYears.map((year, index) => ({
+          key: `existing-festival-year-${year}-${index}`,
+          year,
+        }));
+      }
+      return [createFestivalYearDraft()];
+    },
+  );
 
   const {
     control,
@@ -208,6 +238,22 @@ export function ArtworksForm({
       return;
     }
 
+    const normalizedFestivalYears = festivalYearDrafts
+      .map((item) => item.year.trim())
+      .filter((year) => year.length > 0);
+    const hasInvalidFestivalYear = normalizedFestivalYears.some(
+      (year) => !FESTIVAL_YEAR_PATTERN.test(year),
+    );
+
+    if (hasInvalidFestivalYear) {
+      setError("축제 연도는 4자리 숫자(예: 2024)만 입력할 수 있습니다.");
+      return;
+    }
+
+    const deduplicatedFestivalYears = Array.from(
+      new Set(normalizedFestivalYears),
+    );
+
     if (
       !confirmAction(
         mode === "create"
@@ -226,6 +272,7 @@ export function ArtworksForm({
         images: normalizedImageUrls.map((imageUrl) => ({
           image_url: imageUrl,
         })),
+        festival_years: deduplicatedFestivalYears,
       };
 
       if (mode === "create") {
@@ -363,6 +410,68 @@ export function ArtworksForm({
               ) : null}
             </div>
           </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>축제 연도</CardTitle>
+          <CardDescription>
+            작품이 출품된 축제 연도를 여러 개 입력할 수 있습니다.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          {festivalYearDrafts.map((draft, index) => (
+            <div key={draft.key} className="space-y-3 rounded-md border p-3">
+              <div className="flex items-center justify-between gap-2">
+                <Badge variant="secondary">연도 {index + 1}</Badge>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="destructive"
+                  onClick={() =>
+                    setFestivalYearDrafts((previous) =>
+                      previous.length <= 1
+                        ? previous
+                        : previous.filter((item) => item.key !== draft.key),
+                    )
+                  }
+                  disabled={festivalYearDrafts.length <= 1}
+                >
+                  삭제
+                </Button>
+              </div>
+              <Input
+                value={draft.year}
+                onChange={(event) =>
+                  setFestivalYearDrafts((previous) =>
+                    previous.map((item) =>
+                      item.key === draft.key
+                        ? {
+                            ...item,
+                            year: event.target.value,
+                          }
+                        : item,
+                    ),
+                  )
+                }
+                placeholder="2024"
+              />
+            </div>
+          ))}
+
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() =>
+              setFestivalYearDrafts((previous) => [
+                ...previous,
+                createFestivalYearDraft(),
+              ])
+            }
+          >
+            연도 행 추가
+          </Button>
         </CardContent>
       </Card>
 

@@ -23,6 +23,7 @@ type Artwork = {
   category: string;
   production_year: number | null;
   thumbnail_image_url: string | null;
+  festival_years_summary: string | null;
   deleted_at: string | null;
 };
 
@@ -230,6 +231,7 @@ export default function ArtworksPage() {
               <th className="px-3 py-2 text-left">place</th>
               <th className="px-3 py-2 text-left">category</th>
               <th className="px-3 py-2 text-left">year</th>
+              <th className="px-3 py-2 text-left">축제연도</th>
               <th className="px-3 py-2 text-left">deleted</th>
               <th className="px-3 py-2 text-left">actions</th>
             </tr>
@@ -237,11 +239,11 @@ export default function ArtworksPage() {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={9} className="px-3 py-8 text-center text-muted-foreground">로딩 중...</td>
+                <td colSpan={10} className="px-3 py-8 text-center text-muted-foreground">로딩 중...</td>
               </tr>
             ) : items.length === 0 ? (
               <tr>
-                <td colSpan={9} className="px-3 py-8 text-center text-muted-foreground">데이터가 없습니다.</td>
+                <td colSpan={10} className="px-3 py-8 text-center text-muted-foreground">데이터가 없습니다.</td>
               </tr>
             ) : (
               items.map((item) => (
@@ -266,6 +268,7 @@ export default function ArtworksPage() {
                   <td className="px-3 py-2">{item.place_name_ko}</td>
                   <td className="px-3 py-2">{item.category}</td>
                   <td className="px-3 py-2">{item.production_year ?? "-"}</td>
+                  <td className="px-3 py-2">{item.festival_years_summary ?? "-"}</td>
                   <td className="px-3 py-2">
                     {item.deleted_at ? (
                       <Badge variant="destructive">삭제됨</Badge>

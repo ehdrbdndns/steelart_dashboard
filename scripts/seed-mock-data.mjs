@@ -177,6 +177,8 @@ async function findOrCreateArtwork(index, artistIds, placeIds) {
   const titleKo = `${MOCK_PREFIX} Artwork ${index}`;
   const titleEn = `${MOCK_PREFIX} Artwork ${index}`;
   const seed = `mock-${index}`;
+  const productionYear = 1990 + ((index - 1) % 35);
+  const festivalYears = [String(productionYear), String(productionYear + 1)];
 
   const ensureArtworkImages = async (artworkId) => {
     const imageUrls = [
@@ -202,6 +204,26 @@ async function findOrCreateArtwork(index, artistIds, placeIds) {
     }
   };
 
+  const ensureArtworkFestivals = async (artworkId) => {
+    const [existingRows] = await connection.query(
+      `SELECT \`year\` AS festival_year
+       FROM artwork_festivals
+       WHERE artwork_id = ?`,
+      [artworkId],
+    );
+    const existingYears = new Set(existingRows.map((row) => row.festival_year));
+
+    for (const year of festivalYears) {
+      if (!existingYears.has(year)) {
+        await connection.query(
+          `INSERT INTO artwork_festivals (artwork_id, \`year\`, created_at)
+           VALUES (?, ?, NOW())`,
+          [artworkId, year],
+        );
+      }
+    }
+  };
+
   const [rows] = await connection.query(
     `SELECT id FROM artworks WHERE title_ko = ? LIMIT 1`,
     [titleKo],
@@ -209,14 +231,13 @@ async function findOrCreateArtwork(index, artistIds, placeIds) {
 
   if (rows[0]?.id) {
     await ensureArtworkImages(rows[0].id);
+    await ensureArtworkFestivals(rows[0].id);
     return rows[0].id;
   }
 
   const artistId = artistIds[(index - 1) % artistIds.length];
   const placeId = placeIds[(index - 1) % placeIds.length];
   const category = index % 2 === 0 ? "STEEL_ART" : "PUBLIC_ART";
-  const year = 1990 + ((index - 1) % 35);
-
   const [inserted] = await connection.query(
     `INSERT INTO artworks (
       title_ko, title_en, artist_id, place_id, category, production_year,
@@ -230,7 +251,7 @@ async function findOrCreateArtwork(index, artistIds, placeIds) {
       artistId,
       placeId,
       category,
-      year,
+      productionYear,
       `${index}x${index}cm`,
       `${index}x${index}cm`,
       `${MOCK_PREFIX} description ko ${index}`,
@@ -241,6 +262,7 @@ async function findOrCreateArtwork(index, artistIds, placeIds) {
   );
 
   await ensureArtworkImages(inserted.insertId);
+  await ensureArtworkFestivals(inserted.insertId);
   return inserted.insertId;
 }
 

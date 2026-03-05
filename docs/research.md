@@ -624,3 +624,91 @@ UI 구조:
 4. soft delete/restore 성공
 5. `/admin/courses/:id` 코스 아이템 조회/추가 정상
 6. `pnpm exec tsc --noEmit`, `pnpm lint`, `pnpm build` 통과
+
+---
+
+## 17) ArtworkFestivalYear 반영 상태 (`artwork_festivals`)
+
+요청된 ArtworkFestivalYear는 실DB 기준 테이블명 `artwork_festivals`로 구현되며, 현재 백오피스 코드에 연동이 반영된 상태다.
+
+## 17.1 실DB 테이블 구조
+
+`artwork_festivals`:
+- `id` bigint PK
+- `artwork_id` bigint NOT NULL
+- `year` varchar(10) NOT NULL
+- `created_at` datetime
+- `UNIQUE (artwork_id, year)`
+- FK: `artwork_id -> artworks.id ON DELETE CASCADE`
+
+의미:
+- 작품당 여러 축제연도(1:N)를 저장
+- 같은 작품 내 중복연도는 DB에서 차단
+- 작품 하드삭제 시 축제연도도 CASCADE로 정리
+
+## 17.2 서버 계약 반영
+
+파일: `src/lib/server/validators/admin.ts`
+- `artworkPayloadSchema`, `artworkUpdatePayloadSchema`에 `festival_years` 추가
+- 검증/정규화:
+  - trim
+  - 빈 문자열 제거
+  - `YYYY` 포맷(4자리 숫자) 검증
+  - 중복 제거
+
+## 17.3 Artwork API 반영
+
+### 목록 `GET /api/admin/artworks`
+파일: `src/app/api/admin/artworks/route.ts`
+- `artwork_festivals` 집계 LEFT JOIN 추가
+- 응답에 `festival_years_summary` 포함
+  - `GROUP_CONCAT(year ORDER BY CAST(year AS UNSIGNED) DESC)` 기반
+
+### 생성 `POST /api/admin/artworks`
+파일: `src/app/api/admin/artworks/route.ts`
+- 기존 `artworks + artwork_images` 저장 트랜잭션에
+  `artwork_festivals` 다건 insert 추가
+- 생성 응답에 `festival_years: string[]` 포함
+
+### 단건 `GET /api/admin/artworks/:id`
+파일: `src/app/api/admin/artworks/[id]/route.ts`
+- `artwork_festivals` 조회 후 `festival_years: string[]` 반환
+
+### 수정 `PUT /api/admin/artworks/:id`
+파일: `src/app/api/admin/artworks/[id]/route.ts`
+- 트랜잭션 내 replacement 전략 적용:
+  1. `DELETE FROM artwork_festivals WHERE artwork_id = ?`
+  2. 정규화된 `festival_years` 재insert
+- 결과 응답에 `festival_years: string[]` 포함
+
+## 17.4 Admin UI 반영
+
+파일:
+- `src/components/admin/artworks-form.tsx`
+- `src/app/admin/artworks/[id]/page.tsx`
+- `src/app/admin/artworks/page.tsx`
+
+반영 내용:
+- 생성/수정 폼에 `축제 연도` 다건 입력 섹션 추가
+- 저장 payload에 `festival_years[]` 포함
+- 수정 페이지 초기값(`initialData.festival_years`) 바인딩
+- 목록 페이지에 `festival_years_summary` 컬럼 추가
+
+## 17.5 문서/시드 반영
+
+파일:
+- `scripts/export-db-schema.mjs`
+- `docs/db-schema.sql`
+- `docs/db-contract.md`
+- `docs/admin-backoffice.md`
+- `scripts/seed-mock-data.mjs`
+
+반영 내용:
+- 스키마 export 대상에 `artwork_festivals` 포함
+- 운영/계약 문서에 축제연도 저장 규칙 추가
+- mock seed에서 작품별 `artwork_festivals` 보강 로직 추가
+
+## 17.6 남은 운영 고려사항
+
+1. `year`가 `varchar(10)`이므로 포맷 정책(`YYYY`)을 앱 레벨에서 계속 강제해야 한다.
+2. 목록 API는 요약 문자열 중심이므로, 상세 분석/필터 고도화가 필요하면 별도 필드 확장이 필요하다.

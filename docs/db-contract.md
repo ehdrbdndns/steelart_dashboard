@@ -8,6 +8,7 @@
 - `artists`
 - `artworks`
 - `artwork_images`
+- `artwork_festivals`
 - `courses`
 - `course_items`
 - `course_checkins`
@@ -24,6 +25,7 @@
 6. All API writes must use parameter binding (`?`) with mysql2.
 7. Home banner image replacement is handled by a dedicated endpoint (`PATCH /api/admin/home-banners/:id/image`).
 8. Artwork images are managed in `artwork_images` (1:N to `artworks`) and are replaced as a list on artwork save.
+9. Artwork festival years are managed in `artwork_festivals` (1:N to `artworks`) and are replaced as a list on artwork save.
 
 ## Artwork Media Policy (Current Phase)
 - Upload uses S3 presigned URL (`POST /api/admin/uploads/presign`).
@@ -35,6 +37,10 @@
 - Artwork edit uses list replacement for images:
   - incoming `images[]` becomes the new image set for the artwork.
 - Artwork edit may omit audio URL fields; omitted values retain the current DB value.
+- Artwork create/update includes `festival_years[]`:
+  - values are trimmed and de-duplicated.
+  - year format is `YYYY`.
+  - save uses replacement on `artwork_festivals`.
 
 ## Artist Profile Image Policy
 - Artists table includes `profile_image_url`.

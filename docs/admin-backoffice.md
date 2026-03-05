@@ -8,6 +8,7 @@
 - Home banner image replacement API: `PATCH /api/admin/home-banners/:id/image`
 - `course_items` add/reorder/delete with id-preserving reorder and checkin 409 guard
 - S3 presigned upload for artwork media (artwork images + `audio_url_ko`, `audio_url_en`)
+- Artwork festival year management (`festival_years[]` -> `artwork_festivals`)
 - Artist profile image upload (`profile_image_url`) with preview on artist form and list thumbnail
 
 ## Environment Variables
@@ -31,6 +32,8 @@
 - If AWS env is missing: `503 FEATURE_NOT_CONFIGURED`.
 - Artwork create requires image list(`images[]`, min 1) + `audio_url_ko` + `audio_url_en`.
 - Artwork edit replaces image list(`images[]`) and keeps existing audio URL when omitted.
+- Artwork create/edit supports `festival_years[]` (trim + dedupe + `YYYY` validation).
+- Artwork save replaces `artwork_festivals` rows for the target artwork.
 - Artist create requires `profile_image_url`; artist edit keeps existing URL when omitted.
 - Home banner create requires `banner_image_url`; image can be replaced via dedicated PATCH API.
 

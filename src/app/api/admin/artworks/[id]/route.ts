@@ -17,6 +17,10 @@ type ArtworkImageRow = RowDataPacket & {
   created_at: string | null;
 };
 
+type ArtworkFestivalRow = RowDataPacket & {
+  year: string;
+};
+
 async function getArtworkWithImages(artworkId: number) {
   const rows = await query<RowDataPacket[]>(`SELECT * FROM artworks WHERE id = ?`, [artworkId]);
   const artwork = rows[0];
@@ -33,9 +37,18 @@ async function getArtworkWithImages(artworkId: number) {
     [artworkId],
   );
 
+  const festivalRows = await query<ArtworkFestivalRow[]>(
+    `SELECT \`year\` AS year
+     FROM artwork_festivals
+     WHERE artwork_id = ?
+     ORDER BY CAST(\`year\` AS UNSIGNED) DESC, \`year\` DESC`,
+    [artworkId],
+  );
+
   return {
     ...artwork,
     images,
+    festival_years: festivalRows.map((row) => row.year),
   };
 }
 
@@ -114,6 +127,19 @@ export async function PUT(
         );
       }
 
+      await connection.query<ResultSetHeader>(
+        `DELETE FROM artwork_festivals WHERE artwork_id = ?`,
+        [id],
+      );
+
+      for (const year of payload.festival_years) {
+        await connection.query<ResultSetHeader>(
+          `INSERT INTO artwork_festivals (artwork_id, \`year\`, created_at)
+           VALUES (?, ?, NOW())`,
+          [id, year],
+        );
+      }
+
       const [artworkRows] = await connection.query<RowDataPacket[]>(
         `SELECT * FROM artworks WHERE id = ?`,
         [id],
@@ -125,10 +151,18 @@ export async function PUT(
          ORDER BY id ASC`,
         [id],
       );
+      const [festivalRows] = await connection.query<ArtworkFestivalRow[]>(
+        `SELECT \`year\` AS year
+         FROM artwork_festivals
+         WHERE artwork_id = ?
+         ORDER BY CAST(\`year\` AS UNSIGNED) DESC, \`year\` DESC`,
+        [id],
+      );
 
       return {
         ...artworkRows[0],
         images: imageRows,
+        festival_years: festivalRows.map((row) => row.year),
       };
     });
 

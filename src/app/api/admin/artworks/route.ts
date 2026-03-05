@@ -23,9 +23,10 @@ type ArtworkListRow = RowDataPacket & {
   zone_id: number | null;
   zone_name_ko: string | null;
   category: string;
-  production_year: number;
+  production_year: number | null;
   likes_count: number;
   thumbnail_image_url: string | null;
+  festival_years_summary: string | null;
   deleted_at: string | null;
   updated_at: string;
 };
@@ -35,6 +36,10 @@ type ArtworkImageRow = RowDataPacket & {
   artwork_id: number;
   image_url: string;
   created_at: string | null;
+};
+
+type ArtworkFestivalRow = RowDataPacket & {
+  year: string;
 };
 
 export async function GET(request: NextRequest) {
@@ -91,6 +96,7 @@ export async function GET(request: NextRequest) {
       `SELECT a.id, a.title_ko, a.title_en, a.artist_id, ar.name_ko AS artist_name_ko,
               a.place_id, p.name_ko AS place_name_ko, p.zone_id, z.name_ko AS zone_name_ko,
               a.category, a.production_year, a.likes_count, thumb.image_url AS thumbnail_image_url,
+              festivals.festival_years_summary,
               a.deleted_at, a.updated_at
        FROM artworks a
        INNER JOIN artists ar ON ar.id = a.artist_id
@@ -105,6 +111,14 @@ export async function GET(request: NextRequest) {
            GROUP BY artwork_id
          ) first_ai ON first_ai.first_image_id = ai.id
        ) thumb ON thumb.artwork_id = a.id
+       LEFT JOIN (
+         SELECT artwork_id,
+                GROUP_CONCAT(
+                  \`year\` ORDER BY CAST(\`year\` AS UNSIGNED) DESC SEPARATOR ', '
+                ) AS festival_years_summary
+         FROM artwork_festivals
+         GROUP BY artwork_id
+       ) festivals ON festivals.artwork_id = a.id
        ${where.join(" ")}
        ORDER BY a.updated_at DESC
        LIMIT ? OFFSET ?`,
@@ -153,6 +167,14 @@ export async function POST(request: NextRequest) {
         );
       }
 
+      for (const year of payload.festival_years) {
+        await connection.query<ResultSetHeader>(
+          `INSERT INTO artwork_festivals (artwork_id, \`year\`, created_at)
+           VALUES (?, ?, NOW())`,
+          [inserted.insertId, year],
+        );
+      }
+
       const [artworkRows] = await connection.query<RowDataPacket[]>(
         `SELECT * FROM artworks WHERE id = ?`,
         [inserted.insertId],
@@ -164,10 +186,18 @@ export async function POST(request: NextRequest) {
          ORDER BY id ASC`,
         [inserted.insertId],
       );
+      const [festivalRows] = await connection.query<ArtworkFestivalRow[]>(
+        `SELECT \`year\` AS year
+         FROM artwork_festivals
+         WHERE artwork_id = ?
+         ORDER BY CAST(\`year\` AS UNSIGNED) DESC, \`year\` DESC`,
+        [inserted.insertId],
+      );
 
       return {
         ...artworkRows[0],
         images: imageRows,
+        festival_years: festivalRows.map((row) => row.year),
       };
     });
 

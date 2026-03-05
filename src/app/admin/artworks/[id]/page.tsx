@@ -20,6 +20,7 @@ type Artwork = {
   description_en: string;
   audio_url_ko: string | null;
   audio_url_en: string | null;
+  festival_years: string[];
   images: {
     id: number;
     artwork_id: number;
