@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "josechifflet-shadcn-ui": {
+      "source": "smithery.ai",
+      "sourceType": "well-known",
+      "computedHash": "a0cc3ce7b6f194e419d7ef41d4cc75b0f2de7af6daa26818252a527961b58889"
+    }
+  }
+}
