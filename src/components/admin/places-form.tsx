@@ -36,6 +36,17 @@ function buildCoordinateSchema(min: number, max: number) {
     }, `${min} ~ ${max} 범위의 값을 입력해주세요.`);
 }
 
+function parseCoordinate(rawValue: string) {
+  const trimmed = rawValue.trim();
+
+  if (trimmed.length === 0) {
+    return null;
+  }
+
+  const parsed = Number(trimmed);
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
 const schema = z.object({
   name_ko: z.string().trim().min(1, "필수 입력입니다."),
   name_en: z.string().trim().min(1, "필수 입력입니다."),
@@ -91,6 +102,9 @@ export function PlacesForm({
   const [geocodeMessage, setGeocodeMessage] = useState("");
   const [coordinatesEdited, setCoordinatesEdited] = useState(false);
   const geocodeRequestIdRef = useRef(0);
+  const mapContainerRef = useRef<HTMLDivElement | null>(null);
+  const mapRef = useRef<KakaoMap | null>(null);
+  const markerRef = useRef<KakaoMarker | null>(null);
   const kakaoSdkKey = (
     process.env.NEXT_PUBLIC_KAKAO_MAP_SDK_KEY ??
     process.env.NEXT_PUBLIC_KAKAO_MAP_APP_KEY ??
@@ -125,6 +139,18 @@ export function PlacesForm({
   });
 
   const addressValue = watch("address") ?? "";
+  const latValue = watch("lat") ?? "";
+  const lngValue = watch("lng") ?? "";
+
+  const parsedLat = useMemo(() => parseCoordinate(latValue), [latValue]);
+  const parsedLng = useMemo(() => parseCoordinate(lngValue), [lngValue]);
+  const hasValidCoordinates =
+    parsedLat !== null &&
+    parsedLng !== null &&
+    parsedLat >= -90 &&
+    parsedLat <= 90 &&
+    parsedLng >= -180 &&
+    parsedLng <= 180;
 
   useEffect(() => {
     const fetchZones = async () => {
@@ -153,6 +179,70 @@ export function PlacesForm({
       setKakaoLoadError("");
     });
   }, [isKakaoSdkEnabled]);
+
+  useEffect(() => {
+    if (
+      !isKakaoSdkEnabled ||
+      !kakaoSdkReady ||
+      kakaoLoadError ||
+      typeof window === "undefined" ||
+      !window.kakao?.maps ||
+      !mapContainerRef.current
+    ) {
+      return;
+    }
+
+    const mapCenterLat = hasValidCoordinates && parsedLat !== null ? parsedLat : 37.5665;
+    const mapCenterLng = hasValidCoordinates && parsedLng !== null ? parsedLng : 126.978;
+    const center = new window.kakao.maps.LatLng(mapCenterLat, mapCenterLng);
+
+    if (!mapRef.current) {
+      mapRef.current = new window.kakao.maps.Map(mapContainerRef.current, {
+        center,
+        level: 3,
+      });
+    } else {
+      mapRef.current.setCenter(center);
+    }
+
+    if (!hasValidCoordinates || parsedLat === null || parsedLng === null) {
+      if (markerRef.current) {
+        markerRef.current.setMap(null);
+        markerRef.current = null;
+      }
+      return;
+    }
+
+    const position = new window.kakao.maps.LatLng(parsedLat, parsedLng);
+
+    if (!markerRef.current) {
+      markerRef.current = new window.kakao.maps.Marker({
+        map: mapRef.current,
+        position,
+      });
+      return;
+    }
+
+    markerRef.current.setMap(mapRef.current);
+    markerRef.current.setPosition(position);
+  }, [
+    hasValidCoordinates,
+    isKakaoSdkEnabled,
+    kakaoLoadError,
+    kakaoSdkReady,
+    parsedLat,
+    parsedLng,
+  ]);
+
+  useEffect(() => {
+    return () => {
+      if (markerRef.current) {
+        markerRef.current.setMap(null);
+      }
+      markerRef.current = null;
+      mapRef.current = null;
+    };
+  }, []);
 
   const geocodeAddress = useCallback(
     async (rawAddress: string, trigger: GeocodeTrigger) => {
@@ -316,6 +406,7 @@ export function PlacesForm({
             });
           }}
           onError={() => {
+            setKakaoSdkReady(false);
             setKakaoLoadError("카카오 지도 SDK 로드에 실패했습니다.");
           }}
         />
@@ -397,6 +488,28 @@ export function PlacesForm({
           <Input id="lng" type="number" step="0.0000001" {...lngRegister} />
           {errors.lng ? <p className="text-sm text-red-500">{errors.lng.message}</p> : null}
         </div>
+      </div>
+
+      <div className="space-y-2">
+        <Label>지도 미리보기</Label>
+        {isKakaoSdkEnabled && kakaoSdkReady && !kakaoLoadError ? (
+          <div className="overflow-hidden rounded-md border border-input">
+            <div ref={mapContainerRef} className="h-72 w-full" />
+          </div>
+        ) : (
+          <div className="rounded-md border border-dashed border-input p-4 text-sm text-muted-foreground">
+            지도 SDK가 준비되면 좌표 위치를 지도에서 확인할 수 있습니다.
+          </div>
+        )}
+        {hasValidCoordinates ? (
+          <p className="text-xs text-muted-foreground">
+            현재 위도/경도 좌표를 기준으로 마커를 표시합니다.
+          </p>
+        ) : (
+          <p className="text-xs text-muted-foreground">
+            위도/경도 값을 입력하면 지도에 위치 마커가 표시됩니다.
+          </p>
+        )}
       </div>
 
       {error ? <p className="text-sm text-red-500">{error}</p> : null}
