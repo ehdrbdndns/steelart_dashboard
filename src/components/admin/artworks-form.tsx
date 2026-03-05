@@ -300,7 +300,7 @@ export function ArtworksForm({
           <CardTitle className="text-base text-blue-900">미디어 입력 정책</CardTitle>
           <CardDescription className="text-blue-800">
             {mode === "create"
-              ? "생성 시 작품 이미지는 최소 1장, 오디오 2개(ko/en)는 필수입니다."
+              ? "생성 시 작품 이미지는 최소 1장, 오디오는 한국어/영어 각각 1개가 필수입니다."
               : "수정 시 오디오는 필요한 파일만 교체하세요. 이미지는 현재 목록 기준으로 전체 저장됩니다."}
           </CardDescription>
         </CardHeader>
@@ -313,12 +313,12 @@ export function ArtworksForm({
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="space-y-1">
-              <Label htmlFor="title_ko">title_ko</Label>
+              <Label htmlFor="title_ko">작품명(한국어)</Label>
               <Input id="title_ko" {...register("title_ko")} />
               {errors.title_ko ? <p className="text-sm text-red-500">필수 입력입니다.</p> : null}
             </div>
             <div className="space-y-1">
-              <Label htmlFor="title_en">title_en</Label>
+              <Label htmlFor="title_en">작품명(영어)</Label>
               <Input id="title_en" {...register("title_en")} />
               {errors.title_en ? <p className="text-sm text-red-500">필수 입력입니다.</p> : null}
             </div>
@@ -326,7 +326,7 @@ export function ArtworksForm({
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="space-y-1">
-              <Label htmlFor="artist_id">artist_id</Label>
+              <Label htmlFor="artist_id">작가</Label>
               <select
                 id="artist_id"
                 className={selectClassName}
@@ -342,7 +342,7 @@ export function ArtworksForm({
               {errors.artist_id ? <p className="text-sm text-red-500">필수 입력입니다.</p> : null}
             </div>
             <div className="space-y-1">
-              <Label htmlFor="place_id">place_id</Label>
+              <Label htmlFor="place_id">설치 장소</Label>
               <select
                 id="place_id"
                 className={selectClassName}
@@ -361,15 +361,15 @@ export function ArtworksForm({
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="space-y-1">
-              <Label htmlFor="category">category</Label>
+              <Label htmlFor="category">작품 유형</Label>
               <select id="category" className={selectClassName} {...register("category")}>
-                <option value="STEEL_ART">STEEL_ART</option>
-                <option value="PUBLIC_ART">PUBLIC_ART</option>
+                <option value="STEEL_ART">스틸아트</option>
+                <option value="PUBLIC_ART">공공미술</option>
               </select>
               {errors.category ? <p className="text-sm text-red-500">필수 입력입니다.</p> : null}
             </div>
             <div className="space-y-1">
-              <Label htmlFor="production_year">production_year</Label>
+              <Label htmlFor="production_year">제작 연도</Label>
               <Input
                 id="production_year"
                 type="number"
@@ -383,12 +383,12 @@ export function ArtworksForm({
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="space-y-1">
-              <Label htmlFor="size_text_ko">size_text_ko</Label>
+              <Label htmlFor="size_text_ko">작품 크기(한국어)</Label>
               <Input id="size_text_ko" {...register("size_text_ko")} />
               {errors.size_text_ko ? <p className="text-sm text-red-500">필수 입력입니다.</p> : null}
             </div>
             <div className="space-y-1">
-              <Label htmlFor="size_text_en">size_text_en</Label>
+              <Label htmlFor="size_text_en">작품 크기(영어)</Label>
               <Input id="size_text_en" {...register("size_text_en")} />
               {errors.size_text_en ? <p className="text-sm text-red-500">필수 입력입니다.</p> : null}
             </div>
@@ -396,14 +396,14 @@ export function ArtworksForm({
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="space-y-1">
-              <Label htmlFor="description_ko">description_ko</Label>
+              <Label htmlFor="description_ko">작품 설명(한국어)</Label>
               <Textarea id="description_ko" rows={4} {...register("description_ko")} />
               {errors.description_ko ? (
                 <p className="text-sm text-red-500">필수 입력입니다.</p>
               ) : null}
             </div>
             <div className="space-y-1">
-              <Label htmlFor="description_en">description_en</Label>
+              <Label htmlFor="description_en">작품 설명(영어)</Label>
               <Textarea id="description_en" rows={4} {...register("description_en")} />
               {errors.description_en ? (
                 <p className="text-sm text-red-500">필수 입력입니다.</p>
@@ -523,7 +523,7 @@ export function ArtworksForm({
               </div>
 
               <FileUploadField
-                label={`image_url #${index + 1}`}
+                label={`이미지 파일 #${index + 1}`}
                 value={draft.image_url}
                 folder="artworks/images"
                 accept="image/*"
@@ -569,7 +569,7 @@ export function ArtworksForm({
               name="audio_url_ko"
               render={({ field }) => (
                 <FileUploadField
-                  label="audio_url_ko"
+                  label="오디오(한국어)"
                   value={typeof field.value === "string" ? field.value : ""}
                   folder="artworks/audio-ko"
                   accept="audio/*"
@@ -588,7 +588,7 @@ export function ArtworksForm({
               name="audio_url_en"
               render={({ field }) => (
                 <FileUploadField
-                  label="audio_url_en"
+                  label="오디오(영어)"
                   value={typeof field.value === "string" ? field.value : ""}
                   folder="artworks/audio-en"
                   accept="audio/*"
