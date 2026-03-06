@@ -228,37 +228,21 @@ AI는 코드 구현과 반복 수정에는 강했지만, 다음 영역은 직접
 
 # 주요 화면
 
-### 사용자 관리(목록)
+### 사용자 관리
 
-![Users List](docs/readme/assets/user-management.png)
+![User Management](docs/readme/assets/user-management.png)
 
-### 사용자 상세
+### 작품 관리
 
-![User Detail](docs/readme/assets/user-detail.png)
+![Artwork Management](docs/readme/assets/artwork-management.png)
 
-### 작품 관리(목록)
+### 작가 관리
 
-![Artworks List](docs/readme/assets/artwork-management.png)
+![Artist Management](docs/readme/assets/artist-management.png)
 
-### 작품 상세
+### 배너/콘텐츠 관리
 
-![Artwork Detail](docs/readme/assets/artwork-detail.png)
-
-### 작가 관리(목록)
-
-![Artists List](docs/readme/assets/artist-management.png)
-
-### 작가 상세
-
-![Artist Detail](docs/readme/assets/artist-detail.png)
-
-### 배너/콘텐츠 관리(목록)
-
-![Home Banners List](docs/readme/assets/banner-management.png)
-
-### 배너 상세 동작
-
-![Home Banners Detail Action](docs/readme/assets/banner-detail.png)
+![Banner Management](docs/readme/assets/banner-management.png)
 
 ---
 
