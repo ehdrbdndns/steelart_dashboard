@@ -239,14 +239,17 @@ AI는 코드 구현과 반복 수정에는 강했지만, 다음 영역은 직접
 ### 작품 관리(목록)
 
 ![Artworks List](docs/readme/assets/artwork-management.png)
+![Artworks List - Part 2](docs/readme/assets/artwork-management-2.png)
 
 ### 작품 상세
 
 ![Artwork Detail](docs/readme/assets/artwork-detail.png)
+![Artwork Detail - Part 2](docs/readme/assets/artwork-detail-2.png)
 
 ### 작가 관리(목록)
 
 ![Artists List](docs/readme/assets/artist-management.png)
+![Artists List - Part 2](docs/readme/assets/artist-management-2.png)
 
 ### 작가 상세
 
