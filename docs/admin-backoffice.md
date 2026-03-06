@@ -10,12 +10,20 @@
 - S3 presigned upload for artwork media (artwork images + `audio_url_ko`, `audio_url_en`)
 - Artwork festival year management (`festival_years[]` -> `artwork_festivals`)
 - Artist profile image upload (`profile_image_url`) with preview on artist form and list thumbnail
+- Artwork form includes embedded Place fields (name/address/zone/lat/lng) and creates Place together
+- Artwork form supports Kakao geocoding (`address` -> `lat`/`lng`) and map preview marker
+- Artwork update uses shared-place guard: updates place directly when unshared, otherwise clones place and rebinds only current artwork
+- `/admin/places*` routes are redirected to artwork pages (Place standalone menu removed)
 
 ## Environment Variables
 - Core auth/db:
   - `NEXTAUTH_URL`, `NEXTAUTH_SECRET`
   - `ADMIN_EMAIL`, `ADMIN_PASSWORD`
   - `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`
+- Kakao Maps:
+  - `NEXT_PUBLIC_KAKAO_MAP_SDK_KEY` (Kakao Maps JavaScript SDK key, client-side)
+  - `KAKAO_REST_API_KEY` (Kakao Local REST API key, server-side geocode)
+  - Legacy fallback: `NEXT_PUBLIC_KAKAO_MAP_APP_KEY` is still read if SDK key is unset
 - Mock seed mode:
   - `MOCK_MEDIA_BASE_URL` (optional)
   - `ALLOW_MOCK_SEED` (`true` required to run mock seed)
@@ -34,6 +42,8 @@
 - Artwork edit replaces image list(`images[]`) and keeps existing audio URL when omitted.
 - Artwork create/edit supports `festival_years[]` (trim + dedupe + `YYYY` validation).
 - Artwork save replaces `artwork_festivals` rows for the target artwork.
+- Artwork create/edit includes embedded `place` payload:
+  - `place.name_ko`, `place.name_en`, `place.address`, `place.zone_id`, `place.lat`, `place.lng`
 - Artist create requires `profile_image_url`; artist edit keeps existing URL when omitted.
 - Home banner create requires `banner_image_url`; image can be replaced via dedicated PATCH API.
 
@@ -67,8 +77,14 @@
   - verify S3 bucket CORS and Vercel/localhost origins are configured.
 - Mock seed blocked:
   - set `ALLOW_MOCK_SEED=true`, and do not run in production.
+- artwork form place geocode/map does not work:
+  - verify `KAKAO_REST_API_KEY` is set.
+  - verify REST API is enabled for the app and key is valid in Kakao developer console.
+  - if SDK warning appears, verify `NEXT_PUBLIC_KAKAO_MAP_SDK_KEY` and allowed web domain (`localhost`/production).
 
 ## Notes
 - `home_banners` uses hard delete by requirement.
 - `home_banners` is independent from `artworks` and stores `banner_image_url` directly.
+- `places` is no longer managed as a standalone admin menu; it is managed through artwork create/edit flow.
+- `places` soft delete guard(`PLACE_IN_USE`) remains on API for data safety/compatibility.
 - Existing template routes were removed and root redirects to admin entry.

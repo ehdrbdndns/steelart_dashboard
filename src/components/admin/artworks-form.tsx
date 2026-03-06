@@ -1,7 +1,8 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useRef, useState } from "react";
+import Script from "next/script";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { FileUploadField } from "@/components/admin/file-upload-field";
@@ -31,11 +32,45 @@ const optionalUrlSchema = z
 
 const FESTIVAL_YEAR_PATTERN = /^\d{4}$/;
 
+const zoneIdFieldSchema = z
+  .string()
+  .optional()
+  .refine((value) => {
+    if (!value || value.trim().length === 0) {
+      return true;
+    }
+
+    const parsed = Number(value);
+    return Number.isInteger(parsed) && parsed > 0;
+  }, "올바른 권역을 선택해주세요.");
+
+function buildCoordinateSchema(min: number, max: number) {
+  return z
+    .string()
+    .trim()
+    .min(1, "필수 입력입니다.")
+    .refine((value) => !Number.isNaN(Number(value)), "숫자를 입력해주세요.")
+    .refine((value) => {
+      const numeric = Number(value);
+      return numeric >= min && numeric <= max;
+    }, `${min} ~ ${max} 범위의 값을 입력해주세요.`);
+}
+
+function parseCoordinate(rawValue: string) {
+  const trimmed = rawValue.trim();
+
+  if (trimmed.length === 0) {
+    return null;
+  }
+
+  const parsed = Number(trimmed);
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
 const schema = z.object({
   title_ko: z.string().min(1),
   title_en: z.string().min(1),
   artist_id: z.number().int().positive(),
-  place_id: z.number().int().positive(),
   category: artworkCategorySchema,
   production_year: z.number().int().positive(),
   size_text_ko: z.string().min(1),
@@ -44,6 +79,14 @@ const schema = z.object({
   description_en: z.string().min(1),
   audio_url_ko: optionalUrlSchema,
   audio_url_en: optionalUrlSchema,
+  place: z.object({
+    name_ko: z.string().trim().min(1, "필수 입력입니다."),
+    name_en: z.string().trim().min(1, "필수 입력입니다."),
+    address: z.string().optional(),
+    zone_id: zoneIdFieldSchema,
+    lat: buildCoordinateSchema(-90, 90),
+    lng: buildCoordinateSchema(-180, 180),
+  }),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -56,12 +99,24 @@ type ArtworkImage = {
   created_at: string | null;
 };
 
+type ArtworkPlace = {
+  id: number;
+  zone_id: number | null;
+  zone_name_ko: string | null;
+  name_ko: string;
+  name_en: string;
+  address: string | null;
+  lat: number;
+  lng: number;
+};
+
 type ArtworkInitialData = {
   id?: number;
   title_ko?: string;
   title_en?: string;
   artist_id?: number;
   place_id?: number;
+  place?: ArtworkPlace | null;
   category?: "STEEL_ART" | "PUBLIC_ART";
   production_year?: number;
   size_text_ko?: string;
@@ -89,6 +144,16 @@ type FestivalYearDraft = {
   year: string;
 };
 
+type GeocodeState = "idle" | "loading" | "success" | "error";
+
+type GeocodeTrigger = "auto" | "manual";
+
+type GeocodeResponse = {
+  lat: number;
+  lng: number;
+  matched_address: string;
+};
+
 const selectClassName =
   "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50";
 
@@ -102,10 +167,34 @@ export function ArtworksForm({
   onSaved: () => void;
 }) {
   const [artists, setArtists] = useState<SelectOption[]>([]);
-  const [places, setPlaces] = useState<SelectOption[]>([]);
+  const [zones, setZones] = useState<SelectOption[]>([]);
   const [error, setError] = useState("");
+  const [kakaoSdkReady, setKakaoSdkReady] = useState(false);
+  const [kakaoLoadError, setKakaoLoadError] = useState("");
+  const [geocodeState, setGeocodeState] = useState<GeocodeState>("idle");
+  const [geocodeMessage, setGeocodeMessage] = useState("");
+  const [coordinatesEdited, setCoordinatesEdited] = useState(false);
+  const geocodeRequestIdRef = useRef(0);
+  const mapContainerRef = useRef<HTMLDivElement | null>(null);
+  const mapRef = useRef<KakaoMap | null>(null);
+  const markerRef = useRef<KakaoMarker | null>(null);
   const imageDraftIndex = useRef(0);
   const festivalYearDraftIndex = useRef(0);
+
+  const kakaoSdkKey = (
+    process.env.NEXT_PUBLIC_KAKAO_MAP_SDK_KEY ??
+    process.env.NEXT_PUBLIC_KAKAO_MAP_APP_KEY ??
+    ""
+  ).trim();
+  const isKakaoSdkEnabled = kakaoSdkKey.length > 0;
+
+  const kakaoScriptSrc = useMemo(() => {
+    if (!isKakaoSdkEnabled) {
+      return "";
+    }
+
+    return `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${encodeURIComponent(kakaoSdkKey)}&autoload=false&libraries=services`;
+  }, [isKakaoSdkEnabled, kakaoSdkKey]);
 
   const createImageDraft = (imageUrl = ""): ArtworkImageDraft => {
     imageDraftIndex.current += 1;
@@ -151,6 +240,8 @@ export function ArtworksForm({
     control,
     register,
     handleSubmit,
+    setValue,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
@@ -158,32 +249,51 @@ export function ArtworksForm({
       title_ko: initialData?.title_ko ?? "",
       title_en: initialData?.title_en ?? "",
       artist_id: Number(initialData?.artist_id ?? 0),
-      place_id: Number(initialData?.place_id ?? 0),
       category: initialData?.category ?? "STEEL_ART",
-      production_year: Number(
-        initialData?.production_year ?? new Date().getFullYear(),
-      ),
+      production_year: Number(initialData?.production_year ?? new Date().getFullYear()),
       size_text_ko: initialData?.size_text_ko ?? "",
       size_text_en: initialData?.size_text_en ?? "",
       description_ko: initialData?.description_ko ?? "",
       description_en: initialData?.description_en ?? "",
       audio_url_ko: initialData?.audio_url_ko ?? "",
       audio_url_en: initialData?.audio_url_en ?? "",
+      place: {
+        name_ko: initialData?.place?.name_ko ?? "",
+        name_en: initialData?.place?.name_en ?? "",
+        address: initialData?.place?.address ?? "",
+        zone_id: initialData?.place?.zone_id ? String(initialData.place.zone_id) : "",
+        lat: initialData?.place ? initialData.place.lat.toFixed(7) : "",
+        lng: initialData?.place ? initialData.place.lng.toFixed(7) : "",
+      },
     },
   });
+
+  const placeAddressValue = watch("place.address") ?? "";
+  const placeLatValue = watch("place.lat") ?? "";
+  const placeLngValue = watch("place.lng") ?? "";
+
+  const parsedLat = useMemo(() => parseCoordinate(placeLatValue), [placeLatValue]);
+  const parsedLng = useMemo(() => parseCoordinate(placeLngValue), [placeLngValue]);
+  const hasValidCoordinates =
+    parsedLat !== null &&
+    parsedLng !== null &&
+    parsedLat >= -90 &&
+    parsedLat <= 90 &&
+    parsedLng >= -180 &&
+    parsedLng <= 180;
 
   useEffect(() => {
     const fetchOptions = async () => {
       try {
-        const [artistsResponse, placesResponse] = await Promise.all([
+        const [artistsResponse, zonesResponse] = await Promise.all([
           requestJsonWithMeta<SelectOption[]>(
             "/api/admin/artists?deleted=exclude&page=1&size=100",
           ),
-          requestJson<SelectOption[]>("/api/admin/places?deleted=exclude"),
+          requestJson<SelectOption[]>("/api/admin/zones"),
         ]);
 
         setArtists(artistsResponse.data);
-        setPlaces(placesResponse);
+        setZones(zonesResponse);
       } catch (fetchError) {
         setError(fetchError instanceof Error ? fetchError.message : "옵션 조회 실패");
       }
@@ -191,6 +301,162 @@ export function ArtworksForm({
 
     void fetchOptions();
   }, []);
+
+  useEffect(() => {
+    if (!isKakaoSdkEnabled || typeof window === "undefined") {
+      return;
+    }
+
+    if (!window.kakao?.maps?.load) {
+      return;
+    }
+
+    window.kakao.maps.load(() => {
+      setKakaoSdkReady(true);
+      setKakaoLoadError("");
+    });
+  }, [isKakaoSdkEnabled]);
+
+  useEffect(() => {
+    if (
+      !isKakaoSdkEnabled ||
+      !kakaoSdkReady ||
+      kakaoLoadError ||
+      typeof window === "undefined" ||
+      !window.kakao?.maps ||
+      !mapContainerRef.current
+    ) {
+      return;
+    }
+
+    const mapCenterLat = hasValidCoordinates && parsedLat !== null ? parsedLat : 37.5665;
+    const mapCenterLng = hasValidCoordinates && parsedLng !== null ? parsedLng : 126.978;
+    const center = new window.kakao.maps.LatLng(mapCenterLat, mapCenterLng);
+
+    if (!mapRef.current) {
+      mapRef.current = new window.kakao.maps.Map(mapContainerRef.current, {
+        center,
+        level: 3,
+      });
+    } else {
+      mapRef.current.setCenter(center);
+    }
+
+    if (!hasValidCoordinates || parsedLat === null || parsedLng === null) {
+      if (markerRef.current) {
+        markerRef.current.setMap(null);
+        markerRef.current = null;
+      }
+      return;
+    }
+
+    const position = new window.kakao.maps.LatLng(parsedLat, parsedLng);
+
+    if (!markerRef.current) {
+      markerRef.current = new window.kakao.maps.Marker({
+        map: mapRef.current,
+        position,
+      });
+      return;
+    }
+
+    markerRef.current.setMap(mapRef.current);
+    markerRef.current.setPosition(position);
+  }, [
+    hasValidCoordinates,
+    isKakaoSdkEnabled,
+    kakaoLoadError,
+    kakaoSdkReady,
+    parsedLat,
+    parsedLng,
+  ]);
+
+  useEffect(() => {
+    return () => {
+      if (markerRef.current) {
+        markerRef.current.setMap(null);
+      }
+      markerRef.current = null;
+      mapRef.current = null;
+    };
+  }, []);
+
+  const geocodeAddress = useCallback(
+    async (rawAddress: string, trigger: GeocodeTrigger) => {
+      const address = rawAddress.trim();
+
+      if (!address) {
+        setGeocodeState("idle");
+        setGeocodeMessage("");
+        return;
+      }
+
+      const requestId = geocodeRequestIdRef.current + 1;
+      geocodeRequestIdRef.current = requestId;
+      setGeocodeState("loading");
+      setGeocodeMessage("주소로 좌표를 찾는 중입니다...");
+
+      try {
+        const result = await requestJson<GeocodeResponse>("/api/admin/places/geocode", {
+          method: "POST",
+          body: JSON.stringify({ address }),
+        });
+
+        if (requestId !== geocodeRequestIdRef.current) {
+          return;
+        }
+
+        if (!Number.isFinite(result.lat) || !Number.isFinite(result.lng)) {
+          setGeocodeState("error");
+          setGeocodeMessage("좌표 형식이 올바르지 않습니다. 직접 입력해주세요.");
+          return;
+        }
+
+        setValue("place.lat", result.lat.toFixed(7), {
+          shouldDirty: true,
+          shouldValidate: true,
+        });
+        setValue("place.lng", result.lng.toFixed(7), {
+          shouldDirty: true,
+          shouldValidate: true,
+        });
+        setCoordinatesEdited(false);
+        setGeocodeState("success");
+        setGeocodeMessage(
+          trigger === "auto"
+            ? "주소 기반으로 좌표를 자동 입력했습니다."
+            : "좌표를 다시 조회해 반영했습니다.",
+        );
+      } catch (geocodeError) {
+        if (requestId !== geocodeRequestIdRef.current) {
+          return;
+        }
+
+        setGeocodeState("error");
+        setGeocodeMessage(
+          geocodeError instanceof Error
+            ? geocodeError.message
+            : "주소에 대한 좌표를 찾지 못했습니다. 직접 입력해주세요.",
+        );
+      }
+    },
+    [setValue],
+  );
+
+  useEffect(() => {
+    const trimmedAddress = placeAddressValue.trim();
+    if (trimmedAddress.length === 0) {
+      setGeocodeState("idle");
+      setGeocodeMessage("");
+      return;
+    }
+
+    const timer = window.setTimeout(() => {
+      void geocodeAddress(trimmedAddress, "auto");
+    }, 600);
+
+    return () => window.clearTimeout(timer);
+  }, [geocodeAddress, placeAddressValue]);
 
   const moveImage = (fromIndex: number, toIndex: number) => {
     if (toIndex < 0 || toIndex >= imageDrafts.length) {
@@ -250,9 +516,12 @@ export function ArtworksForm({
       return;
     }
 
-    const deduplicatedFestivalYears = Array.from(
-      new Set(normalizedFestivalYears),
-    );
+    const deduplicatedFestivalYears = Array.from(new Set(normalizedFestivalYears));
+
+    const zoneId =
+      values.place.zone_id && values.place.zone_id.trim().length > 0
+        ? Number(values.place.zone_id)
+        : null;
 
     if (
       !confirmAction(
@@ -266,7 +535,23 @@ export function ArtworksForm({
 
     try {
       const payload = {
-        ...values,
+        title_ko: values.title_ko,
+        title_en: values.title_en,
+        artist_id: values.artist_id,
+        category: values.category,
+        production_year: values.production_year,
+        size_text_ko: values.size_text_ko,
+        size_text_en: values.size_text_en,
+        description_ko: values.description_ko,
+        description_en: values.description_en,
+        place: {
+          name_ko: values.place.name_ko.trim(),
+          name_en: values.place.name_en.trim(),
+          address: values.place.address?.trim() ? values.place.address.trim() : null,
+          lat: Number(values.place.lat),
+          lng: Number(values.place.lng),
+          zone_id: zoneId,
+        },
         audio_url_ko: values.audio_url_ko.trim() || undefined,
         audio_url_en: values.audio_url_en.trim() || undefined,
         images: normalizedImageUrls.map((imageUrl) => ({
@@ -293,8 +578,48 @@ export function ArtworksForm({
     }
   };
 
+  const placeLatRegister = register("place.lat", {
+    onChange: () => {
+      setCoordinatesEdited(true);
+      if (geocodeState === "success") {
+        setGeocodeMessage("위도를 수동으로 수정했습니다.");
+      }
+    },
+  });
+
+  const placeLngRegister = register("place.lng", {
+    onChange: () => {
+      setCoordinatesEdited(true);
+      if (geocodeState === "success") {
+        setGeocodeMessage("경도를 수동으로 수정했습니다.");
+      }
+    },
+  });
+
   return (
     <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+      {isKakaoSdkEnabled ? (
+        <Script
+          src={kakaoScriptSrc}
+          strategy="afterInteractive"
+          onLoad={() => {
+            if (!window.kakao?.maps?.load) {
+              setKakaoLoadError("카카오 지도 SDK를 초기화하지 못했습니다.");
+              return;
+            }
+
+            window.kakao.maps.load(() => {
+              setKakaoSdkReady(true);
+              setKakaoLoadError("");
+            });
+          }}
+          onError={() => {
+            setKakaoSdkReady(false);
+            setKakaoLoadError("카카오 지도 SDK 로드에 실패했습니다.");
+          }}
+        />
+      ) : null}
+
       <Card className="border-blue-300 bg-blue-50">
         <CardHeader className="pb-2">
           <CardTitle className="text-base text-blue-900">미디어 입력 정책</CardTitle>
@@ -342,25 +667,6 @@ export function ArtworksForm({
               {errors.artist_id ? <p className="text-sm text-red-500">필수 입력입니다.</p> : null}
             </div>
             <div className="space-y-1">
-              <Label htmlFor="place_id">설치 장소</Label>
-              <select
-                id="place_id"
-                className={selectClassName}
-                {...register("place_id", { valueAsNumber: true })}
-              >
-                <option value="0">선택</option>
-                {places.map((place) => (
-                  <option key={place.id} value={place.id}>
-                    {place.name_ko}
-                  </option>
-                ))}
-              </select>
-              {errors.place_id ? <p className="text-sm text-red-500">필수 입력입니다.</p> : null}
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <div className="space-y-1">
               <Label htmlFor="category">작품 유형</Label>
               <select id="category" className={selectClassName} {...register("category")}>
                 <option value="STEEL_ART">스틸아트</option>
@@ -368,6 +674,9 @@ export function ArtworksForm({
               </select>
               {errors.category ? <p className="text-sm text-red-500">필수 입력입니다.</p> : null}
             </div>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="space-y-1">
               <Label htmlFor="production_year">제작 연도</Label>
               <Input
@@ -379,19 +688,17 @@ export function ArtworksForm({
                 <p className="text-sm text-red-500">필수 입력입니다.</p>
               ) : null}
             </div>
-          </div>
-
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="space-y-1">
               <Label htmlFor="size_text_ko">작품 크기(한국어)</Label>
               <Input id="size_text_ko" {...register("size_text_ko")} />
               {errors.size_text_ko ? <p className="text-sm text-red-500">필수 입력입니다.</p> : null}
             </div>
-            <div className="space-y-1">
-              <Label htmlFor="size_text_en">작품 크기(영어)</Label>
-              <Input id="size_text_en" {...register("size_text_en")} />
-              {errors.size_text_en ? <p className="text-sm text-red-500">필수 입력입니다.</p> : null}
-            </div>
+          </div>
+
+          <div className="space-y-1">
+            <Label htmlFor="size_text_en">작품 크기(영어)</Label>
+            <Input id="size_text_en" {...register("size_text_en")} />
+            {errors.size_text_en ? <p className="text-sm text-red-500">필수 입력입니다.</p> : null}
           </div>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -409,6 +716,133 @@ export function ArtworksForm({
                 <p className="text-sm text-red-500">필수 입력입니다.</p>
               ) : null}
             </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>설치 장소 정보</CardTitle>
+          <CardDescription>
+            작품과 함께 저장될 장소 정보를 입력합니다.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="space-y-1">
+              <Label htmlFor="place_name_ko">이름(한글)</Label>
+              <Input id="place_name_ko" {...register("place.name_ko")} />
+              {errors.place?.name_ko ? (
+                <p className="text-sm text-red-500">{errors.place.name_ko.message}</p>
+              ) : null}
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="place_name_en">이름(영문)</Label>
+              <Input id="place_name_en" {...register("place.name_en")} />
+              {errors.place?.name_en ? (
+                <p className="text-sm text-red-500">{errors.place.name_en.message}</p>
+              ) : null}
+            </div>
+          </div>
+
+          <div className="space-y-1">
+            <Label htmlFor="place_zone_id">권역</Label>
+            <select
+              id="place_zone_id"
+              className={selectClassName}
+              {...register("place.zone_id")}
+            >
+              <option value="">권역 없음</option>
+              {zones.map((zone) => (
+                <option key={zone.id} value={zone.id}>
+                  {zone.name_ko}
+                </option>
+              ))}
+            </select>
+            {errors.place?.zone_id ? (
+              <p className="text-sm text-red-500">{errors.place.zone_id.message}</p>
+            ) : null}
+          </div>
+
+          <div className="space-y-1">
+            <Label htmlFor="place_address">주소(도로명)</Label>
+            <Input
+              id="place_address"
+              placeholder="주소(도로명)를 입력하면 위도/경도가 자동으로 채워집니다."
+              {...register("place.address")}
+            />
+            <div className="flex items-center gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                disabled={!placeAddressValue.trim() || geocodeState === "loading"}
+                onClick={() => {
+                  void geocodeAddress(placeAddressValue, "manual");
+                }}
+              >
+                좌표 다시 찾기
+              </Button>
+              {coordinatesEdited ? (
+                <span className="text-xs text-amber-600">좌표를 수동으로 수정했습니다.</span>
+              ) : null}
+            </div>
+            {kakaoLoadError ? <p className="text-sm text-red-500">{kakaoLoadError}</p> : null}
+            {!isKakaoSdkEnabled ? (
+              <p className="text-sm text-muted-foreground">
+                지도 SDK 키가 없어 지도 기능이 비활성화되었습니다.
+              </p>
+            ) : null}
+            {isKakaoSdkEnabled && !kakaoSdkReady && !kakaoLoadError ? (
+              <p className="text-sm text-muted-foreground">카카오 지도 SDK를 로드 중입니다.</p>
+            ) : null}
+            {geocodeState === "loading" ? (
+              <p className="text-sm text-muted-foreground">{geocodeMessage}</p>
+            ) : null}
+            {geocodeState === "success" ? (
+              <p className="text-sm text-emerald-600">{geocodeMessage}</p>
+            ) : null}
+            {geocodeState === "error" ? (
+              <p className="text-sm text-red-500">{geocodeMessage}</p>
+            ) : null}
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="space-y-1">
+              <Label htmlFor="place_lat">위도</Label>
+              <Input id="place_lat" type="number" step="0.0000001" {...placeLatRegister} />
+              {errors.place?.lat ? (
+                <p className="text-sm text-red-500">{errors.place.lat.message}</p>
+              ) : null}
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="place_lng">경도</Label>
+              <Input id="place_lng" type="number" step="0.0000001" {...placeLngRegister} />
+              {errors.place?.lng ? (
+                <p className="text-sm text-red-500">{errors.place.lng.message}</p>
+              ) : null}
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label>지도 미리보기</Label>
+            {isKakaoSdkEnabled && kakaoSdkReady && !kakaoLoadError ? (
+              <div className="overflow-hidden rounded-md border border-input">
+                <div ref={mapContainerRef} className="h-72 w-full" />
+              </div>
+            ) : (
+              <div className="rounded-md border border-dashed border-input p-4 text-sm text-muted-foreground">
+                지도 SDK가 준비되면 좌표 위치를 지도에서 확인할 수 있습니다.
+              </div>
+            )}
+            {hasValidCoordinates ? (
+              <p className="text-xs text-muted-foreground">
+                현재 위도/경도 좌표를 기준으로 마커를 표시합니다.
+              </p>
+            ) : (
+              <p className="text-xs text-muted-foreground">
+                위도/경도 값을 입력하면 지도에 위치 마커가 표시됩니다.
+              </p>
+            )}
           </div>
         </CardContent>
       </Card>

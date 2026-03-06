@@ -1,4 +1,11 @@
-import { type LucideIcon, Image, LayoutGrid, Route, UserSquare2, Users } from "lucide-react";
+import {
+  type LucideIcon,
+  Image,
+  LayoutGrid,
+  Route,
+  UserSquare2,
+  Users,
+} from "lucide-react";
 
 export type SiteConfig = typeof siteConfig;
 

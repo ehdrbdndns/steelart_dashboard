@@ -21,11 +21,17 @@
 2. `course_items` delete must fail with HTTP 409 when `course_checkins` exists.
 3. `home_banners` is hard delete only and re-sequences `display_order`.
 4. `home_banners` is independent from `artworks` and uses `banner_image_url` only.
-5. Soft delete domains (`artists`, `artworks`, `courses`) use `deleted_at` update/restore only.
+5. Soft delete domains (`artists`, `artworks`, `courses`, `places`) use `deleted_at` update/restore only.
 6. All API writes must use parameter binding (`?`) with mysql2.
-7. Home banner image replacement is handled by a dedicated endpoint (`PATCH /api/admin/home-banners/:id/image`).
-8. Artwork images are managed in `artwork_images` (1:N to `artworks`) and are replaced as a list on artwork save.
-9. Artwork festival years are managed in `artwork_festivals` (1:N to `artworks`) and are replaced as a list on artwork save.
+7. Home banner image replacement is handled by `PATCH /api/admin/home-banners/:id/image`.
+8. Artwork images are managed in `artwork_images` (1:N) and are replaced as a list on artwork save.
+9. Artwork festival years are managed in `artwork_festivals` (1:N) and are replaced as a list on artwork save.
+10. `places` soft delete must fail with HTTP 409 (`PLACE_IN_USE`) when active artworks reference the place.
+11. Artwork create/update payload uses embedded `place` object, not `place_id` input from client.
+12. Artwork create must insert `places` first and then `artworks` in one transaction.
+13. Artwork update must apply shared-place guard:
+- if current place is shared by other active artworks, clone new place and rebind only current artwork
+- if not shared, update current place row in place
 
 ## Artwork Media Policy (Current Phase)
 - Upload uses S3 presigned URL (`POST /api/admin/uploads/presign`).
@@ -36,11 +42,22 @@
   - `audio_url_en`
 - Artwork edit uses list replacement for images:
   - incoming `images[]` becomes the new image set for the artwork.
-- Artwork edit may omit audio URL fields; omitted values retain the current DB value.
+- Artwork edit may omit audio URL fields; omitted values retain current DB value.
 - Artwork create/update includes `festival_years[]`:
   - values are trimmed and de-duplicated.
   - year format is `YYYY`.
   - save uses replacement on `artwork_festivals`.
+
+## Artwork-Place Integration Policy
+- Backoffice UX treats Artwork-Place as operational 1:1.
+- Physical DB relation remains N:1 (`artworks.place_id -> places.id`).
+- Place standalone admin routes are removed from navigation and redirected to artwork routes.
+- `POST /api/admin/places/geocode` is retained for artwork form coordinate autofill.
+
+## Kakao Key Policy
+- `NEXT_PUBLIC_KAKAO_MAP_SDK_KEY`: client-side Kakao JS SDK load key.
+- `KAKAO_REST_API_KEY`: server-side Kakao Local REST geocode key.
+- `NEXT_PUBLIC_KAKAO_MAP_APP_KEY`: legacy fallback key (read only when SDK key is unset).
 
 ## Artist Profile Image Policy
 - Artists table includes `profile_image_url`.

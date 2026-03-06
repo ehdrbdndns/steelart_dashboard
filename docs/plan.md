@@ -1,331 +1,199 @@
-# Plan: 관리자 UI 영문 표기 한국어 전환 (표시 전용)
+# Plan: Artwork-Place 백오피스 통합(백오피스 1:1 운영 모델)
 
 작성일: 2026-03-05  
-대상 저장소: `/Users/donggyunyang/code/steelart_dashboard`
+최종 업데이트: 2026-03-05  
+대상 저장소: `/Users/donggyunyang/code/steelart_dashboard`  
+작업 브랜치: `codex/feta/place-crud`
 
-## 0) 계획 수립 근거
+## 0) 계획 수립 근거 (실제 코드 확인)
 
-본 계획은 구현 전에 실제 코드 파일을 확인하고 작성했다.
+요청대로 계획 작성 전 실제 소스를 읽고 구조를 확인했다.
 
-## 0.1 주석 반영 사항
-
-- 이번 작업은 **UI 표시 문자열 한국어화만 수행**한다.
-- 내부 로직/API/DB/검증 스키마/저장 enum 값은 변경하지 않는다.
-- 구현 시 diff 점검에서 `src/app/api/*`, `src/lib/server/*` 변경이 생기면 범위 이탈로 간주한다.
-- 작업 브랜치는 `feat/` 접두사 브랜치에서 진행한다.
-
-확인한 주요 파일:
-- `src/config/site.tsx`
-- `src/components/nav/admin-side-nav.tsx`
-- `src/components/nav/admin-top-nav.tsx`
-- `src/components/theme-toggle.tsx`
-- `src/app/admin/login/page.tsx`
-- `src/app/admin/users/page.tsx`
-- `src/app/admin/users/[id]/page.tsx`
-- `src/app/admin/artists/page.tsx`
-- `src/components/admin/artists-form.tsx`
-- `src/app/admin/courses/page.tsx`
-- `src/components/admin/courses-form.tsx`
-- `src/components/admin/course-items-editor.tsx`
-- `src/app/admin/home-banners/page.tsx`
-- `src/app/admin/artworks/page.tsx`
-- `src/components/admin/artworks-form.tsx`
-- `docs/research.md` (영문 표기 전수 조사 섹션)
-
-## 1) 목표
-
-관리자 화면에서 사용자에게 노출되는 영어/개발자 표기를 한국어로 전환한다.
-
-핵심 목표:
-- 메뉴/페이지 타이틀/컬럼/필터/버튼/상세 라벨을 한국어로 통일
-- enum 저장값은 유지하고 화면에서만 한국어로 표시
-- 기존 CRUD/API 동작은 100% 동일 유지
-
-## 2) 절대 제약 (변경 금지)
-
-이번 작업에서는 아래 항목을 절대 변경하지 않는다.
-
-1. API/DB/스키마 계약
-- API 경로, 요청/응답 key, 쿼리 파라미터 key
-- DB 컬럼명/테이블명/SQL 구조
-- Zod schema key와 서버 검증 로직
-
-2. 저장값/내부 enum 값
-- `COMPANY`, `INDIVIDUAL`
-- `STEEL_ART`, `PUBLIC_ART`
-- `POHANG`, `NON_POHANG`
-- `TEEN`, `20S`, `30S`, `40S`, `50S`, `60S`, `70_PLUS`
-- `ko`, `en`
-
-3. 비즈니스 로직
-- 생성/수정/삭제/복구 동작
-- 정렬/페이지네이션/필터링 조건
-- 권한/인증 흐름
-
-## 2.1 범위 이탈 방지 체크
-
-- 허용 변경 경로(원칙):
-  - `src/app/admin/*`
-  - `src/components/admin/*`
-  - `src/components/nav/*`
-  - `src/components/theme-toggle.tsx`
+확인 파일:
+- DB/계약: `docs/db-schema.sql`, `docs/db-contract.md`
+- Artwork API/UI:
+  - `src/app/api/admin/artworks/route.ts`
+  - `src/app/api/admin/artworks/[id]/route.ts`
+  - `src/components/admin/artworks-form.tsx`
+  - `src/app/admin/artworks/page.tsx`
+  - `src/app/admin/artworks/new/page.tsx`
+  - `src/app/admin/artworks/[id]/page.tsx`
+- Place API/UI:
+  - `src/app/api/admin/places/route.ts`
+  - `src/app/api/admin/places/[id]/route.ts`
+  - `src/app/api/admin/places/geocode/route.ts`
+  - `src/components/admin/places-form.tsx`
+  - `src/app/admin/places/page.tsx`
+  - `src/app/admin/places/new/page.tsx`
+  - `src/app/admin/places/[id]/page.tsx`
+- 공통/네비게이션/검증:
+  - `src/lib/server/validators/admin.ts`
   - `src/config/site.tsx`
-  - 문서(`docs/*`)
-- 비허용 변경 경로(원칙):
-  - `src/app/api/*`
-  - `src/lib/server/*`
-  - `scripts/*`
+  - `src/components/nav/admin-top-nav.tsx`
 
-## 3) 전환 방식
+## 1) 목표와 범위
 
-기본 원칙:
-- 화면 텍스트만 교체한다.
-- 내부 값은 유지하고, UI 렌더링 시 매핑해 보여준다.
+1. Place 독립 관리 메뉴/페이지를 제거한다.
+2. Artwork 생성/수정 시 Place 정보를 함께 입력하고 저장한다.
+3. 주소 입력 시 lat/lng 자동 반영 + 수동 수정 + 지도 미리보기 UX를 제공한다.
+4. 물리 모델 N:1은 유지하되, 백오피스 운영은 1:1처럼 안전하게 동작시킨다.
 
-매핑 방식:
-- 단순 고정 텍스트: 직접 한국어 문자열로 교체
-- enum/코드값 출력: display helper 함수 또는 상수 매핑으로 한국어 노출
+## 2) 상세 단계 및 완료 상태
 
-## 3.1 영문 표기별 한국어 치환안 (구현 기준)
+## Step 1. 계약 재정의 (Validation + Payload)
 
-아래는 실제 적용할 `영문 -> 한국어` 매핑이다.  
-주의: 좌측은 "표시 문자열" 기준이며, 내부 저장값/요청값은 그대로 유지한다.
+상태: [x]
 
-### A. 글로벌/네비게이션
-
-- `SteelArt Admin` -> `SteelArt 관리자`
-- `Admin` -> `관리자`
-- `Users` -> `사용자`
-- `Artists` -> `작가`
-- `Artworks` -> `작품`
-- `Courses` -> `코스`
-- `Home Banners` -> `홈 배너`
-
-### B. 로그인/테마
-
-- `SteelArt Admin Login` -> `SteelArt 관리자 로그인`
-- `Email` -> `이메일`
-- `Password` -> `비밀번호`
-- `Toggle theme` -> `테마 변경`
-- `Light` -> `라이트`
-- `Dark` -> `다크`
-- `System` -> `시스템`
-- `auto` -> `자동`
-
-### C. Users 목록/상세
-
-- `Users` -> `사용자`
-- `User #` -> `사용자 #`
-- `nickname` -> `닉네임`
-- `residency` -> `거주지`
-- `age_group` -> `연령대`
-- `language` -> `언어`
-- `noti` -> `알림 수신`
-- `joined_at` -> `가입 일시`
-- `actions` -> `관리`
-- `notifications_enabled` -> `알림 수신 여부`
-- `likes` -> `좋아요 수`
-- `liked_at` -> `좋아요 시각`
-- `category` -> `작품 유형`
-- `stamped_at` -> `스탬프 시각`
-- `Y` -> `예`
-- `N` -> `아니오`
-
-### D. Users enum 표시값
-
-- `POHANG` -> `포항`
-- `NON_POHANG` -> `포항 외`
-- `TEEN` -> `10대`
-- `20S` -> `20대`
-- `30S` -> `30대`
-- `40S` -> `40대`
-- `50S` -> `50대`
-- `60S` -> `60대`
-- `70_PLUS` -> `70대 이상`
-- `ko` -> `한국어`
-- `en` -> `영어`
-
-### E. Artists 목록/폼
-
-- `Artists` -> `작가`
-- `type 전체` -> `구분 전체`
-- `profile` -> `프로필 이미지`
-- `name_ko` -> `이름(한국어)`
-- `name_en` -> `이름(영어)`
-- `type` -> `구분`
-- `deleted` -> `삭제 여부`
-- `actions` -> `관리`
-- `COMPANY`(표시) -> `단체`
-- `INDIVIDUAL`(표시) -> `개인`
-- alt `profile` -> alt `프로필 이미지`
-- `Y` -> `예`
-- `N` -> `아니오`
-
-### F. Courses 목록/폼
-
-- `Courses` -> `코스`
-- `is_official 전체` -> `문화재단 인증 여부 전체`
-- `title_ko` -> `코스명(한국어)`
-- `title_en` -> `코스명(영어)`
-- `description_ko` -> `설명(한국어)`
-- `description_en` -> `설명(영어)`
-- `is_official` -> `문화재단 인증 여부`
-- `deleted` -> `삭제 여부`
-- `actions` -> `관리`
-- `Y` -> `예`
-- `N` -> `아니오`
-
-### G. Course Items 에디터
-
-- `Course Items` -> `코스 구성 작품`
-- `Drag & drop` -> `드래그 앤 드롭`
-- `course_item_id` -> `코스 아이템 ID`
-- `seq` -> `순번`
-- placeholder `삽입 seq(선택)` -> `삽입 순번(선택)`
-
-### H. Home Banners
-
-- `Home Banners` -> `홈 배너`
-- `is_active` -> `노출 활성화`
-- alt `banner-{id}` -> alt `배너-{id}`
-
-### I. Artwork 잔여 표기 (점검성)
-
-- `title_en`(표시 노출 시) -> `작품명(영어)`
-- `category`(표시 노출 시) -> `작품 유형`
-- `STEEL_ART`(표시) -> `스틸아트`
-- `PUBLIC_ART`(표시) -> `공공미술`
-
-## 4) 상세 작업 단계
-
-## Step 1. 글로벌 네비게이션/브랜드 한국어화 [x]
-
-대상:
-- `src/config/site.tsx`
-- `src/components/nav/admin-side-nav.tsx`
-- `src/components/nav/admin-top-nav.tsx`
-
-작업:
-- 메뉴명 `Users/Artists/Artworks/Courses/Home Banners` -> 한국어
-- `Admin`, `SteelArt Admin` 노출 문구 한국어화
-- TopNav 경로별 타이틀 반환값 한국어화
-
-검증 포인트:
-- 좌측 메뉴/상단 타이틀이 페이지 이동 시 일관된 한국어로 노출
-
-## Step 2. 로그인/테마 텍스트 한국어화 [x]
-
-대상:
-- `src/app/admin/login/page.tsx`
-- `src/components/theme-toggle.tsx`
-
-작업:
-- 로그인 헤더/필드 라벨 `Email`, `Password` 한국어화
-- `Light/Dark/System/auto`, `Toggle theme` 한국어화
-
-주의:
-- `src/lib/auth/config.ts`의 provider 내부 문자열은 사용 경로 확인 후 필요 최소 범위만 조정
-- 인증 로직 자체는 변경 금지
-
-## Step 3. Users 화면 한국어화 [x]
-
-대상:
-- `src/app/admin/users/page.tsx`
-- `src/app/admin/users/[id]/page.tsx`
-
-작업:
-- 페이지 타이틀/테이블 헤더/필터 라벨 한국어화
-- `residency`, `age_group`, `language`, `noti`, `joined_at`, `actions` 교체
-- 상세 페이지 키(`nickname`, `notifications_enabled`, `liked_at`, `stamped_at` 등) 교체
-- `Y/N` 표기를 문맥에 맞는 한국어로 통일
-- `category` 출력값은 한국어 매핑(`스틸아트/공공미술`)
-
-주의:
-- 필터 전송값(`POHANG`, `TEEN`, `ko` 등)은 유지
-
-## Step 4. Artists 화면 한국어화 [x]
-
-대상:
-- `src/app/admin/artists/page.tsx`
-- `src/components/admin/artists-form.tsx`
-
-작업:
-- 페이지 타이틀/헤더(`profile`, `name_ko`, `name_en`, `type`, `actions`) 한국어화
-- 필터 `type 전체` 및 값 표시 한국어화
-- enum 출력 매핑:
-  - `COMPANY` -> `단체`
-  - `INDIVIDUAL` -> `개인`
-
-주의:
-- select value는 기존 enum 원문 유지
-
-## Step 5. Courses 화면 한국어화 [x]
-
-대상:
-- `src/app/admin/courses/page.tsx`
-- `src/components/admin/courses-form.tsx`
-- `src/components/admin/course-items-editor.tsx`
-
-작업:
-- 목록 타이틀/컬럼/필터(`is_official`, `actions`) 한국어화
-- 폼 라벨(`title_ko`, `description_en`, `is_official`) 사용자 친화 한국어화
-- 코스 아이템 에디터 텍스트 교체:
-  - `Course Items`, `Drag & drop`, `course_item_id`, `seq`
-
-주의:
-- `seq` 계산/전송/정렬 로직 불변
-
-## Step 6. Home Banners/기타 잔여 표기 한국어화 [x]
-
-대상:
-- `src/app/admin/home-banners/page.tsx`
-- 필요 시 `src/components/admin/file-upload-field.tsx`의 노출 문구 점검
-
-작업:
-- 페이지 타이틀 `Home Banners` 한국어화
-- `is_active` 라벨 한국어화
-- alt/accessibility 텍스트 영문 잔여분 정리
-
-## Step 7. Artwork 잔여 영문 표기 점검 [x]
-
-대상:
-- `src/app/admin/artworks/page.tsx`
+완료 내용:
+- `src/lib/server/validators/admin.ts`
+  - `artworkPayloadSchema`, `artworkUpdatePayloadSchema`를 `place` 객체 기반으로 전환
+  - `place_id` 직접 입력 계약 제거
 - `src/components/admin/artworks-form.tsx`
-- `src/app/admin/artworks/[id]/page.tsx`
+  - 폼 타입/submit payload를 `place` 객체 계약으로 동기화
 
-작업:
-- 이미 한국어화된 영역 유지 확인
-- 남은 코드값 직접 노출 여부만 점검/보정
+## Step 2. Artwork 생성 API 통합 저장
 
-## Step 8. 회귀 검증 [x]
+상태: [x]
 
-## 8.1 정적 검증
-- [x] `pnpm exec tsc --noEmit`
-- [x] `pnpm lint`
-- [x] `pnpm build`
+완료 내용:
+- `src/app/api/admin/artworks/route.ts`
+  - 트랜잭션에서 place insert -> artwork insert -> images/festival insert 순으로 저장
+  - 응답에 `place` 포함
 
-## 8.2 수동/E2E 검증 (Playwright headed)
-- [x] 로그인 페이지 한국어 라벨 확인
-- [x] 메뉴/탑바 전체 한국어 표기 확인
-- [x] Users/Artists/Courses/Home Banners/Artworks 주요 화면 확인
-- [x] 각 화면에서 조회/저장/삭제/복구 등 기존 동작 정상 확인
+## Step 3. Artwork 수정 시 1:1 운영 전략 반영
 
-## Step 9. 문서/PR 반영 [x]
+상태: [x]
 
-- [x] `docs/research.md`와 구현 결과 일치 여부 점검
-- [x] PR 본문에 “표시 문자열 한국어화, 내부 로직 무변경” 명시
-- [x] 변경 화면 스크린샷 갱신
+완료 내용:
+- `src/app/api/admin/artworks/[id]/route.ts`
+  - 공유 place 검사 쿼리 추가
+  - 공유 없음: 기존 place update
+  - 공유 있음: 신규 place 생성 + 현재 artwork만 rebind
+  - GET/PUT 응답에 `place` 객체 반환
 
-## 5) 완료 기준 (DoD)
+## Step 4. Artwork 폼에 Place 섹션 통합
 
-- [x] 사용자 노출 영문 표기가 한국어로 일관되게 전환됨
-- [x] 저장값/API/DB/검증/비즈니스 로직 변경 없음
-- [x] enum 값은 내부적으로 유지, UI 표시만 한국어 매핑
-- [x] `tsc/lint/build` 통과
-- [x] Playwright headed 검증 통과
-- [x] 문서/PR 반영 완료(스크린샷 포함)
+상태: [x]
 
-## 6) 구현 완료 메모
+완료 내용:
+- `src/components/admin/artworks-form.tsx`
+  - 설치 장소 select(`place_id`) 제거
+  - Place 입력 섹션 통합
+  - 주소 debounce geocode + 수동 재조회 버튼
+  - lat/lng 수동 수정 가능
+  - 카카오 지도 미리보기/마커 렌더
 
-- 본 문서의 Step 1~9를 순차 수행했고, 완료 시점마다 체크박스를 갱신했다.
-- 정적 검증(`tsc/lint/build`)과 Playwright headed E2E 검증을 모두 통과했다.
+## Step 5. Place 페이지/진입점 제거
+
+상태: [x]
+
+완료 내용:
+- 메뉴/타이틀 제거:
+  - `src/config/site.tsx`
+  - `src/components/nav/admin-top-nav.tsx`
+- 구 경로 redirect:
+  - `src/app/admin/places/page.tsx` -> `/admin/artworks`
+  - `src/app/admin/places/new/page.tsx` -> `/admin/artworks/new`
+  - `src/app/admin/places/[id]/page.tsx` -> `/admin/artworks`
+
+## Step 6. Artwork 목록 UX 동기화
+
+상태: [x]
+
+완료 내용:
+- `/admin/artworks` 목록에서 장소 컬럼/필터 유지 확인
+- Artwork 통합 생성으로 추가된 place가 목록/필터에 즉시 노출됨을 확인
+
+## Step 7. Place API 정리 전략
+
+상태: [x]
+
+완료 내용:
+- `POST /api/admin/places/geocode`는 유지
+- places CRUD API는 호환/안정성 목적으로 유지
+- 운영 UX에서는 places 화면 진입 제거로 역할 분리 완료
+
+## Step 8. 문서/운영 가이드 업데이트
+
+상태: [x]
+
+완료 내용:
+- `docs/research.md` 전면 갱신 (현재 구현/검증 기준)
+- `docs/admin-backoffice.md` 정책/키/운영 내용 동기화
+- `docs/db-contract.md` 통합 운영 규칙 반영
+- 본 문서(`docs/plan.md`) 단계 완료 체크 반영
+
+## Step 9. 검증 계획 실행
+
+상태: [x]
+
+검증 결과:
+1. 정적 검증: PASS
+- `pnpm exec tsc --noEmit`
+- `pnpm lint`
+- `pnpm build`
+
+2. Playwright 직접 시나리오 검증: PASS
+- Artwork 생성 시 Place 동시 생성 성공
+- 주소 입력 시 자동 geocode 반영, 위도 수동 수정 반영, 지도 마커 표시
+- 공유 Place 수정 시 clone-and-rebind 동작 확인
+- Place 메뉴 제거 및 `/admin/places*` 리다이렉트 확인
+
+3. DB 교차 확인: PASS
+- 신규 artwork(id=126) <-> 신규 place(id=22) 연결 확인 (검증 시점 기준)
+- 공유 분기 테스트 후 artwork(id=1) place_id=23, artwork(id=21) place_id=1 유지 확인 (검증 시점 기준)
+
+증적 스크린샷:
+- `docs/pr-assets/e2e-01-nav-no-place-menu.png`
+- `docs/pr-assets/e2e-02-artwork-place-geocode-map.png`
+- `docs/pr-assets/e2e-03-artwork-create-success.png`
+- `docs/pr-assets/e2e-04-place-route-redirect.png`
+
+## Step 10. PR 작성 및 리뷰 준비
+
+상태: [x]
+
+완료 내용:
+- PR 본문에 포함할 항목 준비 완료
+- PR 초안 문서 작성: `docs/pr-assets/artwork-place-integration-pr.md`
+  - 변경 배경(Artwork-Place 통합 목적)
+  - API 계약 before/after
+  - shared place clone 규칙
+  - 정적 검증 로그
+  - Playwright 시나리오/스크린샷 링크
+
+권장 PR 본문 템플릿:
+
+```md
+## Summary
+- Artwork 생성/수정 폼에 Place 입력 통합
+- Place 독립 메뉴 제거 및 구 경로 리다이렉트
+- Artwork 수정 시 shared place clone-and-rebind 적용
+
+## API Contract Changes
+- Before: artwork payload에 `place_id` 필수
+- After: artwork payload에 `place` 객체 필수 (`name/address/zone/lat/lng`)
+
+## Verification
+- pnpm exec tsc --noEmit
+- pnpm lint
+- pnpm build
+- Playwright headed/manual scenarios PASS
+
+## Screenshots
+- docs/pr-assets/e2e-01-nav-no-place-menu.png
+- docs/pr-assets/e2e-02-artwork-place-geocode-map.png
+- docs/pr-assets/e2e-03-artwork-create-success.png
+- docs/pr-assets/e2e-04-place-route-redirect.png
+```
+
+## 3) 리스크와 대응
+
+1. 외부 배치/직접 SQL로 shared place가 다시 생길 수 있음
+- 대응: 수정 API의 clone-and-rebind 방어 유지
+
+2. geocode 실패 가능성
+- 대응: 수동 lat/lng 입력 경로 유지
+
+3. 지도 미리보기 실패(키/도메인 설정)
+- 대응: SDK 키/REST 키 분리, 도메인 허용 정책 문서화

@@ -12,6 +12,16 @@ type Artwork = {
   title_en: string;
   artist_id: number;
   place_id: number;
+  place: {
+    id: number;
+    zone_id: number | null;
+    zone_name_ko: string | null;
+    name_ko: string;
+    name_en: string;
+    address: string | null;
+    lat: number;
+    lng: number;
+  } | null;
   category: "STEEL_ART" | "PUBLIC_ART";
   production_year: number;
   size_text_ko: string;

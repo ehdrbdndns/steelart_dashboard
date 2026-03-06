@@ -62,11 +62,48 @@ export const artworksQuerySchema = z.object({
   size: z.coerce.number().int().positive().max(100).optional(),
 });
 
+export const placesQuerySchema = z.object({
+  query: z.string().optional(),
+  zoneId: z.coerce.number().int().positive().optional(),
+  deleted: deletedFilterSchema.optional(),
+  page: z.coerce.number().int().positive().optional(),
+  size: z.coerce.number().int().positive().max(100).optional(),
+});
+
+const optionalAddressSchema = z
+  .string()
+  .optional()
+  .nullable()
+  .transform((value) => {
+    if (value == null) {
+      return null;
+    }
+
+    const trimmed = value.trim();
+    return trimmed.length > 0 ? trimmed : null;
+  });
+
+const placeBasePayloadSchema = z.object({
+  name_ko: z.string().trim().min(1),
+  name_en: z.string().trim().min(1),
+  address: optionalAddressSchema,
+  lat: z.coerce.number().min(-90).max(90),
+  lng: z.coerce.number().min(-180).max(180),
+  zone_id: z.coerce.number().int().positive().nullable().optional(),
+});
+
+export const placeCreatePayloadSchema = placeBasePayloadSchema;
+
+export const placeUpdatePayloadSchema = placeBasePayloadSchema;
+
+export const placeGeocodePayloadSchema = z.object({
+  address: z.string().trim().min(1),
+});
+
 const artworkBasePayloadSchema = z.object({
   title_ko: z.string().min(1),
   title_en: z.string().min(1),
   artist_id: z.coerce.number().int().positive(),
-  place_id: z.coerce.number().int().positive(),
   category: artworkCategorySchema,
   production_year: z.coerce.number().int().positive(),
   size_text_ko: z.string().min(1),
@@ -74,6 +111,8 @@ const artworkBasePayloadSchema = z.object({
   description_ko: z.string().min(1),
   description_en: z.string().min(1),
 });
+
+const artworkPlacePayloadSchema = placeBasePayloadSchema;
 
 const artworkAudioUrlSchema = z.object({
   audio_url_ko: z.string().url().optional(),
@@ -102,6 +141,7 @@ const artworkFestivalYearsSchema = z
   .transform((years) => Array.from(new Set(years)));
 
 export const artworkPayloadSchema = artworkBasePayloadSchema.extend({
+  place: artworkPlacePayloadSchema,
   audio_url_ko: z.string().url(),
   audio_url_en: z.string().url(),
   images: artworkImagesSchema,
@@ -111,6 +151,7 @@ export const artworkPayloadSchema = artworkBasePayloadSchema.extend({
 export const artworkUpdatePayloadSchema = artworkBasePayloadSchema
   .merge(artworkAudioUrlSchema)
   .extend({
+    place: artworkPlacePayloadSchema,
     images: artworkImagesSchema,
     festival_years: artworkFestivalYearsSchema,
   });

@@ -1,189 +1,184 @@
-# 영문 표기 전수 조사 보고서
+# Artwork-Place 통합 운영 조사 보고서
 
 작성일: 2026-03-05  
-분석 대상: `/Users/donggyunyang/code/steelart_dashboard`
+대상 저장소: `/Users/donggyunyang/code/steelart_dashboard`  
+브랜치: `codex/feta/place-crud`
 
-## 1) 목적
+## 1) 조사 목적
 
-관리자 백오피스에서 사용자에게 노출되는 영어 표기를 한국어로 전환하기 위해,
-현재 코드베이스의 영문 표기를 전수 조사하고 변경 기준을 정리한다.
+- `artworks`와 `places`의 실제 데이터 관계를 확인한다.
+- 백오피스에서 두 도메인을 어떻게 운영 UX로 통합했는지 확인한다.
+- 주소 입력 시 위도/경도 자동 입력 + 지도 확인 UX(카카오 지도)의 구현/제약을 확인한다.
 
-## 2) 조사 범위
+## 2) 조사 범위 (실제 확인 파일)
 
-대상:
-- `src/app/admin/*`
-- `src/components/admin/*`
-- `src/components/nav/*`
-- `src/components/theme-toggle.tsx`
+### DB/계약
+- `docs/db-schema.sql`
+- `docs/db-contract.md`
+
+### API
+- `src/app/api/admin/artworks/route.ts`
+- `src/app/api/admin/artworks/[id]/route.ts`
+- `src/app/api/admin/artworks/[id]/soft-delete/route.ts`
+- `src/app/api/admin/artworks/[id]/restore/route.ts`
+- `src/app/api/admin/places/geocode/route.ts`
+
+### Validator/폼/관리 화면
+- `src/lib/server/validators/admin.ts`
+- `src/components/admin/artworks-form.tsx`
+- `src/components/admin/places-form.tsx`
+- `src/app/admin/artworks/page.tsx`
+- `src/app/admin/artworks/new/page.tsx`
+- `src/app/admin/artworks/[id]/page.tsx`
+- `src/app/admin/places/page.tsx`
+- `src/app/admin/places/new/page.tsx`
+- `src/app/admin/places/[id]/page.tsx`
 - `src/config/site.tsx`
-- `src/lib/auth/config.ts` (로그인 관련 노출 문자열)
-
-비대상(번역 비권장):
-- API 경로, DB 컬럼명, SQL alias
-- Zod schema key, TypeScript 타입/필드명
-- enum 저장값 원문(예: `COMPANY`, `STEEL_ART`)
-
-## 3) 영문 표기 현황
-
-### 3.1 글로벌 네비게이션/브랜드
-
-- `src/config/site.tsx`
-  - `SteelArt Admin`
-  - `Users`, `Artists`, `Artworks`, `Courses`, `Home Banners`
-- `src/components/nav/admin-side-nav.tsx`
-  - `SteelArt Admin`
 - `src/components/nav/admin-top-nav.tsx`
-  - `Artists`, `Artworks`, `Courses`, `Home Banners`, `Admin`
 
-### 3.2 로그인
+## 3) 핵심 결론
 
-- `src/app/admin/login/page.tsx`
-  - `SteelArt Admin Login`
-  - `Email`, `Password`
-- `src/lib/auth/config.ts`
-  - `Admin Credentials`, `Email`, `Password`, `SteelArt Admin`
+1. DB 관계는 그대로 `artworks.place_id -> places.id` (N:1)이다.
+2. 백오피스 운영 모델은 Artwork 중심 1:1처럼 동작한다.
+- Place 독립 메뉴를 제거했다.
+- Artwork 생성/수정 폼에서 Place 정보를 함께 입력한다.
+3. 주소 입력 시 서버 geocode로 좌표를 자동 입력하고, 사용자는 위도/경도를 수동 수정할 수 있다.
+4. 카카오 키는 용도가 분리되어야 한다.
+- 지도 SDK 로드: `NEXT_PUBLIC_KAKAO_MAP_SDK_KEY` (client)
+- 주소 geocode: `KAKAO_REST_API_KEY` (server)
+5. Artwork 수정 시 공유 Place 부작용은 clone-and-rebind 전략으로 차단된다.
 
-### 3.3 Users 화면
+## 4) 데이터/계약 관점 상세
 
-- `src/app/admin/users/page.tsx`
-  - 페이지 타이틀: `Users`
-  - 필터/옵션: `residency`, `age_group`, `language`, `POHANG`, `NON_POHANG`, `TEEN`, `20S`...
-  - 컬럼: `nickname`, `residency`, `age_group`, `language`, `noti`, `joined_at`, `actions`
-  - 값: `Y/N`
-- `src/app/admin/users/[id]/page.tsx`
-  - `Users`, `User #id`
-  - 키/로그: `nickname`, `residency`, `age_group`, `language`, `notifications_enabled`, `joined_at`, `likes`, `liked_at`, `category`, `stamped_at`
-  - 값: `Y/N`, `STEEL_ART/PUBLIC_ART`
+## 4.1 물리 모델
 
-### 3.4 Artists 화면
+`docs/db-schema.sql` 기준:
+- `artworks.place_id`는 `NOT NULL`
+- `fk_artworks_place` FK 존재
+- `places`는 `deleted_at` soft delete 도메인
 
-- `src/app/admin/artists/page.tsx`
-  - 페이지 타이틀: `Artists`
-  - 필터: `type 전체`, `COMPANY`, `INDIVIDUAL`
-  - 컬럼: `profile`, `name_ko`, `name_en`, `type`, `deleted`, `actions`
-  - 값: `Y/N`
-- `src/components/admin/artists-form.tsx`
-  - 선택값: `COMPANY`, `INDIVIDUAL`
+의미:
+- 물리 모델은 Place 1개를 여러 Artwork가 참조할 수 있다.
 
-### 3.5 Courses 화면
+## 4.2 API 계약
 
-- `src/app/admin/courses/page.tsx`
-  - 페이지 타이틀: `Courses`
-  - 필터: `is_official 전체`
-  - 컬럼: `title_ko`, `is_official`, `deleted`, `actions`
-  - 값: `Y/N`
-- `src/components/admin/courses-form.tsx`
-  - 라벨: `title_ko`, `title_en`, `description_ko`, `description_en`, `is_official`
-- `src/components/admin/course-items-editor.tsx`
-  - `Course Items`, `Drag & drop`, `course_item_id`, `seq`
+`src/lib/server/validators/admin.ts` 기준:
+- Artwork create/update payload는 `place_id`가 아니라 `place` 객체를 받는다.
+- `place` 필드:
+  - `name_ko`, `name_en`, `address`, `zone_id`, `lat`, `lng`
 
-### 3.6 Home Banners 화면
+효과:
+- 프론트에서 장소 선택(select) 대신 장소 상세를 직접 입력하는 운영 UX를 강제한다.
 
-- `src/app/admin/home-banners/page.tsx`
-  - 페이지 타이틀: `Home Banners`
-  - 체크박스 라벨: `is_active`
-  - 이미지 alt: `banner-{id}`
+## 5) API 동작 상세
 
-### 3.7 테마 토글
+## 5.1 Artwork 생성 (`POST /api/admin/artworks`)
 
-- `src/components/theme-toggle.tsx`
-  - `Light`, `Dark`, `System`, `auto`
-  - `Toggle theme` (접근성 텍스트)
+`src/app/api/admin/artworks/route.ts`:
+- 트랜잭션 내부에서 순서대로 처리
+  1. `places` insert
+  2. `artworks` insert (`place_id = insertedPlace.insertId`)
+  3. `artwork_images`, `artwork_festivals` insert
+- 응답에 artwork + place + images + festival_years를 함께 반환
 
-### 3.8 Artwork 화면
+보장:
+- 중간 실패 시 rollback 되어 orphan 데이터가 남지 않는다.
 
-- 최근 작업으로 목록/수정 폼의 핵심 라벨은 상당수 한국어화됨.
-- 잔여 점검 대상은 enum/코드값이 그대로 노출되는 경로 여부.
+## 5.2 Artwork 수정 (`PUT /api/admin/artworks/:id`)
 
-## 4) 한국어 전환 기준
+`src/app/api/admin/artworks/[id]/route.ts`:
+- 현재 artwork의 `place_id` 조회
+- 같은 place를 다른 활성 artwork가 참조 중인지 카운트
+  - `COUNT(*) FROM artworks WHERE place_id = ? AND deleted_at IS NULL AND id <> ?`
+- 분기:
+  - 공유 없음: 기존 place row update
+  - 공유 있음: 새 place insert 후 현재 artwork만 새 place로 재연결
 
-### 4.1 원칙
+보장:
+- 공유 Place를 수정해도 다른 작품의 장소가 연쇄 변경되지 않는다.
 
-1. 저장/계약 값은 유지한다.
-2. 화면 렌더링 시점에 한국어 라벨로 변환한다.
-3. 초기 운영 단계에서는 필요시 괄호 병기 허용 (`단체(COMPANY)`).
+## 5.3 Place API 사용 전략
 
-### 4.2 표준 매핑안
+- 백오피스 화면에서 Place 독립 CRUD는 제거했다.
+- `POST /api/admin/places/geocode`는 Artwork 폼의 주소->좌표 자동 입력 용도로 유지한다.
+- 기존 place CRUD API는 호환/운영 안정성을 위해 서버에 남겨둔다.
 
-- 메뉴/페이지
-  - `Users` -> `사용자`
-  - `Artists` -> `작가`
-  - `Artworks` -> `작품`
-  - `Courses` -> `코스`
-  - `Home Banners` -> `홈 배너`
-  - `Admin` -> `관리자`
-- 공통 필드
-  - `Email` -> `이메일`
-  - `Password` -> `비밀번호`
-  - `actions` -> `관리`
-  - `profile` -> `프로필 이미지`
-  - `joined_at` -> `가입 일시`
-- `is_official` -> `문화재단 인증 여부`
-  - `is_active` -> `노출 활성화`
-  - `Y/N` -> 문맥별 `예/아니오` 또는 `활성/비활성`
-- 사용자 도메인
-  - `residency` -> `거주지`
-  - `age_group` -> `연령대`
-  - `language` -> `언어`
-  - `noti` -> `알림 수신`
-  - `nickname` -> `닉네임`
-- enum 표시
-  - `COMPANY` -> `단체`, `INDIVIDUAL` -> `개인`
-  - `POHANG` -> `포항`, `NON_POHANG` -> `포항 외`
-  - `TEEN/20S/30S/40S/50S/60S/70_PLUS` -> `10대/20대/30대/40대/50대/60대/70대 이상`
-  - `ko/en` -> `한국어/영어`
-  - `STEEL_ART/PUBLIC_ART` -> `스틸아트/공공미술`
-- 기타
-  - `Light/Dark/System/auto` -> `라이트/다크/시스템/자동`
-  - `Course Items` -> `코스 구성 작품`
-  - `Drag & drop` -> `드래그 앤 드롭`
-  - `seq` -> `순번`
-  - `course_item_id` -> `코스 아이템 ID`
+## 6) 백오피스 UI/UX 구성
 
-## 5) 우선순위
+## 6.1 내비게이션/경로
 
-1순위:
-- 글로벌 네비/탑바/페이지 타이틀
-- 로그인 (`Email`, `Password`)
-- Users/Artists/Courses 목록 컬럼/필터
+- 사이드바 `장소` 메뉴 제거 (`src/config/site.tsx`)
+- 상단 타이틀 매핑에서도 `/admin/places` 제거 (`src/components/nav/admin-top-nav.tsx`)
+- 구 경로 redirect:
+  - `/admin/places` -> `/admin/artworks`
+  - `/admin/places/new` -> `/admin/artworks/new`
+  - `/admin/places/[id]` -> `/admin/artworks`
 
-2순위:
-- Users 상세의 영문 키/활동 로그 문구
-- Course Items 에디터 (`Course Items`, `Drag & drop`, `seq`)
+## 6.2 Artwork 생성/수정 폼의 Place UX
 
-3순위:
-- 테마 토글(`Light/Dark/System/auto`)
-- alt/accessibility 영문 텍스트(`profile`, `banner-{id}`)
+`src/components/admin/artworks-form.tsx`:
+- Place 섹션 필드:
+  - 이름(한/영), 권역, 주소, 위도, 경도
+- 주소 입력 후 debounce 자동 geocode 호출
+- `좌표 다시 찾기` 수동 재조회 버튼 제공
+- geocode 성공 시 lat/lng 자동 반영
+- lat/lng는 사용자가 수동 수정 가능
+- 카카오 지도 SDK 로드 시 미리보기 지도 + 마커 표시
 
-## 6) 주의사항
+## 6.3 목록 UX
 
-- enum 원문값 자체를 변경하면 API/DB 호환성 문제가 발생할 수 있다.
-- 반드시 UI 표시 문자열만 한국어화하고, 저장값/계약값은 유지한다.
+`/admin/artworks`:
+- 설치 장소 컬럼/필터는 유지
+- 장소 필터 옵션에 통합 생성된 place도 즉시 반영
 
-## 7) 구현 반영 결과 (2026-03-05)
+## 7) 카카오 키 분리 규칙
 
-본 문서 기준 전환 범위를 실제 코드에 반영했다.
+`.env`/`.env.example` 기준:
+- `NEXT_PUBLIC_KAKAO_MAP_SDK_KEY`
+  - 카카오 JS SDK `<script>` 로드용
+  - 잘못된 키/허용 도메인 미설정 시 지도 미리보기 실패
+- `KAKAO_REST_API_KEY`
+  - `POST /api/admin/places/geocode` 서버 호출용
+  - 누락 시 geocode API가 명확한 에러 반환
+- 레거시 fallback:
+  - `NEXT_PUBLIC_KAKAO_MAP_APP_KEY`는 SDK 키가 없을 때만 보조 사용
 
-- 글로벌/네비게이션: `Users/Artists/Artworks/Courses/Home Banners/Admin` 표시를 한국어로 통일
-- 로그인/테마: `Email/Password`, `Light/Dark/System/auto`, 접근성 라벨 한국어화
-- Users: 목록/상세 라벨 및 enum 출력값 한국어화, `Y/N` -> `예/아니오`
-- Artists: 목록/폼 라벨 한국어화, `COMPANY/INDIVIDUAL` 화면 표시를 `단체/개인`으로 매핑
-- Courses: 목록/폼/코스 아이템 에디터 라벨 한국어화
-- Home Banners: 페이지/상태/모달/접근성 텍스트 한국어화
-- Artwork: 잔여 점검 포함, 화면 표시 enum을 한국어로 유지
+## 8) 시나리오 검증 결과 (2026-03-05)
 
-검증 결과:
-- 정적 검증: `pnpm exec tsc --noEmit`, `pnpm lint`, `pnpm build` 통과
-- Playwright headed E2E: 로그인, 메뉴/탑바, Users/Artists/Courses/Home Banners/Artworks 조회 및 저장/삭제/복구 동작 확인
+Playwright 실제 브라우저 플로우로 수동 검증했다.
 
-스크린샷(갱신):
-- `docs/pr-assets/ko-login-page.png`
-- `docs/pr-assets/ko-users-list.png`
-- `docs/pr-assets/ko-user-detail.png`
-- `docs/pr-assets/ko-artists-list.png`
-- `docs/pr-assets/ko-artist-edit.png`
-- `docs/pr-assets/ko-courses-list.png`
-- `docs/pr-assets/ko-artworks-list.png`
-- `docs/pr-assets/ko-artwork-edit.png`
-- `docs/pr-assets/ko-home-banners-list.png`
-- `docs/pr-assets/ko-home-banners-create-modal.png`
+1. Artwork 생성 + Place 동시 생성: PASS
+- 주소 입력 -> 자동 좌표 반영 확인
+- 위도 수동 수정 반영 확인
+- 저장 후 목록 최상단 신규 행 확인
+- DB 확인(검증 시점 기준): 생성 artwork(id=126)와 신규 place(id=22) 연결 확인
+
+2. Shared Place 수정 분기(clone-and-rebind): PASS
+- 공유 place(id=1)를 참조하던 artwork(id=1) 수정
+- 저장 후 artwork(id=1)의 place_id가 새 id(23)로 변경
+- 같은 기존 place를 쓰던 artwork(id=21)은 place_id=1 유지
+
+3. Place 메뉴/구 경로 정책: PASS
+- 사이드바에 장소 메뉴 없음
+- `/admin/places` -> `/admin/artworks`
+- `/admin/places/new` -> `/admin/artworks/new`
+- `/admin/places/1` -> `/admin/artworks`
+
+4. 정적 검증: PASS
+- `pnpm exec tsc --noEmit`
+- `pnpm lint`
+- `pnpm build`
+
+## 9) 증적 파일
+
+- `docs/pr-assets/e2e-01-nav-no-place-menu.png`
+- `docs/pr-assets/e2e-02-artwork-place-geocode-map.png`
+- `docs/pr-assets/e2e-03-artwork-create-success.png`
+- `docs/pr-assets/e2e-04-place-route-redirect.png`
+
+## 10) 운영상 유의점
+
+1. 물리 모델은 N:1이므로, direct SQL/외부 배치가 place를 공유하게 만들 수 있다.
+2. 백오피스는 수정 시 clone-and-rebind로 이 리스크를 방어한다.
+3. geocode 실패는 실사용에서 빈번할 수 있으므로, 수동 lat/lng 입력 UX를 계속 유지해야 한다.
+4. 지도 미리보기 실패는 대부분 SDK 키/도메인 허용 설정 이슈다.
