@@ -1,199 +1,203 @@
-# Plan: Artwork-Place 백오피스 통합(백오피스 1:1 운영 모델)
+# README 주요/상세 화면 갱신 실행 계획
 
-작성일: 2026-03-05  
-최종 업데이트: 2026-03-05  
+작성일: 2026-03-06  
 대상 저장소: `/Users/donggyunyang/code/steelart_dashboard`  
-작업 브랜치: `codex/feta/place-crud`
+기준 브랜치: `main` (origin/main 최신 pull 반영)
 
-## 0) 계획 수립 근거 (실제 코드 확인)
+## 1) 목표
 
-요청대로 계획 작성 전 실제 소스를 읽고 구조를 확인했다.
+README `# 주요 화면` 섹션을 최신 UI 기준으로 갱신한다.
 
-확인 파일:
-- DB/계약: `docs/db-schema.sql`, `docs/db-contract.md`
-- Artwork API/UI:
-  - `src/app/api/admin/artworks/route.ts`
-  - `src/app/api/admin/artworks/[id]/route.ts`
-  - `src/components/admin/artworks-form.tsx`
-  - `src/app/admin/artworks/page.tsx`
-  - `src/app/admin/artworks/new/page.tsx`
-  - `src/app/admin/artworks/[id]/page.tsx`
-- Place API/UI:
-  - `src/app/api/admin/places/route.ts`
-  - `src/app/api/admin/places/[id]/route.ts`
-  - `src/app/api/admin/places/geocode/route.ts`
-  - `src/components/admin/places-form.tsx`
-  - `src/app/admin/places/page.tsx`
-  - `src/app/admin/places/new/page.tsx`
-  - `src/app/admin/places/[id]/page.tsx`
-- 공통/네비게이션/검증:
-  - `src/lib/server/validators/admin.ts`
-  - `src/config/site.tsx`
-  - `src/components/nav/admin-top-nav.tsx`
+- 기존 목록 화면 4장 교체
+- 상세 화면(배너는 상세 동작) 4장 추가
+- 필요 시 코스 화면 포함 여부를 결정해 확장
 
-## 1) 목표와 범위
+## 2) 산출물 정의
 
-1. Place 독립 관리 메뉴/페이지를 제거한다.
-2. Artwork 생성/수정 시 Place 정보를 함께 입력하고 저장한다.
-3. 주소 입력 시 lat/lng 자동 반영 + 수동 수정 + 지도 미리보기 UX를 제공한다.
-4. 물리 모델 N:1은 유지하되, 백오피스 운영은 1:1처럼 안전하게 동작시킨다.
+## 2.1 목록(기존 파일 덮어쓰기)
+- `docs/readme/assets/user-management.png`
+- `docs/readme/assets/artwork-management.png`
+- `docs/readme/assets/artist-management.png`
+- `docs/readme/assets/banner-management.png`
 
-## 2) 상세 단계 및 완료 상태
+## 2.2 상세(신규 파일)
+- `docs/readme/assets/user-detail.png`
+- `docs/readme/assets/artwork-detail.png`
+- `docs/readme/assets/artist-detail.png`
+- `docs/readme/assets/banner-detail.png`
 
-## Step 1. 계약 재정의 (Validation + Payload)
+## 2.3 코스(선택)
+- `docs/readme/assets/course-management.png`
+- `docs/readme/assets/course-detail.png`
 
-상태: [x]
+## 3) 소스 이미지 전략
 
-완료 내용:
-- `src/lib/server/validators/admin.ts`
-  - `artworkPayloadSchema`, `artworkUpdatePayloadSchema`를 `place` 객체 기반으로 전환
-  - `place_id` 직접 입력 계약 제거
-- `src/components/admin/artworks-form.tsx`
-  - 폼 타입/submit payload를 `place` 객체 계약으로 동기화
+기본 전략: `docs/pr-assets/ko-*` 최신 캡처 재사용 우선.
 
-## Step 2. Artwork 생성 API 통합 저장
+매핑 기준:
+- `ko-users-list.png` -> `user-management.png`
+- `ko-user-detail.png` -> `user-detail.png`
+- `ko-artworks-list.png` -> `artwork-management.png`
+- `ko-artwork-edit.png` -> `artwork-detail.png`
+- `ko-artists-list.png` -> `artist-management.png`
+- `ko-artist-edit.png` -> `artist-detail.png`
+- `ko-home-banners-list.png` -> `banner-management.png`
+- `ko-home-banners-create-modal.png` -> `banner-detail.png`
+- (선택) `ko-courses-list.png` -> `course-management.png`
 
-상태: [x]
+재사용 이미지 품질이 부족하면 해당 항목만 재캡처한다.
 
-완료 내용:
-- `src/app/api/admin/artworks/route.ts`
-  - 트랜잭션에서 place insert -> artwork insert -> images/festival insert 순으로 저장
-  - 응답에 `place` 포함
+## 4) 실행 절차
 
-## Step 3. Artwork 수정 시 1:1 운영 전략 반영
+### Step 0. 사전 조건
+- `main` 최신 pull 완료 확인
+- 로컬 서버/데이터가 필요한 경우:
 
-상태: [x]
-
-완료 내용:
-- `src/app/api/admin/artworks/[id]/route.ts`
-  - 공유 place 검사 쿼리 추가
-  - 공유 없음: 기존 place update
-  - 공유 있음: 신규 place 생성 + 현재 artwork만 rebind
-  - GET/PUT 응답에 `place` 객체 반환
-
-## Step 4. Artwork 폼에 Place 섹션 통합
-
-상태: [x]
-
-완료 내용:
-- `src/components/admin/artworks-form.tsx`
-  - 설치 장소 select(`place_id`) 제거
-  - Place 입력 섹션 통합
-  - 주소 debounce geocode + 수동 재조회 버튼
-  - lat/lng 수동 수정 가능
-  - 카카오 지도 미리보기/마커 렌더
-
-## Step 5. Place 페이지/진입점 제거
-
-상태: [x]
-
-완료 내용:
-- 메뉴/타이틀 제거:
-  - `src/config/site.tsx`
-  - `src/components/nav/admin-top-nav.tsx`
-- 구 경로 redirect:
-  - `src/app/admin/places/page.tsx` -> `/admin/artworks`
-  - `src/app/admin/places/new/page.tsx` -> `/admin/artworks/new`
-  - `src/app/admin/places/[id]/page.tsx` -> `/admin/artworks`
-
-## Step 6. Artwork 목록 UX 동기화
-
-상태: [x]
-
-완료 내용:
-- `/admin/artworks` 목록에서 장소 컬럼/필터 유지 확인
-- Artwork 통합 생성으로 추가된 place가 목록/필터에 즉시 노출됨을 확인
-
-## Step 7. Place API 정리 전략
-
-상태: [x]
-
-완료 내용:
-- `POST /api/admin/places/geocode`는 유지
-- places CRUD API는 호환/안정성 목적으로 유지
-- 운영 UX에서는 places 화면 진입 제거로 역할 분리 완료
-
-## Step 8. 문서/운영 가이드 업데이트
-
-상태: [x]
-
-완료 내용:
-- `docs/research.md` 전면 갱신 (현재 구현/검증 기준)
-- `docs/admin-backoffice.md` 정책/키/운영 내용 동기화
-- `docs/db-contract.md` 통합 운영 규칙 반영
-- 본 문서(`docs/plan.md`) 단계 완료 체크 반영
-
-## Step 9. 검증 계획 실행
-
-상태: [x]
-
-검증 결과:
-1. 정적 검증: PASS
-- `pnpm exec tsc --noEmit`
-- `pnpm lint`
-- `pnpm build`
-
-2. Playwright 직접 시나리오 검증: PASS
-- Artwork 생성 시 Place 동시 생성 성공
-- 주소 입력 시 자동 geocode 반영, 위도 수동 수정 반영, 지도 마커 표시
-- 공유 Place 수정 시 clone-and-rebind 동작 확인
-- Place 메뉴 제거 및 `/admin/places*` 리다이렉트 확인
-
-3. DB 교차 확인: PASS
-- 신규 artwork(id=126) <-> 신규 place(id=22) 연결 확인 (검증 시점 기준)
-- 공유 분기 테스트 후 artwork(id=1) place_id=23, artwork(id=21) place_id=1 유지 확인 (검증 시점 기준)
-
-증적 스크린샷:
-- `docs/pr-assets/e2e-01-nav-no-place-menu.png`
-- `docs/pr-assets/e2e-02-artwork-place-geocode-map.png`
-- `docs/pr-assets/e2e-03-artwork-create-success.png`
-- `docs/pr-assets/e2e-04-place-route-redirect.png`
-
-## Step 10. PR 작성 및 리뷰 준비
-
-상태: [x]
-
-완료 내용:
-- PR 본문에 포함할 항목 준비 완료
-- PR 초안 문서 작성: `docs/pr-assets/artwork-place-integration-pr.md`
-  - 변경 배경(Artwork-Place 통합 목적)
-  - API 계약 before/after
-  - shared place clone 규칙
-  - 정적 검증 로그
-  - Playwright 시나리오/스크린샷 링크
-
-권장 PR 본문 템플릿:
-
-```md
-## Summary
-- Artwork 생성/수정 폼에 Place 입력 통합
-- Place 독립 메뉴 제거 및 구 경로 리다이렉트
-- Artwork 수정 시 shared place clone-and-rebind 적용
-
-## API Contract Changes
-- Before: artwork payload에 `place_id` 필수
-- After: artwork payload에 `place` 객체 필수 (`name/address/zone/lat/lng`)
-
-## Verification
-- pnpm exec tsc --noEmit
-- pnpm lint
-- pnpm build
-- Playwright headed/manual scenarios PASS
-
-## Screenshots
-- docs/pr-assets/e2e-01-nav-no-place-menu.png
-- docs/pr-assets/e2e-02-artwork-place-geocode-map.png
-- docs/pr-assets/e2e-03-artwork-create-success.png
-- docs/pr-assets/e2e-04-place-route-redirect.png
+```bash
+pnpm install
+pnpm db:seed:mock
+pnpm db:seed:users
+pnpm dev
 ```
 
-## 3) 리스크와 대응
+### Step 1. 백업
 
-1. 외부 배치/직접 SQL로 shared place가 다시 생길 수 있음
-- 대응: 수정 API의 clone-and-rebind 방어 유지
+```bash
+mkdir -p docs/readme/assets/archive/2026-03-06-readme-screen-refresh
+cp README.md docs/readme/assets/archive/2026-03-06-readme-screen-refresh/README.md.bak
+cp docs/readme/assets/user-management.png docs/readme/assets/archive/2026-03-06-readme-screen-refresh/
+cp docs/readme/assets/artwork-management.png docs/readme/assets/archive/2026-03-06-readme-screen-refresh/
+cp docs/readme/assets/artist-management.png docs/readme/assets/archive/2026-03-06-readme-screen-refresh/
+cp docs/readme/assets/banner-management.png docs/readme/assets/archive/2026-03-06-readme-screen-refresh/
+```
 
-2. geocode 실패 가능성
-- 대응: 수동 lat/lng 입력 경로 유지
+### Step 2. 임시 반영본 생성 (`_draft`)
 
-3. 지도 미리보기 실패(키/도메인 설정)
-- 대응: SDK 키/REST 키 분리, 도메인 허용 정책 문서화
+```bash
+mkdir -p docs/readme/assets/_draft
+cp docs/pr-assets/ko-users-list.png docs/readme/assets/_draft/user-management.new.png
+cp docs/pr-assets/ko-user-detail.png docs/readme/assets/_draft/user-detail.new.png
+cp docs/pr-assets/ko-artworks-list.png docs/readme/assets/_draft/artwork-management.new.png
+cp docs/pr-assets/ko-artwork-edit.png docs/readme/assets/_draft/artwork-detail.new.png
+cp docs/pr-assets/ko-artists-list.png docs/readme/assets/_draft/artist-management.new.png
+cp docs/pr-assets/ko-artist-edit.png docs/readme/assets/_draft/artist-detail.new.png
+cp docs/pr-assets/ko-home-banners-list.png docs/readme/assets/_draft/banner-management.new.png
+cp docs/pr-assets/ko-home-banners-create-modal.png docs/readme/assets/_draft/banner-detail.new.png
+```
+
+(선택) 코스:
+```bash
+cp docs/pr-assets/ko-courses-list.png docs/readme/assets/_draft/course-management.new.png
+```
+
+### Step 3. 임시본 검수
+
+검수 기준:
+- 파일 누락/손상 없음
+- 텍스트 가독성 양호
+- 목록/상세 페어 매칭 정확
+- 한국어 UI 기준 최신 상태 반영
+
+검수 명령:
+```bash
+for f in docs/readme/assets/_draft/*.png; do
+  sips -g pixelWidth -g pixelHeight "$f"
+done
+```
+
+필요 시 수행:
+- 화면 비율이 과도하게 길면 해당 파일만 재캡처 또는 후처리
+
+### Step 4. 정식 파일 반영
+
+```bash
+cp docs/readme/assets/_draft/user-management.new.png docs/readme/assets/user-management.png
+cp docs/readme/assets/_draft/artwork-management.new.png docs/readme/assets/artwork-management.png
+cp docs/readme/assets/_draft/artist-management.new.png docs/readme/assets/artist-management.png
+cp docs/readme/assets/_draft/banner-management.new.png docs/readme/assets/banner-management.png
+
+cp docs/readme/assets/_draft/user-detail.new.png docs/readme/assets/user-detail.png
+cp docs/readme/assets/_draft/artwork-detail.new.png docs/readme/assets/artwork-detail.png
+cp docs/readme/assets/_draft/artist-detail.new.png docs/readme/assets/artist-detail.png
+cp docs/readme/assets/_draft/banner-detail.new.png docs/readme/assets/banner-detail.png
+```
+
+### Step 5. README 섹션 개편
+
+`# 주요 화면` 섹션을 아래 순서로 구성:
+1. `### 사용자 관리(목록)` + `user-management.png`
+2. `### 사용자 상세` + `user-detail.png`
+3. `### 작품 관리(목록)` + `artwork-management.png`
+4. `### 작품 상세` + `artwork-detail.png`
+5. `### 작가 관리(목록)` + `artist-management.png`
+6. `### 작가 상세` + `artist-detail.png`
+7. `### 배너/콘텐츠 관리(목록)` + `banner-management.png`
+8. `### 배너 상세 동작` + `banner-detail.png`
+
+(선택) 코스 반영 시:
+- `### 코스 관리(목록)` + `course-management.png`
+- `### 코스 상세` + `course-detail.png`
+
+### Step 6. 링크/렌더 검증
+
+```bash
+rg -n "user-management.png|user-detail.png|artwork-management.png|artwork-detail.png|artist-management.png|artist-detail.png|banner-management.png|banner-detail.png" README.md
+```
+
+```bash
+git status --short
+```
+
+## 5) 결정 포인트
+
+1. 코스 화면을 README에 포함할지
+- A안: 기존 4개 도메인만 유지
+- B안: 코스 목록/상세까지 확장
+
+2. 배너 상세 이미지 유형
+- A안: 생성 모달(`ko-home-banners-create-modal.png`)
+- B안: 이미지 교체/정렬 액션 화면 재캡처
+
+3. 용어 통일
+- `배너/콘텐츠 관리` 유지 여부
+- `배너(Home Banners) 관리` 병기 여부
+
+## 6) 리스크 및 대응
+
+- 리스크: 이미지 비율 불일치로 README 가독성 저하
+  - 대응: `_draft` 단계에서 선검수 후 필요한 파일만 재캡처
+
+- 리스크: README 섹션이 길어짐
+  - 대응: 상세 이미지는 도메인당 1장 원칙 유지
+
+- 리스크: 캡처 시점 데이터 불일치
+  - 대응: 시드 고정 + 동일 환경에서 일괄 생성
+
+## 7) 롤백
+
+README/기존 목록 복원:
+```bash
+cp docs/readme/assets/archive/2026-03-06-readme-screen-refresh/README.md.bak README.md
+cp docs/readme/assets/archive/2026-03-06-readme-screen-refresh/user-management.png docs/readme/assets/user-management.png
+cp docs/readme/assets/archive/2026-03-06-readme-screen-refresh/artwork-management.png docs/readme/assets/artwork-management.png
+cp docs/readme/assets/archive/2026-03-06-readme-screen-refresh/artist-management.png docs/readme/assets/artist-management.png
+cp docs/readme/assets/archive/2026-03-06-readme-screen-refresh/banner-management.png docs/readme/assets/banner-management.png
+```
+
+신규 상세 이미지 제거:
+```bash
+rm -f docs/readme/assets/user-detail.png
+rm -f docs/readme/assets/artwork-detail.png
+rm -f docs/readme/assets/artist-detail.png
+rm -f docs/readme/assets/banner-detail.png
+rm -f docs/readme/assets/course-management.png
+rm -f docs/readme/assets/course-detail.png
+```
+
+## 8) 완료 기준 (DoD)
+
+- 목록 4장 최신 UI로 교체 완료
+- 상세 4장 신규 추가 완료
+- README 주요 화면 섹션 목록/상세 구조 반영 완료
+- 이미지 링크 깨짐 없음
+- 롤백 경로 확보 완료
