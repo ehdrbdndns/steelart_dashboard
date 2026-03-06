@@ -239,29 +239,19 @@ AI는 코드 구현과 반복 수정에는 강했지만, 다음 영역은 직접
 ### 작품 관리(목록)
 
 ![Artworks List](docs/readme/assets/artwork-management.png)
-![Artworks List - Part 2](docs/readme/assets/artwork-management-2.png)
 
 ### 작품 상세
+<img width="1487" height="859" alt="image" src="https://github.com/user-attachments/assets/5f74bf60-a7a6-46c3-a6c4-8e3d7d518b33" />
 
 ![Artwork Detail](docs/readme/assets/artwork-detail.png)
-![Artwork Detail - Part 2](docs/readme/assets/artwork-detail-2.png)
 
 ### 작가 관리(목록)
 
 ![Artists List](docs/readme/assets/artist-management.png)
-![Artists List - Part 2](docs/readme/assets/artist-management-2.png)
-
-### 작가 상세
-
-![Artist Detail](docs/readme/assets/artist-detail.png)
 
 ### 배너/콘텐츠 관리(목록)
 
 ![Home Banners List](docs/readme/assets/banner-management.png)
-
-### 배너 상세 동작
-
-![Home Banners Detail Action](docs/readme/assets/banner-detail.png)
 
 ---
 
