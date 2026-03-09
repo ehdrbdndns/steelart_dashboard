@@ -27,20 +27,20 @@
 ## 스크린샷
 - 로그인 처리 오버레이
 
-  ![로그인 처리 오버레이](docs/pr-assets/auth-login-loading-overlay.png)
+  ![로그인 처리 오버레이](https://raw.githubusercontent.com/ehdrbdndns/steelart_dashboard/codex/fix-login-overlay-stuck/docs/pr-assets/auth-login-loading-overlay.png)
 
 - 정상 로그인 후 `/admin/users`
 
-  ![정상 로그인 후 사용자 페이지](docs/pr-assets/auth-login-success-users.png)
+  ![정상 로그인 후 사용자 페이지](https://raw.githubusercontent.com/ehdrbdndns/steelart_dashboard/codex/fix-login-overlay-stuck/docs/pr-assets/auth-login-success-users.png)
 
 - 비로그인 접근 후 로그인 페이지 안내 상태
 
-  ![비로그인 접근 후 로그인 페이지](docs/pr-assets/auth-login-required-alert.png)
+  ![비로그인 접근 후 로그인 페이지](https://raw.githubusercontent.com/ehdrbdndns/steelart_dashboard/codex/fix-login-overlay-stuck/docs/pr-assets/auth-login-required-alert.png)
 
 - 로그인 후 원래 요청 경로 복귀
 
-  ![원래 요청 경로 복귀](docs/pr-assets/auth-login-return-to-target.png)
+  ![원래 요청 경로 복귀](https://raw.githubusercontent.com/ehdrbdndns/steelart_dashboard/codex/fix-login-overlay-stuck/docs/pr-assets/auth-login-return-to-target.png)
 
 - 실패 로그인
 
-  ![실패 로그인](docs/pr-assets/auth-login-failure.png)
+  ![실패 로그인](https://raw.githubusercontent.com/ehdrbdndns/steelart_dashboard/codex/fix-login-overlay-stuck/docs/pr-assets/auth-login-failure.png)
