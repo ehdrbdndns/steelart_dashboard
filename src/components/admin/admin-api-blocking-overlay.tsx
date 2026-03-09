@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { BlockingOverlay } from "@/components/ui/blocking-overlay";
 import {
   getPendingAdminRequestCount,
   subscribeAdminRequestCount,
@@ -52,11 +53,10 @@ export function AdminApiBlockingOverlay() {
   }
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/35">
-      <div className="flex flex-col items-center gap-3 rounded-md border bg-background px-6 py-5 shadow-xl">
-        <div className="h-10 w-10 animate-spin rounded-full border-4 border-muted border-t-primary" />
-        <p className="text-sm font-medium">요청 처리 중입니다...</p>
-      </div>
-    </div>
+    <BlockingOverlay
+      open={visible}
+      title="요청 처리 중입니다..."
+      description="관리자 데이터를 불러오고 있습니다."
+    />
   );
 }

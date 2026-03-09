@@ -1,17 +1,31 @@
 import { NextResponse } from "next/server";
 import { withAuth, type NextRequestWithAuth } from "next-auth/middleware";
+import {
+  buildAdminLoginRedirect,
+  DEFAULT_ADMIN_REDIRECT,
+  getSafeAdminRedirect,
+} from "@/lib/auth/redirect";
 
 const middleware = withAuth(
   (request: NextRequestWithAuth) => {
     const token = request.nextauth.token;
     const { pathname } = request.nextUrl;
+    const requestedPath = `${pathname}${request.nextUrl.search}`;
+    const nextPath = getSafeAdminRedirect(
+      request.nextUrl.searchParams.get("next"),
+      DEFAULT_ADMIN_REDIRECT,
+    );
 
     const isLoginPage = pathname === "/admin/login";
     const isAdminPage = pathname.startsWith("/admin");
     const isAdminApi = pathname.startsWith("/api/admin");
 
     if (isLoginPage && token) {
-      return NextResponse.redirect(new URL("/admin/artists", request.url));
+      return NextResponse.redirect(new URL(nextPath, request.url));
+    }
+
+    if (isLoginPage) {
+      return NextResponse.next();
     }
 
     if ((isAdminPage || isAdminApi) && !token) {
@@ -27,7 +41,9 @@ const middleware = withAuth(
         );
       }
 
-      return NextResponse.redirect(new URL("/admin/login", request.url));
+      return NextResponse.redirect(
+        new URL(buildAdminLoginRedirect(requestedPath), request.url),
+      );
     }
 
     return NextResponse.next();
