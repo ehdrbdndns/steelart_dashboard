@@ -210,7 +210,7 @@
 9. [완료] Playwright `--headed`로 직접 시나리오를 검증했다.
 10. [완료] PR에 넣을 기능별 스크린샷을 `docs/pr-assets/`에 수집했다.
 11. [완료] PR 템플릿 형식으로 본문을 작성했다.
-12. 브랜치를 push하고 PR을 생성한다.
+12. [완료] 브랜치를 push하고 PR을 생성했다. PR: `https://github.com/ehdrbdndns/steelart_dashboard/pull/11`
 
 ## 9) 검증 시나리오
 
