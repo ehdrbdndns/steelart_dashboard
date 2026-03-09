@@ -2,7 +2,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -26,7 +25,6 @@ type FormValues = z.infer<typeof schema>;
 const INVALID_LOGIN_MESSAGE = "이메일 또는 비밀번호가 올바르지 않습니다.";
 
 export default function AdminLoginPage() {
-  const router = useRouter();
   const [message, setMessage] = useState("");
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   const [nextPath, setNextPath] = useState(DEFAULT_ADMIN_REDIRECT);
@@ -99,8 +97,7 @@ export default function AdminLoginPage() {
         nextPath,
       );
 
-      setIsAuthenticating(false);
-      router.push(destination);
+      window.location.replace(destination);
     } catch {
       setIsAuthenticating(false);
       setMessage("로그인 처리 중 문제가 발생했습니다. 다시 시도해 주세요.");
