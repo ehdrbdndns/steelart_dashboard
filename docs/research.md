@@ -1,208 +1,87 @@
-# 로그인/인증 구현 조사 보고서
+# 로그인 성공 후 팝업 지속 노출 버그 조사
 
 작성일: 2026-03-09  
-대상 저장소: `/Users/donggyunyang/code/steelart_dashboard`
+대상 저장소: `/Users/donggyunyang/code/steelart/steelart_dashboard`
 
-## 1) 조사 목적
+## 1) 조사 대상
 
-- 현재 로그인 기능과 인증/인가(접근 제어) 동작이 코드에서 어떻게 연결되는지 실제 구현 기준으로 정리한다.
-- 프론트엔드 화면, NextAuth 설정, 미들웨어, `/api/admin/*` 보호 범위를 하나의 흐름으로 문서화한다.
-- 운영 시 주의할 구조적 특성과 잠재 리스크를 사실과 추론으로 구분해 기록한다.
+- 증상: 처음 로그인에 성공한 뒤에도 중앙 팝업형 UI가 닫히지 않고 계속 떠 있는 것처럼 보임(추가로 로그인 완료 이후 다음 페이지로 넘어가지 않음, User Page로 이동하도록 수정)
+- 관련 파일:
+  - `src/app/admin/login/page.tsx`
+  - `src/components/ui/blocking-overlay.tsx`
+  - `src/components/admin/admin-api-blocking-overlay.tsx`
+  - `src/middleware.ts`
+  - `src/app/admin/layout.tsx`
 
-## 2) 조사 범위
+## 2) 결론
 
-확인 파일:
+원인은 브라우저 `window.alert`가 아니라 로그인 로딩용 `BlockingOverlay` 상태 관리다.
+
+- 로그인 시작 시 `isAuthenticating`를 `true`로 올린다.
+- 로그인 실패나 예외 때만 `isAuthenticating`를 `false`로 내린다.
+- 로그인 성공 분기에서는 `isAuthenticating`를 내리지 않고 `router.push()`와 `router.refresh()`만 호출한다.
+
+즉, 성공 후 오버레이 종료를 명시적으로 처리하지 않고 페이지 언마운트에만 기대고 있어서, 첫 로그인 전환 구간이 길어지면 오버레이가 계속 남아 보일 수 있다.
+
+## 3) 왜 `alert` 자체의 문제는 아닌가
+
+- `window.alert(...)`는 로그인 페이지 진입 시 `reason=auth-required`가 있을 때만 실행된다.
+- 로그인 성공 분기에는 `window.alert(...)` 호출이 없다.
+- 실제 브라우저 `alert`가 열려 있으면 사용자는 로그인 버튼 클릭 이후 상호작용을 진행할 수 없으므로, "로그인 성공 후에도 남아 있다"는 현상과 코드 흐름이 맞지 않는다.
+
+따라서 사용자가 말한 "alert창"은 실제로는 중앙 로딩 오버레이를 의미하는 것으로 보는 게 타당하다.
+
+## 4) 상세 원인
+
+### 4.1 로그인 페이지 상태 흐름
+
+현재 `src/app/admin/login/page.tsx`는 다음 흐름으로 동작한다.
+
+1. 제출 시작:
+   - `setIsAuthenticating(true)`
+2. 실패:
+   - `setIsAuthenticating(false)`
+   - 에러 메시지 표시
+3. 예외:
+   - `setIsAuthenticating(false)`
+   - 공통 실패 메시지 표시
+4. 성공:
+   - `router.push(destination)`
+   - `router.refresh()`
+   - `setIsAuthenticating(false)` 없음
+
+### 4.2 오버레이 렌더 조건
+
+- `BlockingOverlay`는 `open={isAuthenticating}`일 때만 렌더링된다.
+- `open`이 `true`인 동안은 화면 전체를 덮고 body scroll도 잠근다.
+- 따라서 성공 후에도 `isAuthenticating`가 유지되면 오버레이는 계속 남는다.
+
+### 4.3 왜 첫 로그인에서 특히 잘 보이나
+
+- 첫 로그인은 세션이 없는 상태에서 시작한다.
+- 성공 직후 세션 반영, 미들웨어 통과, 대상 관리자 페이지 렌더가 한 번에 이어진다.
+- 이 첫 전환 구간이 길어지면 로그인 페이지가 더 오래 유지되고, 그 동안 `isAuthenticating`가 계속 `true`이므로 오버레이가 붙잡혀 보이기 쉽다.
+
+### 4.4 `router.refresh()`의 영향
+
+- 성공 직후 `router.push()` 다음에 `router.refresh()`를 바로 호출하고 있다.
+- 이 구조는 라우트 전환이 완전히 커밋되기 전에 현재 트리를 다시 갱신할 여지를 만든다.
+- 따라서 오버레이가 눈에 띄게 오래 남는 현상을 더 키울 가능성이 있다.
+
+## 5) 핵심 근거
+
 - `src/app/admin/login/page.tsx`
-- `src/lib/auth/config.ts`
-- `src/app/api/auth/[...nextauth]/route.ts`
-- `src/middleware.ts`
-- `src/app/providers.tsx`
-- `src/components/nav/admin-side-nav.tsx`
-- `src/lib/client/admin-api.ts`
-- `src/lib/server/env.ts`
-- `.env.example`
-- 샘플 admin API 라우트(`src/app/api/admin/*`)
+  - 성공 시 `setIsAuthenticating(false)` 없음
+  - 오버레이 노출이 `isAuthenticating`에 직접 연결됨
+- `src/components/ui/blocking-overlay.tsx`
+  - `open`이 `true`인 동안 전면 오버레이 유지
+- `src/app/admin/layout.tsx`
+  - 로그인 페이지도 `/admin` 레이아웃 하위에서 렌더링됨
 
-## 3) 구조 요약 (한눈에)
+## 6) 수정 방향 메모
 
-1. 인증 방식: NextAuth `CredentialsProvider` + 단일 ENV 계정(`ADMIN_EMAIL`, `ADMIN_PASSWORD`)
-2. 세션 방식: NextAuth JWT 세션(`session.strategy = "jwt"`)
-3. 보호 경계: `middleware.ts`에서 `/admin/:path*`, `/api/admin/:path*` 전체를 토큰 유무로 보호
-4. 인가 모델: `role = "admin"` 값을 JWT/Session에 넣지만 실제 권한 분기(역할별 정책)는 없음
-5. 서버 API 개별 검증: 각 라우트 핸들러 내부에서 `getServerSession`/role 체크는 하지 않음(미들웨어에 의존)
+안전한 수정 방향은 아래와 같다.
 
-## 4) 로그인 구현 상세
-
-### 4.1 로그인 페이지와 제출 로직
-
-- 로그인 화면은 `src/app/admin/login/page.tsx`에 구현되어 있음.
-- 입력 검증은 `zod + react-hook-form` 사용:
-  - 이메일 형식 검증
-  - 비밀번호 비어있음 검증
-- 제출 시 `signIn("credentials", { redirect: false, callbackUrl: "/admin/artists" })` 호출.
-- 실패(`result.error` 존재) 시 사용자에게 고정 메시지 표시:
-  - `"이메일 또는 비밀번호가 올바르지 않습니다."`
-- 성공 시 `router.push(result.url ?? "/admin/artists")` 후 `router.refresh()`.
-
-근거:
-- `src/app/admin/login/page.tsx:11-14, 38-53`
-
-### 4.2 NextAuth 라우트 연결
-
-- NextAuth 엔드포인트는 App Router 방식으로 등록:
-  - `GET/POST /api/auth/[...nextauth]`
-- `authOptions`는 `src/lib/auth/config.ts`에서 주입됨.
-
-근거:
-- `src/app/api/auth/[...nextauth]/route.ts:1-6`
-
-### 4.3 Credentials 인증 로직
-
-- `CredentialsProvider.authorize`에서 다음을 수행:
-  1. email/password 누락 체크
-  2. `getCoreEnv()`로 환경변수 로드/검증
-  3. `credentials.email === env.ADMIN_EMAIL`
-  4. `credentials.password === env.ADMIN_PASSWORD`
-- 불일치 시 오류 throw.
-- 일치 시 고정 사용자 객체 반환:
-  - `id: "env-admin"`
-  - `name: "SteelArt Admin"`
-  - `role: "admin"`
-
-근거:
-- `src/lib/auth/config.ts:18-37`
-- `src/lib/server/env.ts:3-8, 40-53`
-
-## 5) 세션/토큰 모델
-
-### 5.1 JWT 세션 전략
-
-- `session.strategy = "jwt"`로 설정되어 DB 세션 저장소 없이 토큰 기반 세션 사용.
-
-근거:
-- `src/lib/auth/config.ts:7-10`
-
-### 5.2 role 클레임 주입
-
-- `jwt` callback: 로그인 시 `token.role` 설정.
-- `session` callback: `session.user.role`에 토큰 role 복사.
-- 타입 확장으로 `User`, `Session.user`, `JWT`에 `role?: string` 선언.
-
-근거:
-- `src/lib/auth/config.ts:43-55`
-- `src/types/next-auth.d.ts:3-19`
-
-### 5.3 클라이언트 세션 컨텍스트
-
-- 루트 `Providers`에서 `SessionProvider`로 전체 앱을 감쌈.
-- 따라서 클라이언트 컴포넌트에서 `next-auth/react` API 사용 가능.
-
-근거:
-- `src/app/providers.tsx:3-22`
-- `src/app/layout.tsx`에서 `<Providers>{children}</Providers>` 사용
-
-## 6) 인증 보호(Access Control) 상세
-
-### 6.1 미들웨어가 단일 진입 게이트
-
-- 매처:
-  - `/admin/:path*`
-  - `/api/admin/:path*`
-- 판단 기준:
-  - 로그인 페이지(`/admin/login`) + 토큰 있음 => `/admin/artists`로 리다이렉트
-  - 관리자 페이지/API + 토큰 없음 => 차단
-    - 페이지: `/admin/login` 리다이렉트
-    - API: `401` JSON 반환 (`code: "UNAUTHORIZED"`, `message: "인증이 필요합니다."`)
-
-근거:
-- `src/middleware.ts:9-31, 47-49`
-
-### 6.2 authorized 콜백 동작 방식
-
-- `withAuth` 옵션에서 `authorized: () => true`를 사용.
-- 즉 1차 통과 후, 실제 차단은 커스텀 미들웨어 본문(`token` 검사)에서 직접 처리.
-
-근거:
-- `src/middleware.ts:35-38`
-
-### 6.3 API 라우트 내부 인증 체크 부재
-
-- 조사한 `/api/admin/*` 라우트들은 비즈니스 로직/검증만 수행하고 인증 코드는 없음.
-- 보호는 미들웨어 전역 매처에 전적으로 의존.
-
-근거:
-- `src/app/api/admin/artists/route.ts` (인증 코드 없음)
-- `src/app/api/admin/users/route.ts` (인증 코드 없음)
-
-## 7) 로그아웃 및 인증 실패 UX
-
-### 7.1 로그아웃
-
-- 사이드 네비게이션에서 `signOut({ callbackUrl: "/admin/login" })` 호출.
-- 사용자 확인 대화상자(confirm) 후 로그아웃 실행.
-
-근거:
-- `src/components/nav/admin-side-nav.tsx:42-51`
-
-### 7.2 인증 실패 API 호출 시 프론트 동작
-
-- `requestJson`은 비정상 응답 시 `payload.error.message`를 `Error`로 throw.
-- 미들웨어가 401에서 `"인증이 필요합니다."`를 반환하므로, 클라이언트에서는 해당 메시지로 예외를 받음.
-- 공통 API 유틸에는 `401` 자동 리다이렉트 처리 없음.
-
-근거:
-- `src/lib/client/admin-api.ts:65-72`
-- `src/middleware.ts:19-27`
-
-## 8) 환경변수 의존성
-
-필수(코어 인증 관련):
-- `NEXTAUTH_SECRET` (필수)
-- `ADMIN_EMAIL` (이메일 형식 필수)
-- `ADMIN_PASSWORD` (문자열 1자 이상 필수)
-- `NEXTAUTH_URL` (스키마상 optional, `.env.example`에는 정의)
-
-근거:
-- `src/lib/server/env.ts:3-8`
-- `.env.example:1-5`
-
-## 9) 현재 설계의 특성 및 리스크
-
-### 9.1 사실 기반 확인
-
-1. 단일 관리자 계정 구조
-- DB 사용자 테이블 기반 인증이 아니라 ENV 고정 계정 1개를 사용.
-
-2. 평문 비교
-- 비밀번호 해시 검증(`bcrypt.compare`)이 아니라 문자열 동등 비교.
-- `.env.example`도 `replace_with_plain_password`로 안내.
-
-3. 역할 정보는 저장하지만 권한 분기 없음
-- `role`은 토큰/세션에 저장되지만, 현재 코드에서 role 기반 접근 제어는 없음.
-
-### 9.2 추론(운영 관점)
-
-1. 확장성 한계
-- 다중 운영자, 권한 레벨(읽기 전용/편집/슈퍼어드민) 요구가 생기면 현재 구조로는 대응이 어렵다.
-
-2. 인증 강도 한계
-- 로그인 시도 횟수 제한, 계정 잠금, MFA 같은 추가 방어 계층이 현재 코드에 없다.
-
-3. 미들웨어 의존도
-- `/api/admin/*` 내부에서 재검증하지 않으므로, 라우트 매처 누락/변경 시 보호 경계가 약해질 수 있다.
-
-## 10) 실제 요청 흐름 (요약 시퀀스)
-
-1. 사용자가 `/admin/login` 진입
-2. 로그인 폼 제출 -> `signIn("credentials")`
-3. NextAuth authorize에서 ENV 계정 비교
-4. 성공 시 JWT 발급(`role=admin` 포함)
-5. 이후 `/admin/*`, `/api/admin/*` 요청 시 미들웨어가 토큰 존재 확인
-6. 토큰 없으면:
-   - 페이지 요청: 로그인 페이지로 리다이렉트
-   - API 요청: 401 JSON 반환
-
-## 11) 결론
-
-현재 로그인/인증은 "NextAuth Credentials + ENV 단일 관리자 + 미들웨어 전역 보호"라는 단순하고 명확한 구조다.  
-MVP/내부 운영 용도로는 빠르게 동작하지만, 운영자 다계정/세분화된 권한/강화된 보안 요구가 생기면 인증 저장소(DB), 해시 검증, role 기반 인가 정책, 401 공통 처리 전략을 포함한 구조 개편이 필요하다.
+1. 로그인 성공 후 오버레이 종료 시점을 명시적으로 정의한다. (로그인이 성공하면 오버레이를 종료하고 user page로 이동한다.)
+2. `router.refresh()`가 정말 필요한지 재검토한다.
+3. 오버레이 종료를 페이지 언마운트에만 의존하지 않도록 상태 전환을 분리한다.
