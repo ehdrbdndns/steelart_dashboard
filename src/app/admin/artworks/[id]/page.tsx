@@ -35,6 +35,8 @@ type Artwork = {
     id: number;
     artwork_id: number;
     image_url: string;
+    image_width: number | null;
+    image_height: number | null;
     created_at: string | null;
   }[];
 };

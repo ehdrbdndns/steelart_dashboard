@@ -1,4 +1,4 @@
-import mysql from "mysql2/promise";
+import { boolEnv, createDbConnection } from "./lib/db-connection.mjs";
 
 const USER_SEEDS = [
   { nickname: "포항산책러_민지", residency: "POHANG", age_group: "20S", language: "ko", notifications_enabled: 1 },
@@ -15,21 +15,6 @@ const USER_SEEDS = [
   { nickname: "weekend_maria", residency: "NON_POHANG", age_group: "70_PLUS", language: "en", notifications_enabled: 1 },
 ];
 
-function requireEnv(name) {
-  const value = process.env[name];
-  if (!value) {
-    throw new Error(`Missing required env var: ${name}`);
-  }
-
-  return value;
-}
-
-function boolEnv(name, defaultValue = false) {
-  const value = process.env[name];
-  if (!value) return defaultValue;
-  return value === "true" || value === "1";
-}
-
 if (process.env.NODE_ENV === "production") {
   throw new Error("Realistic user seed is blocked in production environment.");
 }
@@ -38,13 +23,7 @@ if (!boolEnv("ALLOW_MOCK_SEED", false)) {
   throw new Error("Set ALLOW_MOCK_SEED=true to run realistic user seed.");
 }
 
-const connection = await mysql.createConnection({
-  host: requireEnv("DB_HOST"),
-  port: Number(requireEnv("DB_PORT")),
-  user: requireEnv("DB_USER"),
-  password: requireEnv("DB_PASSWORD"),
-  database: requireEnv("DB_NAME"),
-});
+const connection = await createDbConnection();
 
 function pick(arr, index) {
   return arr[index % arr.length];

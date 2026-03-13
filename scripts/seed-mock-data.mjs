@@ -1,4 +1,4 @@
-import mysql from "mysql2/promise";
+import { boolEnv, createDbConnection } from "./lib/db-connection.mjs";
 
 const MOCK_PREFIX = "[MOCK]";
 const DEFAULT_MEDIA_BASE_URL = "https://example.com/steelart/mock";
@@ -11,21 +11,6 @@ const TARGET = {
   zones: 3,
   places: 20,
 };
-
-function requireEnv(name) {
-  const value = process.env[name];
-  if (!value) {
-    throw new Error(`Missing required env var: ${name}`);
-  }
-
-  return value;
-}
-
-function boolEnv(name, defaultValue = false) {
-  const value = process.env[name];
-  if (!value) return defaultValue;
-  return value === "true" || value === "1";
-}
 
 function mediaUrl(seed, fileName) {
   const base = (process.env.MOCK_MEDIA_BASE_URL || DEFAULT_MEDIA_BASE_URL).replace(
@@ -70,13 +55,7 @@ if (!boolEnv("ALLOW_MOCK_SEED", false)) {
   throw new Error("Set ALLOW_MOCK_SEED=true to run mock seed.");
 }
 
-const connection = await mysql.createConnection({
-  host: requireEnv("DB_HOST"),
-  port: Number(requireEnv("DB_PORT")),
-  user: requireEnv("DB_USER"),
-  password: requireEnv("DB_PASSWORD"),
-  database: requireEnv("DB_NAME"),
-});
+const connection = await createDbConnection();
 
 async function ensureMockZones() {
   const zoneIds = [];
@@ -196,9 +175,10 @@ async function findOrCreateArtwork(index, artistIds, placeIds) {
     for (const imageUrl of imageUrls) {
       if (!existingImageUrls.has(imageUrl)) {
         await connection.query(
-          `INSERT INTO artwork_images (artwork_id, image_url, created_at)
-           VALUES (?, ?, NOW())`,
-          [artworkId, imageUrl],
+          `INSERT INTO artwork_images (
+             artwork_id, image_url, created_at, image_width, image_height
+           ) VALUES (?, ?, NOW(), ?, ?)`,
+          [artworkId, imageUrl, 1200, 800],
         );
       }
     }

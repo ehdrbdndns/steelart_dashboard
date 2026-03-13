@@ -10,7 +10,8 @@
     "db:schema:export": "node --env-file=.env scripts/export-db-schema.mjs",
     "db:seed:mock": "node --env-file=.env scripts/seed-mock-data.mjs",
     "db:seed:users": "node --env-file=.env scripts/seed-users-realistic.mjs",
-    "db:backfill:artist-profile": "node --env-file=.env scripts/backfill-artist-profile-image.mjs"
+    "db:backfill:artist-profile": "node --env-file=.env scripts/backfill-artist-profile-image.mjs",
+    "db:backfill:artwork-image-dimensions": "node --env-file=.env scripts/backfill-artwork-image-dimensions.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.991.0",

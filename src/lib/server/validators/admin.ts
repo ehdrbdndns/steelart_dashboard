@@ -123,6 +123,8 @@ const artworkImagesSchema = z
   .array(
     z.object({
       image_url: z.string().trim().url(),
+      image_width: z.coerce.number().int().positive(),
+      image_height: z.coerce.number().int().positive(),
     }),
   )
   .min(1);

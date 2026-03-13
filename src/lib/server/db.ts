@@ -7,9 +7,30 @@ declare global {
   var __steelartPool: mysql.Pool | undefined;
 }
 
+const LOCAL_DB_HOSTS = new Set(["localhost", "127.0.0.1", "::1"]);
+const SSL_ENABLED_VALUES = new Set(["1", "true", "yes", "required"]);
+const SSL_DISABLED_VALUES = new Set(["0", "false", "no", "disabled"]);
+
+function resolveSslOption(host: string) {
+  const sslSetting = (process.env.DB_SSL ?? "auto").trim().toLowerCase();
+
+  if (SSL_ENABLED_VALUES.has(sslSetting)) {
+    return { rejectUnauthorized: false };
+  }
+
+  if (SSL_DISABLED_VALUES.has(sslSetting)) {
+    return undefined;
+  }
+
+  return LOCAL_DB_HOSTS.has(host.trim().toLowerCase())
+    ? undefined
+    : { rejectUnauthorized: false };
+}
+
 export function getDbPool() {
   if (!global.__steelartPool) {
     const env = getCoreEnv();
+    const ssl = resolveSslOption(env.DB_HOST);
 
     global.__steelartPool = mysql.createPool({
       host: env.DB_HOST,
@@ -20,6 +41,7 @@ export function getDbPool() {
       waitForConnections: true,
       connectionLimit: 10,
       namedPlaceholders: false,
+      ...(ssl ? { ssl } : {}),
     });
   }
 

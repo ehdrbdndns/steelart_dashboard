@@ -11,6 +11,60 @@ type PresignResponse = {
   fileUrl: string;
 };
 
+export type ImageMetadata = {
+  width: number;
+  height: number;
+};
+
+type ImageMetadataValue = {
+  width: number | null;
+  height: number | null;
+};
+
+function hasResolvedImageMetadata(imageMetadata?: ImageMetadataValue | null) {
+  const width = imageMetadata?.width;
+  const height = imageMetadata?.height;
+
+  return Boolean(
+    Number.isInteger(width) &&
+      Number.isInteger(height) &&
+      typeof width === "number" &&
+      typeof height === "number" &&
+      width > 0 &&
+      height > 0,
+  );
+}
+
+async function readImageDimensionsFromUrl(imageUrl: string) {
+  const image = new Image();
+
+  return new Promise<ImageMetadata>((resolve, reject) => {
+    image.onload = () => {
+      if (image.naturalWidth <= 0 || image.naturalHeight <= 0) {
+        reject(new Error("유효하지 않은 이미지 크기입니다."));
+        return;
+      }
+
+      resolve({
+        width: image.naturalWidth,
+        height: image.naturalHeight,
+      });
+    };
+    image.onerror = () => reject(new Error("이미지 크기를 읽지 못했습니다."));
+    image.src = imageUrl;
+  });
+}
+
+async function readImageDimensionsFromFile(file: File) {
+  const objectUrl = URL.createObjectURL(file);
+
+  try {
+    return await readImageDimensionsFromUrl(objectUrl);
+  } finally {
+    URL.revokeObjectURL(objectUrl);
+  }
+}
+
 export function FileUploadField({
   label,
   value,
@@ -19,6 +73,9 @@ export function FileUploadField({
   required = false,
   imagePreviewClassName,
   imagePreviewImageClassName,
+  imageMetadata,
+  onImageMetadataChange,
+  showImageMetadata = false,
   onChange,
 }: {
   label: string;
@@ -28,13 +85,19 @@ export function FileUploadField({
   required?: boolean;
   imagePreviewClassName?: string;
   imagePreviewImageClassName?: string;
+  imageMetadata?: ImageMetadataValue | null;
+  onImageMetadataChange?: (imageMetadata: ImageMetadata | null) => void;
+  showImageMetadata?: boolean;
   onChange: (value: string) => void;
 }) {
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const onImageMetadataChangeRef = useRef(onImageMetadataChange);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
   const [imagePreviewError, setImagePreviewError] = useState(false);
   const [audioPreviewError, setAudioPreviewError] = useState(false);
+  const [imageMetadataLoading, setImageMetadataLoading] = useState(false);
+  const [imageMetadataError, setImageMetadataError] = useState("");
   const isImageField = accept.includes("image");
   const isAudioField = accept.includes("audio");
 
@@ -43,11 +106,87 @@ export function FileUploadField({
     setAudioPreviewError(false);
   }, [value]);
 
+  useEffect(() => {
+    onImageMetadataChangeRef.current = onImageMetadataChange;
+  }, [onImageMetadataChange]);
+
+  useEffect(() => {
+    if (!isImageField) {
+      setImageMetadataLoading(false);
+      setImageMetadataError("");
+      return;
+    }
+
+    const trimmedValue = value.trim();
+    if (!trimmedValue) {
+      setImageMetadataLoading(false);
+      setImageMetadataError("");
+      return;
+    }
+
+    if (!onImageMetadataChangeRef.current) {
+      return;
+    }
+
+    if (!zodUrlSafeParse(trimmedValue)) {
+      setImageMetadataLoading(false);
+      setImageMetadataError("");
+      return;
+    }
+
+    if (hasResolvedImageMetadata(imageMetadata)) {
+      setImageMetadataLoading(false);
+      setImageMetadataError("");
+      return;
+    }
+
+    let cancelled = false;
+
+    const resolveMetadata = async () => {
+      setImageMetadataLoading(true);
+      setImageMetadataError("");
+
+      try {
+        const nextImageMetadata = await readImageDimensionsFromUrl(trimmedValue);
+        if (cancelled) {
+          return;
+        }
+
+        setImageMetadataLoading(false);
+        onImageMetadataChangeRef.current?.(nextImageMetadata);
+      } catch (metadataError) {
+        if (cancelled) {
+          return;
+        }
+
+        setImageMetadataLoading(false);
+        setImageMetadataError(
+          metadataError instanceof Error
+            ? metadataError.message
+            : "이미지 크기를 읽지 못했습니다.",
+        );
+        onImageMetadataChangeRef.current?.(null);
+      }
+    };
+
+    void resolveMetadata();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [imageMetadata, isImageField, value]);
+
   const handleUpload = async (file: File) => {
     setUploading(true);
     setError("");
 
     try {
+      let nextImageMetadata: ImageMetadata | null = null;
+      if (isImageField) {
+        nextImageMetadata = await readImageDimensionsFromFile(file);
+        setImageMetadataError("");
+      }
+
       const presigned = await requestJson<PresignResponse>(
         "/api/admin/uploads/presign",
         {
@@ -73,6 +212,9 @@ export function FileUploadField({
       }
 
       onChange(presigned.fileUrl);
+      if (nextImageMetadata) {
+        onImageMetadataChangeRef.current?.(nextImageMetadata);
+      }
     } catch (uploadError) {
       const message =
         uploadError instanceof Error
@@ -118,11 +260,32 @@ export function FileUploadField({
       <input
         type="url"
         value={value}
-        onChange={(event) => onChange(event.target.value)}
+        onChange={(event) => {
+          onChange(event.target.value);
+          if (isImageField) {
+            setImageMetadataError("");
+            onImageMetadataChangeRef.current?.(null);
+          }
+        }}
         placeholder="https://..."
         className="w-full rounded-md border px-3 py-2"
         required={required}
       />
+      {isImageField && showImageMetadata && value.trim().length > 0 ? (
+        <div className="rounded-md border bg-muted/20 px-3 py-2 text-xs text-muted-foreground">
+          {imageMetadataLoading ? (
+            <p>이미지 크기를 읽는 중입니다...</p>
+          ) : hasResolvedImageMetadata(imageMetadata) ? (
+            <p>
+              이미지 크기: {imageMetadata?.width} x {imageMetadata?.height}px
+            </p>
+          ) : imageMetadataError ? (
+            <p className="text-red-500">{imageMetadataError}</p>
+          ) : (
+            <p>이미지 크기 정보를 확인하는 중입니다.</p>
+          )}
+        </div>
+      ) : null}
       {isImageField && value.trim().length > 0 ? (
         <div className="space-y-2 rounded-md border bg-muted/20 p-2">
           <p className="text-xs text-muted-foreground">이미지 미리보기</p>
@@ -169,4 +332,13 @@ export function FileUploadField({
       {error ? <p className="text-sm text-red-500">{error}</p> : null}
     </div>
   );
+}
+
+function zodUrlSafeParse(value: string) {
+  try {
+    new URL(value);
+    return true;
+  } catch {
+    return false;
+  }
 }

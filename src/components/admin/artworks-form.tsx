@@ -5,7 +5,10 @@ import Script from "next/script";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
-import { FileUploadField } from "@/components/admin/file-upload-field";
+import {
+  FileUploadField,
+  type ImageMetadata,
+} from "@/components/admin/file-upload-field";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -67,6 +70,20 @@ function parseCoordinate(rawValue: string) {
   return Number.isFinite(parsed) ? parsed : null;
 }
 
+function hasResolvedImageDimensions(image: {
+  image_width: number | null;
+  image_height: number | null;
+}) {
+  return Boolean(
+    Number.isInteger(image.image_width) &&
+      Number.isInteger(image.image_height) &&
+      image.image_width &&
+      image.image_height &&
+      image.image_width > 0 &&
+      image.image_height > 0,
+  );
+}
+
 const schema = z.object({
   title_ko: z.string().min(1),
   title_en: z.string().min(1),
@@ -96,6 +113,8 @@ type ArtworkImage = {
   id: number;
   artwork_id: number;
   image_url: string;
+  image_width: number | null;
+  image_height: number | null;
   created_at: string | null;
 };
 
@@ -137,6 +156,8 @@ type SelectOption = {
 type ArtworkImageDraft = {
   key: string;
   image_url: string;
+  image_width: number | null;
+  image_height: number | null;
 };
 
 type FestivalYearDraft = {
@@ -196,11 +217,17 @@ export function ArtworksForm({
     return `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${encodeURIComponent(kakaoSdkKey)}&autoload=false&libraries=services`;
   }, [isKakaoSdkEnabled, kakaoSdkKey]);
 
-  const createImageDraft = (imageUrl = ""): ArtworkImageDraft => {
+  const createImageDraft = (
+    imageUrl = "",
+    imageWidth: number | null = null,
+    imageHeight: number | null = null,
+  ): ArtworkImageDraft => {
     imageDraftIndex.current += 1;
     return {
       key: `image-draft-${Date.now()}-${imageDraftIndex.current}`,
       image_url: imageUrl,
+      image_width: imageWidth,
+      image_height: imageHeight,
     };
   };
 
@@ -218,6 +245,8 @@ export function ArtworksForm({
       return existingImages.map((image, index) => ({
         key: `existing-image-${image.id}-${index}`,
         image_url: image.image_url,
+        image_width: image.image_width,
+        image_height: image.image_height,
       }));
     }
     return [createImageDraft()];
@@ -504,6 +533,11 @@ export function ArtworksForm({
       return;
     }
 
+    if (imageDrafts.some((image) => !hasResolvedImageDimensions(image))) {
+      setError("모든 작품 이미지의 가로/세로 크기를 확인해주세요.");
+      return;
+    }
+
     const normalizedFestivalYears = festivalYearDrafts
       .map((item) => item.year.trim())
       .filter((year) => year.length > 0);
@@ -554,8 +588,10 @@ export function ArtworksForm({
         },
         audio_url_ko: values.audio_url_ko.trim() || undefined,
         audio_url_en: values.audio_url_en.trim() || undefined,
-        images: normalizedImageUrls.map((imageUrl) => ({
-          image_url: imageUrl,
+        images: imageDrafts.map((image, index) => ({
+          image_url: normalizedImageUrls[index],
+          image_width: image.image_width,
+          image_height: image.image_height,
         })),
         festival_years: deduplicatedFestivalYears,
       };
@@ -964,6 +1000,24 @@ export function ArtworksForm({
                 required={mode === "create"}
                 imagePreviewClassName="h-24 w-40 max-w-full rounded-md"
                 imagePreviewImageClassName="object-cover"
+                imageMetadata={{
+                  width: draft.image_width,
+                  height: draft.image_height,
+                }}
+                onImageMetadataChange={(nextMetadata: ImageMetadata | null) =>
+                  setImageDrafts((previous) =>
+                    previous.map((item) =>
+                      item.key === draft.key
+                        ? {
+                            ...item,
+                            image_width: nextMetadata?.width ?? null,
+                            image_height: nextMetadata?.height ?? null,
+                          }
+                        : item,
+                    ),
+                  )
+                }
+                showImageMetadata
                 onChange={(nextValue) =>
                   setImageDrafts((previous) =>
                     previous.map((item) =>
@@ -971,6 +1025,8 @@ export function ArtworksForm({
                         ? {
                             ...item,
                             image_url: nextValue,
+                            image_width: nextValue === item.image_url ? item.image_width : null,
+                            image_height: nextValue === item.image_url ? item.image_height : null,
                           }
                         : item,
                     ),
