@@ -35,19 +35,6 @@ export function AdminApiBlockingOverlay() {
     };
   }, [pendingCount]);
 
-  useEffect(() => {
-    if (!visible) {
-      return;
-    }
-
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    return () => {
-      document.body.style.overflow = previousOverflow;
-    };
-  }, [visible]);
-
   if (!visible) {
     return null;
   }
