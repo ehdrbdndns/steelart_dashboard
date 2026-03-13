@@ -14,6 +14,8 @@ type ArtworkImageRow = RowDataPacket & {
   id: number;
   artwork_id: number;
   image_url: string;
+  image_width: number | null;
+  image_height: number | null;
   created_at: string | null;
 };
 
@@ -66,7 +68,7 @@ async function getArtworkWithImages(artworkId: number) {
   );
 
   const images = await query<ArtworkImageRow[]>(
-    `SELECT id, artwork_id, image_url, created_at
+    `SELECT id, artwork_id, image_url, image_width, image_height, created_at
      FROM artwork_images
      WHERE artwork_id = ?
      ORDER BY id ASC`,
@@ -205,9 +207,10 @@ export async function PUT(
 
       for (const image of payload.images) {
         await connection.query<ResultSetHeader>(
-          `INSERT INTO artwork_images (artwork_id, image_url, created_at)
-           VALUES (?, ?, NOW())`,
-          [id, image.image_url],
+          `INSERT INTO artwork_images (
+             artwork_id, image_url, created_at, image_width, image_height
+           ) VALUES (?, ?, NOW(), ?, ?)`,
+          [id, image.image_url, image.image_width, image.image_height],
         );
       }
 

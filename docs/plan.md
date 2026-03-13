@@ -1,240 +1,255 @@
-# 운영 배포 로그인 성공 후 리다이렉트 실패 수정 계획
+# ArtworkImages `image_width` / `image_height` 구현 계획 및 완료 기록
 
-작성일: 2026-03-09  
+작성일: 2026-03-12  
+최종 업데이트: 2026-03-13  
 대상 저장소: `/Users/donggyunyang/code/steelart/steelart_dashboard`  
-대상 환경: `https://steelartdashboard.vercel.app/admin/login`
+기준 문서: `docs/research.md`
 
-## 1) 목표
+상태:
 
-운영 배포 환경에서 관리자 로그인은 성공하지만, 첫 protected route 이동이 다시 로그인 페이지로 튕기는 문제를 수정한다.
+- 2026-03-13 기준 본 문서의 구현/검증/PR 작성 단계까지 모두 완료했다.
 
-해결 목표:
-- 로그인 성공 직후 `/admin/users`로 안정적으로 이동한다.
-- `reason=auth-required&next=...`로 되돌아가는 현상을 제거한다.
-- 로컬뿐 아니라 운영 배포 환경에서도 동일하게 동작하게 만든다.
+## 1. 목표
 
-## 진행 상태
+이미 추가된 `artwork_images.image_width`, `artwork_images.image_height`를 관리자 작품 생성/수정 플로우에 연결하고, 이 값이 항상 저장되고 다시 불러와지도록 만든다.
 
-- [완료] 6.1 작업 브랜치 생성
-- [완료] 6.2 로그인 성공 후 이동 방식을 full navigation으로 변경
-- [완료] 6.3 성공 분기 상태 처리 재정의
-- [완료] 6.4 `next` / 기본 경로 흐름 유지 확인
-- [완료] 6.5 운영 배포 기준 회귀 검증
-- [완료] 6.6 예외 상황 점검
-- [완료] 6.7 마지막 단계: PR 작성
+완료 목표:
 
-## 2) 현재 관찰된 현상 요약
+- 신규/기존 artwork image row가 width/height를 함께 가진다.
+- 관리자 작품 생성/수정에서 이미지 metadata가 유실되지 않는다.
+- 기존 `artwork_images` row를 안전하게 backfill 한다.
+- 관련 문서와 seed 데이터가 새 계약과 일치한다.
 
-실제 운영 배포 기준으로 아래 흐름이 확인됐다.
+## 2. 핵심 제약
 
-- `POST /api/auth/callback/credentials`는 `200`으로 성공한다.
-- 직후 `GET /api/auth/session`도 성공하고 세션 사용자 정보가 반환된다.
-- 하지만 같은 로그인 직후 App Router가 보내는 `GET /admin/users?_rsc=...` 요청은 `307`으로 다시 로그인 페이지로 리다이렉트된다.
-- 이후 같은 세션으로 `/admin/users`를 직접 새로 열면 정상 진입된다.
+- 현재 운영 스냅샷은 artwork당 이미지가 1장씩이지만, 최신 기획과 관리자 코드 계약은 artwork당 여러 이미지를 허용한다.
+- 작품 수정 API는 이미지를 부분 수정하지 않고 `DELETE -> INSERT`로 전체 교체한다.
+- edit 화면에서 기존 이미지를 그대로 둬도 width/height를 payload에 포함해 다시 보내야 한다.
+- `FileUploadField`가 URL만 부모에 넘기던 구조에서는 metadata 유실을 막을 수 없다.
 
-즉, 인증 자체는 성공하지만 로그인 직후의 첫 클라이언트 라우팅 요청만 세션 반영 타이밍에 밀려 실패하는 상태다.
+## 3. 구현 원칙
 
-## 3) 핵심 원인 가설
+- 기존 DB 컬럼은 이미 운영에 배포된 상태이므로 추가 DDL 없이 wiring과 backfill 중심으로 처리한다.
+- 저장/편집 경로는 `image_width`, `image_height`를 사실상 필수값으로 취급한다.
+- 파일 업로드와 수동 URL 입력 모두 width/height를 확보해야 저장을 허용한다.
+- 작품 목록/코스 화면은 즉시 필수 수정 대상이 아니므로 저장/편집 경로를 우선 완성한다.
 
-현재 로그인 페이지는 아래 흐름을 사용한다.
+## 4. 구현 방향
 
-1. `signIn("credentials", { redirect: false, callbackUrl })`
-2. 성공 시 `router.push(destination)`
+1. 업로드 경로:
+   - `FileUploadField`가 선택된 `File`에서 이미지 width/height를 읽는다.
+   - 업로드 성공 후 URL과 metadata를 함께 부모 state에 반영한다.
 
-운영 배포에서는 `signIn()`이 성공 응답을 반환한 직후에도, App Router가 보내는 첫 RSC 요청이 세션 쿠키를 아직 반영하지 못한 상태로 나가는 것으로 보인다.
+2. 수동 URL 입력 경로:
+   - URL 변경 시 브라우저 `Image` 로딩으로 natural size를 읽는다.
+   - width/height를 읽지 못하면 에러를 표시하고 저장을 막는다.
 
-그 결과:
-- 클라이언트는 `/admin/users`로 이동을 시도한다.
-- 미들웨어는 그 첫 요청을 비로그인으로 판단한다.
-- `/admin/login?reason=auth-required&next=/admin/users`로 다시 돌려보낸다.
+3. edit round-trip:
+   - 상세 API가 기존 width/height를 내려준다.
+   - 폼 draft가 이 값을 보존한 채 reorder / delete / add를 처리한다.
 
-따라서 문제의 본질은 `router.push()` 기반 SPA 이동과 세션 쿠키 반영 시점 사이의 레이스 컨디션이다.
+## 5. 세부 구현 계획
 
-## 4) 구현 원칙
+### 5.1 DB 스키마 상태 확인 및 문서 반영 [완료]
 
-- 로그인 성공 후 첫 이동은 SPA 라우팅보다 세션 반영이 확실한 방식으로 전환한다.
-- 인증 성공 후 이동은 full document navigation으로 처리해 미들웨어가 첫 요청부터 세션을 읽게 한다.
-- 운영 배포에서 재현된 흐름을 기준으로 수정하고 검증한다.
-- 필요하지 않은 인증 로직 변경은 최소화한다.
+완료 내용:
 
-## 5) 수정 범위
+- 실DB `artwork_images`에 `image_width`, `image_height`가 이미 존재하는 것을 기준 상태로 확정했다.
+- `pnpm db:schema:export`를 재실행해 `docs/db-schema.sql`을 최신 상태로 동기화했다.
+- 후속 구현은 추가 DDL 없이 existing schema를 전제로 진행했다.
 
-우선 수정 대상:
-- `src/app/admin/login/page.tsx`
+### 5.2 기존 데이터 backfill [완료]
 
-필요 시 확인 대상:
-- `src/middleware.ts`
-- `src/lib/auth/redirect.ts`
+완료 내용:
 
-문서 반영:
-- `docs/plan.md`
-- 필요 시 `docs/research.md`
+- `scripts/backfill-artwork-image-dimensions.mjs`를 추가했다.
+- HTTP fetch 실패 시 S3 `GetObject` fallback까지 포함해 기존 이미지를 역추적하도록 구현했다.
+- 2026-03-13 재실행 결과:
+  - `target_rows=0`
+  - `updated_rows=0`
+  - `failed_rows=0`
+  - `remaining_null_rows=0`
+- SQL 재검증 결과:
+  - `total=221`
+  - `filled_rows=221`
+  - `remaining_null_rows=0`
 
-## 6) 세부 구현 계획
+### 5.3 서버 계약 업데이트 [완료]
 
-### [완료] 6.1 작업 브랜치 생성
+완료 내용:
 
-구현 시작 전에 새 브랜치를 만든다.
+- `src/lib/server/validators/admin.ts`
+  - `images[]` object에 `image_width`, `image_height`를 추가했다.
+  - 양의 정수 검증을 걸어 누락 payload를 서버에서 차단한다.
+- `src/app/api/admin/artworks/route.ts`
+  - create insert/select에 새 컬럼을 반영했다.
+- `src/app/api/admin/artworks/[id]/route.ts`
+  - detail select와 update 재삽입 로직에 새 컬럼을 반영했다.
 
-예시:
-```bash
-git switch -c codex/fix-login-redirect-race
-```
+완료 결과:
 
-### [완료] 6.2 로그인 성공 후 이동 방식을 full navigation으로 변경
+- create / detail / update API가 동일한 image object shape를 사용한다.
+- 작품 수정 후 `DELETE -> INSERT`가 일어나도 metadata가 유실되지 않는다.
 
-핵심 수정 포인트는 `src/app/admin/login/page.tsx`다.
+### 5.4 관리자 업로드 컴포넌트 개선 [완료]
 
-현재 방식:
-- 성공 후 `router.push(destination)`
+완료 내용:
 
-변경 방향:
-- 성공 후 `router.push(destination)`를 제거한다.
-- 대신 `window.location.replace(destination)` 또는 `window.location.assign(destination)`를 사용한다.
-- 기본안은 `window.location.replace(destination)`로 잡는다.
+- `src/components/admin/file-upload-field.tsx`
+  - 이미지 파일 선택 시 width/height를 계산한다.
+  - 수동 URL 입력 시 natural size를 재조회한다.
+  - metadata 로딩/오류/표시 UI를 추가했다.
+  - 부모가 metadata를 함께 받도록 콜백 계약을 확장했다.
 
-선정 이유:
-- 전체 문서 이동이면 세션 쿠키가 반영된 상태로 다음 요청이 발생한다.
-- 로그인 페이지를 history stack에 남기지 않아 back 동작도 더 자연스럽다.
+완료 결과:
 
-### [완료] 6.3 성공 분기 상태 처리 재정의
+- 파일 업로드 경로와 수동 URL 경로 모두 width/height를 확보할 수 있다.
+- 유효한 크기를 읽지 못한 이미지는 저장 전에 걸러진다.
 
-성공 후 바로 페이지를 교체할 것이므로, 성공 시 오버레이를 굳이 먼저 내릴지 여부를 함께 정리한다.
+### 5.5 작품 생성/수정 폼 반영 [완료]
 
-권장안:
-- 성공 직후에는 `isAuthenticating`를 유지한 채 전체 페이지 이동을 시작한다.
-- 실패/예외 분기만 `setIsAuthenticating(false)`를 유지한다.
+완료 내용:
 
-검토 포인트:
-- 성공 직전에 오버레이를 내리면 운영 배포에서 짧은 깜빡임이 생길 수 있다.
-- 전체 페이지 이동을 곧바로 시작하면 오버레이는 다음 페이지 로드 전까지 자연스럽게 busy state 역할을 한다.
+- `src/components/admin/artworks-form.tsx`
+  - 이미지 draft 타입에 `image_width`, `image_height`를 추가했다.
+  - 초기값, reorder, remove, add가 metadata를 함께 이동하도록 바꿨다.
+  - submit payload에 `image_width`, `image_height`를 포함시켰다.
+  - metadata 누락 시 `모든 작품 이미지의 가로/세로 크기를 확인해주세요.`로 저장을 차단한다.
+- `src/app/admin/artworks/[id]/page.tsx`
+  - edit page 타입에 새 필드를 반영했다.
 
-### [완료] 6.4 `next` / 기본 경로 흐름 유지 확인
+완료 결과:
 
-이동 방식만 바뀌고 목적지 계산 로직은 유지되어야 한다.
+- create 화면 저장 payload에 width/height가 포함된다.
+- edit 화면에서 기존 이미지를 수정하지 않아도 metadata가 유지된다.
+- 이미지 순서 변경 후 저장해도 각 metadata가 해당 이미지와 함께 이동한다.
 
-확인 결과:
-- 로컬 headed 검증에서 로그인 성공 후 `/admin/users` 진입을 확인했다.
-- 로컬 브라우저 검증에서 보호 페이지 진입 후 로그인 시 원래 요청한 `/admin/home-banners`로 복귀하는 흐름을 확인했다.
-- `reason=auth-required` 기반 로그인 페이지 진입과 `next` 파라미터 유지도 계속 동작한다.
+### 5.6 선택적 화면/API 확장 여부 결정 [완료]
 
-### [완료] 6.5 운영 배포 기준 회귀 검증
+결정:
 
-이번 이슈는 운영 배포에서 드러났으므로 local-only 검증으로 끝내지 않는다.
+- 이번 구현 범위에는 작품 목록 페이지와 코스 관리자 화면의 thumbnail dimension 노출을 포함하지 않았다.
+- `src/app/admin/artworks/page.tsx`, `src/app/api/admin/courses/[id]/items/route.ts`, `src/components/admin/course-items-editor.tsx`는 현재 소비 계약상 `thumbnail_image_url`만으로 충분하다.
 
-검증 결과:
-- 현재 운영 배포 `https://steelartdashboard.vercel.app/admin/login`에서 기존 레이스 현상을 실제로 재현했다.
-- 로그인 성공 직후 `/admin/users?_rsc=...`가 `307`으로 다시 로그인 페이지로 리다이렉트되는 네트워크 흐름을 확인했다.
-- 브랜치 preview 배포는 생성됐지만 Vercel SSO 보호(`401`) 때문에 자동화된 앱 페이지 검증은 진행할 수 없었다.
-- 따라서 수정 후 동작 검증은 로컬 빌드 + headed 브라우저에서 완료했고, 배포 환경은 preview/prod 반영 후 수동 스모크가 추가로 필요하다.
+결정 이유:
 
-### [완료] 6.6 예외 상황 점검
+- 이번 작업의 필수 문제는 저장/편집 시 metadata 유실 방지였다.
+- 목록/코스 화면은 width/height를 현재 직접 사용하지 않는다.
+- PR 본문에 범위 제외 사유를 명시했다.
 
-만약 full navigation으로 바꿔도 동일 증상이 남으면 아래를 2차 원인 후보로 점검한다.
+### 5.7 Seed / 문서 동기화 [완료]
 
-점검 후보:
-- 운영 환경 `NEXTAUTH_SECRET`
-- 운영 환경 `NEXTAUTH_URL`
-- 배포 캐시/구버전 배포 잔존 여부
+완료 내용:
 
-점검 결과:
-- 운영 배포에서 로그인 직후 `POST /api/auth/callback/credentials`는 `200`, `GET /api/auth/session`은 정상 사용자 정보를 반환했다.
-- 같은 세션 쿠키로 `GET /admin/users`를 직접 호출하면 `200`으로 응답했다.
-- 따라서 `NEXTAUTH_SECRET` 또는 `NEXTAUTH_URL` 불일치보다는 클라이언트 라우팅 레이스가 1차 원인이라고 판단했다.
+- `scripts/seed-mock-data.mjs`가 artwork image insert 시 width/height를 함께 저장하도록 수정했다.
+- DB 연결 공통화 및 SSL 자동 처리 helper를 `scripts/lib/db-connection.mjs`, `src/lib/server/db.ts`에 반영했다.
+- 다음 문서를 최종 계약과 일치하도록 갱신했다.
+  - `docs/research.md`
+  - `docs/db-contract.md`
+  - `docs/admin-backoffice.md`
+  - `docs/db-schema.sql`
 
-### 6.7 마지막 단계: PR 작성
+## 6. 검증 결과
 
-이 계획의 마지막 단계는 구현 완료만이 아니라 PR 템플릿에 맞춘 PR 작성과 PR 생성까지 포함한다.
+### 6.1 DB 검증 [완료]
 
-완료 직전 수행 항목:
-- 변경 요약 정리
-- 원인 분석과 수정 방식 정리
-- 운영 배포 검증 결과 정리
-- 필요한 스크린샷 정리
-- `.github/pull_request_template.md` 형식에 맞춰 PR 본문 작성
-- 실제 PR 생성
+실행 결과:
 
-## 7) 예상 코드 변경 포인트
+- `pnpm db:schema:export` 통과
+- `pnpm db:backfill:artwork-image-dimensions` 재실행 결과 `remaining_null_rows=0`
+- SQL 검증:
+  - `SELECT COUNT(*) ...` 결과 `total=221`, `filled_rows=221`, `remaining_null_rows=0`
 
-### 7.1 `src/app/admin/login/page.tsx`
+확인한 사항:
 
-예상 수정 내용:
-- 성공 분기에서 `router.push(destination)` 제거
-- 성공 분기에서 `window.location.replace(destination)` 또는 `window.location.assign(destination)` 사용
-- 성공 시 오버레이 상태를 유지할지 종료할지 재정의
+- 기존 데이터 backfill이 완료된 상태다.
+- 새 앱/스크립트 재실행이 추가 null row를 만들지 않는다.
 
-### 7.2 `src/middleware.ts`
+### 6.2 관리자 기능 검증 [완료]
 
-예상 수정 내용:
-- 코드 수정 없이 유지 가능성이 높음
-- 다만 운영 배포에서 보호 라우트 진입 결과를 다시 확인
+실행 결과:
 
-### 7.3 `src/lib/auth/redirect.ts`
+1. 기존 작품 수정 화면 확인
+   - `/admin/artworks/128`에서 `이미지 크기: 283 x 426px`가 실제 렌더링되는 것을 확인했다.
 
-예상 수정 내용:
-- 목적지 계산 유틸은 그대로 유지 가능성이 높음
-- `next` / fallback 경로 계산이 full navigation과 함께 정상 동작하는지만 확인
+2. 수동 URL 실패 경로 확인
+   - invalid image URL 입력 시 `이미지 크기를 읽지 못했습니다.`가 표시됐다.
+   - 저장 시 `모든 작품 이미지의 가로/세로 크기를 확인해주세요.`로 submit이 차단됐다.
 
-## 8) 검증 계획
+3. 인증된 관리자 API round-trip 확인
+   - 임시 artwork를 2개 이미지로 생성했다.
+   - 같은 이미지로 text-only update를 수행했다.
+   - 이미지 순서를 바꿔 저장한 뒤 응답 순서와 metadata가 함께 바뀌는 것을 확인했다.
+   - 한 장 삭제 후 새 이미지 추가 저장을 수행했고 최종 detail 응답의 width/height가 일치하는 것을 확인했다.
+   - 검증용 임시 artwork/places row는 마지막에 정리했다.
 
-### 8.1 정적 검증
+증빙 산출물:
 
-```bash
-pnpm exec tsc --noEmit
-pnpm lint
-pnpm build
-```
+- 스크린샷: `docs/pr-assets/artwork-image-dimensions-form.png`
 
-### 8.2 브라우저 검증
+### 6.3 정적 검증 [완료]
 
-Playwright headed 기준으로 아래를 확인한다.
+실행 결과:
 
-1. 운영 배포 정상 로그인
-- `https://steelartdashboard.vercel.app/admin/login` 진입
-- 정상 계정 입력
-- 로그인 버튼 클릭
-- 최종적으로 `/admin/users`로 이동하는지 확인
+- `pnpm exec tsc --noEmit`
+- `pnpm lint`
+- `pnpm build`
 
-2. 운영 배포 실패 로그인
-- 잘못된 비밀번호 입력
-- 로그인 페이지에 남는지 확인
-- 에러 메시지가 표시되는지 확인
+모두 통과했다.
 
-3. 운영 배포 보호 페이지 복귀
-- 로그아웃 상태에서 보호 페이지 접근
-- 로그인 페이지로 이동 확인
-- 정상 로그인 후 원래 요청 경로로 복귀 확인
+## 7. 적용 순서 기록
 
-4. 레이스 재발 방지
-- 로그인 직후 `reason=auth-required&next=/admin/users` 재진입이 사라졌는지 확인
+실제 적용 순서:
 
-## 9) 산출물
+1. 기존 schema 상태 확인 및 문서 동기화
+2. backfill 스크립트 구현 및 실행
+3. 관리자/UI/API 코드 반영
+4. 다중 이미지 round-trip 검증
+5. seed 및 문서 동기화
+6. PR 본문 및 스크린샷 정리
 
-구현 후 남겨야 할 결과:
-- 수정된 로그인 성공 분기 로직
-- 운영 배포 기준 검증 결과
-- 필요 시 신규 스크린샷:
-  - 운영 배포 로그인 성공 후 `/admin/users`
-  - 실패 로그인 화면
-- PR 템플릿 형식의 PR 본문 및 최종 PR
+## 8. 리스크와 대응
 
-## 10) 리스크와 대응
+- 리스크: edit 저장 시 일부 이미지 metadata가 빠진 payload가 들어오면 기존 값이 유실될 수 있음  
+  대응: 폼 저장 전 검증과 서버 스키마 검증 모두에서 누락을 차단했다.
 
-- 리스크: full navigation으로 바꾸면 SPA 전환보다 덜 부드럽게 느껴질 수 있음  
-  대응: 인증 직후 1회성 이동은 안정성이 더 중요하므로 전체 문서 이동을 우선 채택
+- 리스크: 수동 URL 입력 경로에서 natural size 조회 실패 가능  
+  대응: 컴포넌트에서 에러를 노출하고 폼 submit을 막도록 구현했다.
 
-- 리스크: `replace()` 사용 시 로그인 페이지가 history에서 사라진다  
-  대응: 로그인 성공 후 back 시 다시 로그인 페이지로 돌아가지 않는 편이 관리 화면 UX에 더 적합한지 확인
+- 리스크: 일부 운영 이미지 URL 접근 실패 가능  
+  대응: backfill 스크립트에 HTTP fetch + S3 fallback을 넣고 재실행 가능하게 만들었다.
 
-- 리스크: 라우팅 방식 변경 후에도 배포 환경 문제가 남을 수 있음  
-  대응: 그 경우 2차로 `NEXTAUTH_SECRET` / `NEXTAUTH_URL` / 배포 버전 동기화를 점검
+- 리스크: 목록/코스 화면이 이후 width/height를 필요로 할 수 있음  
+  대응: 이번 PR에서는 범위를 제외했지만, 썸네일 subquery 확장 지점은 문서화했다.
 
-## 11) 완료 기준
+## 9. 완료 기준
 
-- 운영 배포에서 로그인 성공 후 `/admin/users`로 즉시 이동한다.
-- 로그인 직후 `/admin/login?reason=auth-required&next=...`로 되돌아가지 않는다.
-- `/api/auth/session` 세션이 생성된 뒤 보호 페이지 진입도 동일 세션으로 성공한다.
-- 실패 로그인 시 오류 메시지가 유지된다.
-- `pnpm exec tsc --noEmit`, `pnpm lint`, `pnpm build`를 통과한다.
-- Playwright headed 검증을 로컬과 운영 배포 기준으로 완료한다.
-- PR 템플릿 형식으로 PR 본문을 작성하고 PR까지 생성한다.
+- 실DB `artwork_images` 기존/신규 row가 width/height를 가진다. 완료
+- 관리자 create/edit 저장에서 metadata가 유실되지 않는다. 완료
+- 수동 URL 입력도 width/height 확보 없이는 저장되지 않는다. 완료
+- seed, 문서, 서버 검증 스키마가 새 계약과 일치한다. 완료
+- `pnpm lint`, `pnpm build`가 통과한다. 완료
+
+## 10. 마지막 단계: PR 작성 [완료]
+
+완료 내용:
+
+- `.github/pull_request_template.md` 형식에 맞춘 PR 본문을 `docs/pr-assets/artwork-image-dimensions-pr.md`에 작성했다.
+- 작품 수정 화면 스크린샷을 `docs/pr-assets/artwork-image-dimensions-form.png`에 저장했다.
+
+PR 본문에 포함한 내용:
+
+- `## 요약`
+  - width/height가 필요한 이유
+  - `DELETE -> INSERT` 저장 방식에서 metadata 유실을 막는 방식
+- `## 변경내용`
+  - backfill
+  - 관리자 업로드/폼/API 반영
+  - seed / 문서 갱신
+  - 목록/코스 범위 제외 결정
+- `## 검증`
+  - DB null count 0 확인
+  - 관리자 UI/API 시나리오 검증
+  - `pnpm exec tsc --noEmit`, `pnpm lint`, `pnpm build`
+- `## 스크린샷`
+  - 작품 수정 화면 metadata 노출 캡처
