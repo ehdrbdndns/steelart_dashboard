@@ -56,4 +56,5 @@
 ## 스크린샷
 
 - 작품 수정 화면의 이미지 metadata 노출
-  - `docs/pr-assets/artwork-image-dimensions-form.png`
+
+![작품 수정 화면의 이미지 metadata 노출](https://github.com/ehdrbdndns/steelart_dashboard/blob/codex/artwork-image-dimensions/docs/pr-assets/artwork-image-dimensions-form.png?raw=1)
