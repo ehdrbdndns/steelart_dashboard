@@ -256,4 +256,4 @@ AI는 코드 구현과 반복 수정에는 강했지만, 다음 영역은 직접
 ---
 
 # 관련 블로그 글
-https://medium.com/@ehdrbdndns/%EB%B0%94%EC%9D%B4%EB%B8%8C-%EC%BD%94%EB%94%A9%EC%9C%BC%EB%A1%9C-8%EC%8B%9C%EA%B0%84-%EB%A7%8C%EC%97%90-%EA%B4%80%EB%A6%AC%EC%9E%90-%EB%8C%80%EC%8B%9C%EB%B3%B4%EB%93%9C%EB%A5%BC-%EC%99%84%EC%84%B1%ED%95%B4%EB%B3%B8-%EC%9D%B4%EC%95%BC%EA%B8%B0-codex-%EA%B8%B0%EB%B0%98-ai-%ED%98%91%EC%97%85-%EA%B0%9C%EB%B0%9C-%EA%B8%B0%EB%A1%9D-steelart-0504d99b3b2c
+👉 [바이브 코딩으로 8시간 만에 관리자 대시보드를 완성해본 이야기 — Codex 기반 AI 협업 개발 기록 (SteelArt)](https://medium.com/@ehdrbdndns/%EB%B0%94%EC%9D%B4%EB%B8%8C-%EC%BD%94%EB%94%A9%EC%9C%BC%EB%A1%9C-8%EC%8B%9C%EA%B0%84-%EB%A7%8C%EC%97%90-%EA%B4%80%EB%A6%AC%EC%9E%90-%EB%8C%80%EC%8B%9C%EB%B3%B4%EB%93%9C%EB%A5%BC-%EC%99%84%EC%84%B1%ED%95%B4%EB%B3%B8-%EC%9D%B4%EC%95%BC%EA%B8%B0-codex-%EA%B8%B0%EB%B0%98-ai-%ED%98%91%EC%97%85-%EA%B0%9C%EB%B0%9C-%EA%B8%B0%EB%A1%9D-steelart-0504d99b3b2c)
