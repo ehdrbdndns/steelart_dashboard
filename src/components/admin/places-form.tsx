@@ -51,6 +51,7 @@ const schema = z.object({
   name_ko: z.string().trim().min(1, "필수 입력입니다."),
   name_en: z.string().trim().min(1, "필수 입력입니다."),
   address: z.string().optional(),
+  address_en: z.string().optional(),
   zone_id: zoneIdFieldSchema,
   lat: buildCoordinateSchema(-90, 90),
   lng: buildCoordinateSchema(-180, 180),
@@ -79,6 +80,7 @@ export type PlaceInitialData = {
   name_ko: string;
   name_en: string;
   address: string | null;
+  address_en: string | null;
   lat: number;
   lng: number;
 };
@@ -132,6 +134,7 @@ export function PlacesForm({
       name_ko: initialData?.name_ko ?? "",
       name_en: initialData?.name_en ?? "",
       address: initialData?.address ?? "",
+      address_en: initialData?.address_en ?? "",
       zone_id: initialData?.zone_id ? String(initialData.zone_id) : "",
       lat: initialData ? initialData.lat.toFixed(7) : "",
       lng: initialData ? initialData.lng.toFixed(7) : "",
@@ -332,6 +335,7 @@ export function PlacesForm({
       name_ko: values.name_ko.trim(),
       name_en: values.name_en.trim(),
       address: values.address?.trim() ? values.address.trim() : null,
+      address_en: values.address_en?.trim() ? values.address_en.trim() : null,
       lat: Number(values.lat),
       lng: Number(values.lng),
       zone_id: zoneId,
@@ -438,7 +442,7 @@ export function PlacesForm({
       </div>
 
       <div className="space-y-1">
-        <Label htmlFor="address">주소(도로명)</Label>
+        <Label htmlFor="address">주소(도로명, 한글)</Label>
         <Input
           id="address"
           placeholder="주소(도로명)를 입력하면 위도/경도가 자동으로 채워집니다."
@@ -475,6 +479,15 @@ export function PlacesForm({
           <p className="text-sm text-emerald-600">{geocodeMessage}</p>
         ) : null}
         {geocodeState === "error" ? <p className="text-sm text-red-500">{geocodeMessage}</p> : null}
+      </div>
+
+      <div className="space-y-1">
+        <Label htmlFor="address_en">주소(도로명, 영문)</Label>
+        <Input
+          id="address_en"
+          placeholder="영문 주소를 입력해주세요."
+          {...register("address_en")}
+        />
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">

@@ -87,6 +87,7 @@ const placeBasePayloadSchema = z.object({
   name_ko: z.string().trim().min(1),
   name_en: z.string().trim().min(1),
   address: optionalAddressSchema,
+  address_en: optionalAddressSchema,
   lat: z.coerce.number().min(-90).max(90),
   lng: z.coerce.number().min(-180).max(180),
   zone_id: z.coerce.number().int().positive().nullable().optional(),

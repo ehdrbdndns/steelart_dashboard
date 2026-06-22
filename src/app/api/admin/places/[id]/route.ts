@@ -16,6 +16,7 @@ type PlaceRow = RowDataPacket & {
   name_ko: string;
   name_en: string;
   address: string | null;
+  address_en: string | null;
   lat: number;
   lng: number;
   deleted_at: string | null;
@@ -25,7 +26,7 @@ type PlaceRow = RowDataPacket & {
 
 async function getPlaceById(id: number) {
   const rows = await query<PlaceRow[]>(
-    `SELECT p.id, p.zone_id, z.name_ko AS zone_name_ko, p.name_ko, p.name_en, p.address,
+    `SELECT p.id, p.zone_id, z.name_ko AS zone_name_ko, p.name_ko, p.name_en, p.address, p.address_en,
             CAST(p.lat AS DOUBLE) AS lat, CAST(p.lng AS DOUBLE) AS lng,
             p.deleted_at, p.created_at, p.updated_at
      FROM places p
@@ -65,12 +66,13 @@ export async function PUT(
 
     const updated = await query<ResultSetHeader>(
       `UPDATE places
-       SET name_ko = ?, name_en = ?, address = ?, lat = ?, lng = ?, zone_id = ?, updated_at = NOW()
+       SET name_ko = ?, name_en = ?, address = ?, address_en = ?, lat = ?, lng = ?, zone_id = ?, updated_at = NOW()
        WHERE id = ?`,
       [
         payload.name_ko,
         payload.name_en,
         payload.address,
+        payload.address_en,
         payload.lat,
         payload.lng,
         payload.zone_id ?? null,

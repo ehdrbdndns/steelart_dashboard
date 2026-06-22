@@ -100,6 +100,7 @@ const schema = z.object({
     name_ko: z.string().trim().min(1, "필수 입력입니다."),
     name_en: z.string().trim().min(1, "필수 입력입니다."),
     address: z.string().optional(),
+    address_en: z.string().optional(),
     zone_id: zoneIdFieldSchema,
     lat: buildCoordinateSchema(-90, 90),
     lng: buildCoordinateSchema(-180, 180),
@@ -125,6 +126,7 @@ type ArtworkPlace = {
   name_ko: string;
   name_en: string;
   address: string | null;
+  address_en: string | null;
   lat: number;
   lng: number;
 };
@@ -290,6 +292,7 @@ export function ArtworksForm({
         name_ko: initialData?.place?.name_ko ?? "",
         name_en: initialData?.place?.name_en ?? "",
         address: initialData?.place?.address ?? "",
+        address_en: initialData?.place?.address_en ?? "",
         zone_id: initialData?.place?.zone_id ? String(initialData.place.zone_id) : "",
         lat: initialData?.place ? initialData.place.lat.toFixed(7) : "",
         lng: initialData?.place ? initialData.place.lng.toFixed(7) : "",
@@ -582,6 +585,9 @@ export function ArtworksForm({
           name_ko: values.place.name_ko.trim(),
           name_en: values.place.name_en.trim(),
           address: values.place.address?.trim() ? values.place.address.trim() : null,
+          address_en: values.place.address_en?.trim()
+            ? values.place.address_en.trim()
+            : null,
           lat: Number(values.place.lat),
           lng: Number(values.place.lng),
           zone_id: zoneId,
@@ -801,7 +807,7 @@ export function ArtworksForm({
           </div>
 
           <div className="space-y-1">
-            <Label htmlFor="place_address">주소(도로명)</Label>
+            <Label htmlFor="place_address">주소(도로명, 한글)</Label>
             <Input
               id="place_address"
               placeholder="주소(도로명)를 입력하면 위도/경도가 자동으로 채워집니다."
@@ -840,6 +846,15 @@ export function ArtworksForm({
             {geocodeState === "error" ? (
               <p className="text-sm text-red-500">{geocodeMessage}</p>
             ) : null}
+          </div>
+
+          <div className="space-y-1">
+            <Label htmlFor="place_address_en">주소(도로명, 영문)</Label>
+            <Input
+              id="place_address_en"
+              placeholder="영문 주소를 입력해주세요."
+              {...register("place.address_en")}
+            />
           </div>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">

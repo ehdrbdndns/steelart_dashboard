@@ -140,12 +140,13 @@ export async function POST(request: NextRequest) {
     const created = await withTransaction(async (connection) => {
       const [insertedPlace] = await connection.query<ResultSetHeader>(
         `INSERT INTO places (
-           name_ko, name_en, address, lat, lng, zone_id, deleted_at, created_at, updated_at
-         ) VALUES (?, ?, ?, ?, ?, ?, NULL, NOW(), NOW())`,
+           name_ko, name_en, address, address_en, lat, lng, zone_id, deleted_at, created_at, updated_at
+         ) VALUES (?, ?, ?, ?, ?, ?, ?, NULL, NOW(), NOW())`,
         [
           payload.place.name_ko,
           payload.place.name_en,
           payload.place.address,
+          payload.place.address_en,
           payload.place.lat,
           payload.place.lng,
           payload.place.zone_id ?? null,
@@ -216,7 +217,7 @@ export async function POST(request: NextRequest) {
         [inserted.insertId],
       );
       const [placeRows] = await connection.query<RowDataPacket[]>(
-        `SELECT p.id, p.zone_id, z.name_ko AS zone_name_ko, p.name_ko, p.name_en, p.address,
+        `SELECT p.id, p.zone_id, z.name_ko AS zone_name_ko, p.name_ko, p.name_en, p.address, p.address_en,
                 CAST(p.lat AS DOUBLE) AS lat, CAST(p.lng AS DOUBLE) AS lng,
                 p.deleted_at, p.created_at, p.updated_at
          FROM places p
