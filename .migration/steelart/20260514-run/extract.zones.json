@@ -1,0 +1,51 @@
+[
+  {
+    "key": "zone:해도근린공원",
+    "code": "ZONE_03",
+    "name_ko": "해도근린공원",
+    "name_en": "Haedo Neighborhood Park",
+    "sort_order": 3
+  },
+  {
+    "key": "zone:영일대해수욕장",
+    "code": "ZONE_01",
+    "name_ko": "영일대해수욕장",
+    "name_en": "Yeongildae Beach",
+    "sort_order": 1
+  },
+  {
+    "key": "zone:환호공원",
+    "code": "ZONE_02",
+    "name_ko": "환호공원",
+    "name_en": "Hwanho Park",
+    "sort_order": 2
+  },
+  {
+    "key": "zone:포항운하",
+    "code": "ZONE_04",
+    "name_ko": "포항운하",
+    "name_en": "Pohang Canal",
+    "sort_order": 4
+  },
+  {
+    "key": "zone:기타",
+    "code": "ZONE_07",
+    "name_ko": "기타",
+    "name_en": "Others",
+    "sort_order": 7
+  },
+  {
+    "key": "zone:철길숲",
+    "code": "ZONE_05",
+    "name_ko": "철길숲",
+    "name_en": "Cheolgil Forest",
+    "sort_order": 5
+  },
+  {
+    "key": "zone:오천 냉천",
+    "code": "ZONE_06",
+    "name_ko": "오천 냉천",
+    "name_en": "Ocheon Naengcheon",
+    "sort_order": 6
+  }
+]

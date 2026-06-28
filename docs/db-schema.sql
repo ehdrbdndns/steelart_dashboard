@@ -34,6 +34,7 @@ CREATE TABLE `artworks` (
   `deleted_at` datetime DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `material` varchar(512) DEFAULT '철' COMMENT '재료',
   PRIMARY KEY (`id`),
   KEY `idx_artworks_artist_id` (`artist_id`),
   KEY `idx_artworks_place_id` (`place_id`),

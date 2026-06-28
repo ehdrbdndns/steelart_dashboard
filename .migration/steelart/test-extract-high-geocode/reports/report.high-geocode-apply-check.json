@@ -1,0 +1,567 @@
+{
+  "target_high_artwork_count": 61,
+  "db_non_zero_artwork_places": 44,
+  "db_zero_artwork_places": 17,
+  "distinct_place_group_count": 19,
+  "conflict_place_group_count": 5,
+  "conflict_place_groups": [
+    {
+      "place_id": 49,
+      "place_name": "영일대해수욕장",
+      "current_lat": 36.0531318,
+      "current_lng": 129.3748442,
+      "artwork_count": 14,
+      "distinct_candidate_count": 2,
+      "artworks": [
+        {
+          "artwork_id": 133,
+          "title_ko": "오스카",
+          "candidate_lat": 36.0559656,
+          "candidate_lng": 129.3775343
+        },
+        {
+          "artwork_id": 182,
+          "title_ko": "2050 비너스의 탄생",
+          "candidate_lat": 36.0559656,
+          "candidate_lng": 129.3775343
+        },
+        {
+          "artwork_id": 187,
+          "title_ko": "신화-2013",
+          "candidate_lat": 36.0559656,
+          "candidate_lng": 129.3775343
+        },
+        {
+          "artwork_id": 229,
+          "title_ko": "자라는 씨앗",
+          "candidate_lat": 36.0559656,
+          "candidate_lng": 129.3775343
+        },
+        {
+          "artwork_id": 232,
+          "title_ko": "I'm fine-230",
+          "candidate_lat": 36.0559656,
+          "candidate_lng": 129.3775343
+        },
+        {
+          "artwork_id": 234,
+          "title_ko": "걸어가다",
+          "candidate_lat": 36.0559656,
+          "candidate_lng": 129.3775343
+        },
+        {
+          "artwork_id": 239,
+          "title_ko": "바다와 프레임",
+          "candidate_lat": 36.0559656,
+          "candidate_lng": 129.3775343
+        },
+        {
+          "artwork_id": 241,
+          "title_ko": "2016 타임캡슐 포항 I",
+          "candidate_lat": 36.0531318,
+          "candidate_lng": 129.3748442
+        },
+        {
+          "artwork_id": 250,
+          "title_ko": "뫼비우스의 띠",
+          "candidate_lat": 36.0559656,
+          "candidate_lng": 129.3775343
+        },
+        {
+          "artwork_id": 270,
+          "title_ko": "창(窓)",
+          "candidate_lat": 36.0559656,
+          "candidate_lng": 129.3775343
+        },
+        {
+          "artwork_id": 296,
+          "title_ko": "조선백자",
+          "candidate_lat": 36.0531318,
+          "candidate_lng": 129.3748442
+        },
+        {
+          "artwork_id": 299,
+          "title_ko": "70, 뿌리깊은 나무",
+          "candidate_lat": 36.0531318,
+          "candidate_lng": 129.3748442
+        },
+        {
+          "artwork_id": 317,
+          "title_ko": "염원",
+          "candidate_lat": 36.0559656,
+          "candidate_lng": 129.3775343
+        },
+        {
+          "artwork_id": 337,
+          "title_ko": "균형",
+          "candidate_lat": 36.0531318,
+          "candidate_lng": 129.3748442
+        }
+      ]
+    },
+    {
+      "place_id": 70,
+      "place_name": "환호공원",
+      "current_lat": 0,
+      "current_lng": 0,
+      "artwork_count": 15,
+      "distinct_candidate_count": 3,
+      "artworks": [
+        {
+          "artwork_id": 135,
+          "title_ko": "오늘도",
+          "candidate_lat": 36.0661563,
+          "candidate_lng": 129.3940243
+        },
+        {
+          "artwork_id": 136,
+          "title_ko": "못과 사랑",
+          "candidate_lat": 36.0744216,
+          "candidate_lng": 129.3940883
+        },
+        {
+          "artwork_id": 137,
+          "title_ko": "구원 03-6",
+          "candidate_lat": 36.0744216,
+          "candidate_lng": 129.3940883
+        },
+        {
+          "artwork_id": 139,
+          "title_ko": "나무 꿈을 꾸었어",
+          "candidate_lat": 36.0744216,
+          "candidate_lng": 129.3940883
+        },
+        {
+          "artwork_id": 140,
+          "title_ko": "노송09-1",
+          "candidate_lat": 36.0744216,
+          "candidate_lng": 129.3940883
+        },
+        {
+          "artwork_id": 142,
+          "title_ko": "무제",
+          "candidate_lat": 36.0744216,
+          "candidate_lng": 129.3940883
+        },
+        {
+          "artwork_id": 143,
+          "title_ko": "짜식들",
+          "candidate_lat": 36.0744216,
+          "candidate_lng": 129.3940883
+        },
+        {
+          "artwork_id": 145,
+          "title_ko": "돈키호테",
+          "candidate_lat": 36.0744216,
+          "candidate_lng": 129.3940883
+        },
+        {
+          "artwork_id": 158,
+          "title_ko": "Prologue-Poem II",
+          "candidate_lat": 36.0744216,
+          "candidate_lng": 129.3940883
+        },
+        {
+          "artwork_id": 162,
+          "title_ko": "SUN&MOON",
+          "candidate_lat": 36.0680275,
+          "candidate_lng": 129.3947969
+        },
+        {
+          "artwork_id": 169,
+          "title_ko": "돌멩이-울림",
+          "candidate_lat": 36.0744216,
+          "candidate_lng": 129.3940883
+        },
+        {
+          "artwork_id": 198,
+          "title_ko": "공존의 표상",
+          "candidate_lat": 36.0744216,
+          "candidate_lng": 129.3940883
+        },
+        {
+          "artwork_id": 228,
+          "title_ko": "하늘과 별과 꿈과 추억",
+          "candidate_lat": 36.0744216,
+          "candidate_lng": 129.3940883
+        },
+        {
+          "artwork_id": 275,
+          "title_ko": "침묵의 시간 세우기",
+          "candidate_lat": 36.0680275,
+          "candidate_lng": 129.3947969
+        },
+        {
+          "artwork_id": 276,
+          "title_ko": "당신은 당신으로부터\n자유롭습니까",
+          "candidate_lat": 36.0661563,
+          "candidate_lng": 129.3940243
+        }
+      ]
+    },
+    {
+      "place_id": 61,
+      "place_name": "평생학습원",
+      "current_lat": 36.0068581,
+      "current_lng": 129.3550865,
+      "artwork_count": 5,
+      "distinct_candidate_count": 2,
+      "artworks": [
+        {
+          "artwork_id": 215,
+          "title_ko": "마시다! 2",
+          "candidate_lat": 36.0090717,
+          "candidate_lng": 129.3545905
+        },
+        {
+          "artwork_id": 222,
+          "title_ko": "다원",
+          "candidate_lat": 36.0068581,
+          "candidate_lng": 129.3550865
+        },
+        {
+          "artwork_id": 245,
+          "title_ko": "2016 타임캡슐 포항 II",
+          "candidate_lat": 36.0068581,
+          "candidate_lng": 129.3550865
+        },
+        {
+          "artwork_id": 247,
+          "title_ko": "천년의 만남",
+          "candidate_lat": 36.0090717,
+          "candidate_lng": 129.3545905
+        },
+        {
+          "artwork_id": 267,
+          "title_ko": "작용 · 반작용",
+          "candidate_lat": 36.0068581,
+          "candidate_lng": 129.3550865
+        }
+      ]
+    },
+    {
+      "place_id": 69,
+      "place_name": "호미곶",
+      "current_lat": 36.0803899,
+      "current_lng": 129.5554844,
+      "artwork_count": 3,
+      "distinct_candidate_count": 2,
+      "artworks": [
+        {
+          "artwork_id": 226,
+          "title_ko": "영일만친구들",
+          "candidate_lat": 36.0803899,
+          "candidate_lng": 129.5554844
+        },
+        {
+          "artwork_id": 309,
+          "title_ko": "정립",
+          "candidate_lat": 36.0575705,
+          "candidate_lng": 129.5760771
+        },
+        {
+          "artwork_id": 313,
+          "title_ko": "생명의 순환",
+          "candidate_lat": 36.0803899,
+          "candidate_lng": 129.5554844
+        }
+      ]
+    },
+    {
+      "place_id": 29,
+      "place_name": "대송면",
+      "current_lat": 35.9681314,
+      "current_lng": 129.3557026,
+      "artwork_count": 2,
+      "distinct_candidate_count": 2,
+      "artworks": [
+        {
+          "artwork_id": 281,
+          "title_ko": "화합을 위한 기념비",
+          "candidate_lat": 35.9668462,
+          "candidate_lng": 129.3617566
+        },
+        {
+          "artwork_id": 282,
+          "title_ko": "응축된 에너지",
+          "candidate_lat": 35.9681314,
+          "candidate_lng": 129.3557026
+        }
+      ]
+    }
+  ],
+  "safe_place_groups": [
+    {
+      "place_id": 66,
+      "place_name": "포항운하",
+      "current_lat": 36.0236671,
+      "current_lng": 129.3758485,
+      "artwork_count": 9,
+      "distinct_candidate_count": 1,
+      "artworks": [
+        {
+          "artwork_id": 186,
+          "title_ko": "장사의 꿈",
+          "candidate_lat": 36.0236671,
+          "candidate_lng": 129.3758485
+        },
+        {
+          "artwork_id": 188,
+          "title_ko": "너는 나다. 나는 너다.",
+          "candidate_lat": 36.0236671,
+          "candidate_lng": 129.3758485
+        },
+        {
+          "artwork_id": 189,
+          "title_ko": "정지된 말",
+          "candidate_lat": 36.0236671,
+          "candidate_lng": 129.3758485
+        },
+        {
+          "artwork_id": 192,
+          "title_ko": "내 손안에 있소이다",
+          "candidate_lat": 36.0236671,
+          "candidate_lng": 129.3758485
+        },
+        {
+          "artwork_id": 197,
+          "title_ko": "가족",
+          "candidate_lat": 36.0236671,
+          "candidate_lng": 129.3758485
+        },
+        {
+          "artwork_id": 201,
+          "title_ko": "Flower tree",
+          "candidate_lat": 36.0236671,
+          "candidate_lng": 129.3758485
+        },
+        {
+          "artwork_id": 205,
+          "title_ko": "핸들 014-35 축적으로",
+          "candidate_lat": 36.0236671,
+          "candidate_lng": 129.3758485
+        },
+        {
+          "artwork_id": 225,
+          "title_ko": "물결",
+          "candidate_lat": 36.0236671,
+          "candidate_lng": 129.3758485
+        },
+        {
+          "artwork_id": 280,
+          "title_ko": "튤립",
+          "candidate_lat": 36.0236671,
+          "candidate_lng": 129.3758485
+        }
+      ]
+    },
+    {
+      "place_id": 26,
+      "place_name": "과메기문화관",
+      "current_lat": 0,
+      "current_lng": 0,
+      "artwork_count": 1,
+      "distinct_candidate_count": 1,
+      "artworks": [
+        {
+          "artwork_id": 214,
+          "title_ko": "오욕(五慾)",
+          "candidate_lat": 35.9926457,
+          "candidate_lng": 129.5617702
+        }
+      ]
+    },
+    {
+      "place_id": 44,
+      "place_name": "양덕체육공원",
+      "current_lat": 0,
+      "current_lng": 0,
+      "artwork_count": 1,
+      "distinct_candidate_count": 1,
+      "artworks": [
+        {
+          "artwork_id": 303,
+          "title_ko": "ECO FLOW : SERENADE",
+          "candidate_lat": 36.0492328,
+          "candidate_lng": 129.3688036
+        }
+      ]
+    },
+    {
+      "place_id": 39,
+      "place_name": "송도해수욕장",
+      "current_lat": 36.0368081,
+      "current_lng": 129.379025,
+      "artwork_count": 1,
+      "distinct_candidate_count": 1,
+      "artworks": [
+        {
+          "artwork_id": 315,
+          "title_ko": "해보는대로",
+          "candidate_lat": 36.0368081,
+          "candidate_lng": 129.379025
+        }
+      ]
+    },
+    {
+      "place_id": 71,
+      "place_name": "흥해하수처리장",
+      "current_lat": 36.1311186,
+      "current_lng": 129.389365,
+      "artwork_count": 1,
+      "distinct_candidate_count": 1,
+      "artworks": [
+        {
+          "artwork_id": 329,
+          "title_ko": "연결",
+          "candidate_lat": 36.1311186,
+          "candidate_lng": 129.389365
+        }
+      ]
+    },
+    {
+      "place_id": 75,
+      "place_name": "포항운하",
+      "current_lat": 36.0236671,
+      "current_lng": 129.3758485,
+      "artwork_count": 1,
+      "distinct_candidate_count": 1,
+      "artworks": [
+        {
+          "artwork_id": 352,
+          "title_ko": "Walking Man-P4",
+          "candidate_lat": 36.0236671,
+          "candidate_lng": 129.3758485
+        }
+      ]
+    },
+    {
+      "place_id": 77,
+      "place_name": "영일대해수욕장",
+      "current_lat": 36.0559656,
+      "current_lng": 129.3775343,
+      "artwork_count": 1,
+      "distinct_candidate_count": 1,
+      "artworks": [
+        {
+          "artwork_id": 354,
+          "title_ko": "느슨한 충돌",
+          "candidate_lat": 36.0559656,
+          "candidate_lng": 129.3775343
+        }
+      ]
+    },
+    {
+      "place_id": 83,
+      "place_name": "동빈내항",
+      "current_lat": 36.0286648,
+      "current_lng": 129.373248,
+      "artwork_count": 1,
+      "distinct_candidate_count": 1,
+      "artworks": [
+        {
+          "artwork_id": 360,
+          "title_ko": "그 오래된 미래",
+          "candidate_lat": 36.0286648,
+          "candidate_lng": 129.373248
+        }
+      ]
+    },
+    {
+      "place_id": 84,
+      "place_name": "포항운하",
+      "current_lat": 36.0236671,
+      "current_lng": 129.3758485,
+      "artwork_count": 1,
+      "distinct_candidate_count": 1,
+      "artworks": [
+        {
+          "artwork_id": 361,
+          "title_ko": "비즈니스 맨",
+          "candidate_lat": 36.0236671,
+          "candidate_lng": 129.3758485
+        }
+      ]
+    },
+    {
+      "place_id": 85,
+      "place_name": "포항운하",
+      "current_lat": 36.0236671,
+      "current_lng": 129.3758485,
+      "artwork_count": 1,
+      "distinct_candidate_count": 1,
+      "artworks": [
+        {
+          "artwork_id": 362,
+          "title_ko": "에덴동산2",
+          "candidate_lat": 36.0236671,
+          "candidate_lng": 129.3758485
+        }
+      ]
+    },
+    {
+      "place_id": 95,
+      "place_name": "호미곶",
+      "current_lat": 36.0803899,
+      "current_lng": 129.5554844,
+      "artwork_count": 1,
+      "distinct_candidate_count": 1,
+      "artworks": [
+        {
+          "artwork_id": 372,
+          "title_ko": "Wave",
+          "candidate_lat": 36.0803899,
+          "candidate_lng": 129.5554844
+        }
+      ]
+    },
+    {
+      "place_id": 99,
+      "place_name": "과메기문화관",
+      "current_lat": 35.9926457,
+      "current_lng": 129.5617702,
+      "artwork_count": 1,
+      "distinct_candidate_count": 1,
+      "artworks": [
+        {
+          "artwork_id": 376,
+          "title_ko": "Haze_연무",
+          "candidate_lat": 35.9926457,
+          "candidate_lng": 129.5617702
+        }
+      ]
+    },
+    {
+      "place_id": 100,
+      "place_name": "신제지",
+      "current_lat": 36.0713382,
+      "current_lng": 129.3767579,
+      "artwork_count": 1,
+      "distinct_candidate_count": 1,
+      "artworks": [
+        {
+          "artwork_id": 377,
+          "title_ko": "조선백자II",
+          "candidate_lat": 36.0713382,
+          "candidate_lng": 129.3767579
+        }
+      ]
+    },
+    {
+      "place_id": 101,
+      "place_name": "해도강변삼거리",
+      "current_lat": 36.0188332,
+      "current_lng": 129.3741605,
+      "artwork_count": 1,
+      "distinct_candidate_count": 1,
+      "artworks": [
+        {
+          "artwork_id": 378,
+          "title_ko": "페달링",
+          "candidate_lat": 36.0188332,
+          "candidate_lng": 129.3741605
+        }
+      ]
+    }
+  ]
+}

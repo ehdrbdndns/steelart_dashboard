@@ -1,0 +1,50 @@
+{
+  "run_id": "test-extract-image-audit-v3",
+  "started_at": "2026-04-25T15:59:12.213Z",
+  "finished_at": "2026-04-25T16:03:41.234Z",
+  "status": "completed",
+  "skip_s3": false,
+  "skip_db": false,
+  "s3": {
+    "uploaded_count": 615,
+    "skipped_count": 0,
+    "bucket": "steel-art",
+    "region": "ap-northeast-2"
+  },
+  "db": {
+    "zones": {
+      "insert": 0,
+      "update": 0,
+      "skip": 4
+    },
+    "artists": {
+      "insert": 0,
+      "update": 0,
+      "skip": 146
+    },
+    "places": {
+      "insert": 0,
+      "update": 193,
+      "skip": 15
+    },
+    "artworks": {
+      "insert": 0,
+      "update": 0,
+      "skip": 208
+    },
+    "artwork_festivals": {
+      "replaced_artwork_count": 0,
+      "skipped_artwork_count": 208,
+      "inserted_row_count": 0,
+      "deleted_row_count": 0
+    },
+    "artwork_images": {
+      "replaced_artwork_count": 30,
+      "skipped_artwork_count": 178,
+      "reordered_artwork_count": 2,
+      "inserted_row_count": 66,
+      "deleted_row_count": 20
+    }
+  },
+  "error": null
+}

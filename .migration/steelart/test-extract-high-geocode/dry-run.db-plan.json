@@ -1,0 +1,4977 @@
+{
+  "zones": {
+    "insert": 0,
+    "update": 0,
+    "skip": 4,
+    "conflict": 0
+  },
+  "artists": {
+    "insert": 0,
+    "update": 0,
+    "skip": 146,
+    "conflict": 0
+  },
+  "places": {
+    "insert": 0,
+    "update": 208,
+    "skip": 0,
+    "conflict": 0
+  },
+  "artworks": {
+    "insert": 0,
+    "update": 0,
+    "skip": 208,
+    "conflict": 0
+  },
+  "artwork_festivals": {
+    "add": 0,
+    "remove": 0,
+    "keep": 208
+  },
+  "artwork_images": {
+    "add": 0,
+    "remove": 0,
+    "keep": 385,
+    "reordered": 0
+  },
+  "artwork_details": [
+    {
+      "artwork_key": "artwork:민복진|자매|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 128,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/민복진-자매-2012/01-09d9c9b0e33c5c9f-자매_민복진_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:조정석|새벽|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 129,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/조정석-새벽-2012/01-33b363e8152307ec-새벽_조정석_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:안종연|빛의소리|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 130,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/안종연-빛의-소리-2012/01-d14302b34976f044-빛의 소리_안종연_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:최인수|시간의춤|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 131,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/최인수-시간의-춤-2012/01-0a0f6b65d507014a-시간의 춤_최인수_(대표사진).JPG"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:조영철|도시를위한네발짐승|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 132,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/조영철-도시를-위한-네발짐승-2012/01-6227de8ea8409af0-도시를 위한 네발짐승_조영철_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/조영철-도시를-위한-네발짐승-2012/02-a49861d0a4ce6dc9-도시를 위한 네발짐승_조영철_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/조영철-도시를-위한-네발짐승-2012/03-4e4ada79610dce08-도시를 위한 네발짐승_조영철_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:이윤복|오스카|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 133,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이윤복-오스카-2012/01-7be9672f9e086fd3-오스카_이윤복_(대표사진).png"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:안병철|생명影xii|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 350,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/안병철-생명-影xii-2012/01-8cefe1ff1676400c-생명-_xii_안병철_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/안병철-생명-影xii-2012/02-0232290345ec79ee-생명-_xii_안병철_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/안병철-생명-影xii-2012/03-b3c106862740b308-생명-_xii_안병철_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:이원석|오늘도|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 135,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이원석-오늘도-2012/01-4a96ab3b4843f410-오늘도_이원석_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:박종배|못과사랑|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 136,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/박종배-못과-사랑-2012/01-2d52014f4f2f8015-못과 사랑_박종배_(대표사진).JPG"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:강관욱|구원036|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 137,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/강관욱-구원-03-6-2012/01-0cc364c8853bed23-구원 03-6_강관욱_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:최만린|작품0102101|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 138,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/최만린-작품0-10-21-01-2012/01-e5615f730e54cdf0-작품0.10-21-01_최만린_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/최만린-작품0-10-21-01-2012/02-eb23529bdd602363-작품0.10-21-01_최만린_2.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:문병두|나무꿈을꾸었어|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 139,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/문병두-나무-꿈을-꾸었어-2012/01-96d4f16de78a48b6-나무 꿈을 꾸었어_문병두_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:이길래|노송091|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 140,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이길래-노송09-1-2012/01-9477b545540cdc11-노송09-1_이길래_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:우무길|숙원宿願|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 351,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/우무길-숙원宿願-2012/01-f94ac2af152b261a-숙원___우무길_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/우무길-숙원宿願-2012/02-1a6227240e51a83a-숙원___우무길_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/우무길-숙원宿願-2012/03-268a88f45fea4119-숙원___우무길_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:박충흠|무제|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 142,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/박충흠-무제-2012/01-97b15a90b76fe49f-무제_이기수_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/박충흠-무제-2012/02-7590daf0fda71838-무제_이기수_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/박충흠-무제-2012/03-a7cdde8258776c99-무제_이기수_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:양태근|짜식들|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 143,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/양태근-짜식들-2012/01-73a7452ed32ce9f5-짜식들_양태근_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:이상길|contact내마음의전파망원경|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 144,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이상길-contact-내-마음의-전파-망원경-2012/01-98ce3619f31e9507-contact 내 마음의 전파 망원경_이상길_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:성동훈|돈키호테|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 145,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/성동훈-돈키호테-2012/01-c9fdd959b8deec23-돈키호테_성동훈_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:문신|개미|2013",
+      "match_status": "skip",
+      "existing_artwork_id": 146,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2013"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/문신-개미-2013/01-e53e7ebe763dba7a-개미_문신_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/문신-개미-2013/02-aa9668582ae523ea-개미_문신_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/문신-개미-2013/03-426b8b0ac5273d69-개미_문신_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:류인|지각의주主|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 147,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/류인-지각의-주-主-2012/01-4bbb14f67e4e4fa4-지각의 주(_)_류인_(대표사진).png"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:오의석|사랑으로|2013",
+      "match_status": "skip",
+      "existing_artwork_id": 148,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2013"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/오의석-사랑으로-2013/01-d997e0f09efa8236-사랑으로_오의석_(대표사진).JPG"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:김영원|중력무중력|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 149,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김영원-중력-무중력-2012/01-5dbb1231b99f3c9d-중력 무중력_김영원_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김영원-중력-무중력-2012/02-069c8b91c0654a38-중력 무중력_김영원_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김영원-중력-무중력-2012/03-09278a823592cd0f-중력 무중력_김영원_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:신치현|walkingmanp4|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 352,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/신치현-walking-man-p4-2012/01-366b6b6d1a84813d-Walking Man P4_신치현_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/신치현-walking-man-p4-2012/02-1ab33bb118df9bb4-Walking Man P4_신치현_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/신치현-walking-man-p4-2012/03-a0d3fb2bd93f73d2-Walking Man P4_신치현_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:김병진|potteryletter|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 151,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김병진-pottery-letter-2012/01-e5d3d7fd13dc2b47-Pottery - letter_김병진_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김병진-pottery-letter-2012/02-f04fcb564eeeefdf-Pottery - letter_김병진_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김병진-pottery-letter-2012/03-fee13abbde7b1502-Pottery - letter_김병진_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:이기수|무제|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 152,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이기수-무제-2012/01-97b15a90b76fe49f-무제_이기수_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이기수-무제-2012/02-7590daf0fda71838-무제_이기수_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이기수-무제-2012/03-a7cdde8258776c99-무제_이기수_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:심정수|위를향해걷는발|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 153,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/심정수-위를-향해-걷는-발-2012/01-8472a38923b8a266-위를 향해 걷는 발_심정수_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/심정수-위를-향해-걷는-발-2012/02-bcdd33393f32aa71-위를 향해 걷는 발_심정수_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/심정수-위를-향해-걷는-발-2012/03-f2479f350dc1efa6-위를 향해 걷는 발_심정수_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:김병철|일하는사람들|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 154,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김병철-일하는-사람들-2012/01-1239dd0587465573-일하는 사람들_김병철_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김병철-일하는-사람들-2012/02-a15a67006426201f-일하는 사람들_김병철_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김병철-일하는-사람들-2012/03-5d19c1b6af44d684-일하는 사람들_김병철_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:김상균|風景기억의방pohang|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 353,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:금중기|느슨한충돌|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 354,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/금중기-느슨한-충돌-2012/01-3d19862fa613df75-느슨한 충돌_금중기_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:김경민|꿈꾸는세상|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 157,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김경민-꿈꾸는-세상-2012/01-e3324b3210ed2f1c-꿈꾸는 세상_김경민_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:임영희|prologuepoemii|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 158,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/임영희-prologue-poem-ii-2012/01-9747fb17257ce06b-Prologue-Poem II_임영희_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/임영희-prologue-poem-ii-2012/02-a1fc9fb1de4f3516-Prologue-Poem II_임영희_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/임영희-prologue-poem-ii-2012/03-384d8665f79db5d9-Prologue-Poem II_임영희_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:이창희|morningsound|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 355,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이창희-morning-sound-2012/01-20c6d0e0d75135fb-Morning Sound_이창희_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이창희-morning-sound-2012/02-a00cd03b847a690c-Morning Sound_이창희_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이창희-morning-sound-2012/03-98fa1cc75ac473c0-Morning Sound_이창희_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:김기수|sunmoon|2012#34",
+      "match_status": "skip",
+      "existing_artwork_id": 161,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김기수-sun-moon-2012-34/01-e84f1ffbe5ee1a88-SUN_MOON_김기수_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:김기수|sunmoon|2012#35",
+      "match_status": "skip",
+      "existing_artwork_id": 162,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김기수-sun-moon-2012-35/01-e84f1ffbe5ee1a88-SUN_MOON_김기수_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:송동완|관계|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 163,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/송동완-관계-2012/01-3a125f66e026578c-관계_송동완_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/송동완-관계-2012/02-c269d73129a810f7-관계_송동완_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/송동완-관계-2012/03-012d7b396fed6d41-관계_송동완_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:최태훈|forest|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 164,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/최태훈-forest-2012/01-80f5f155a6969722-Forest_최태훈_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/최태훈-forest-2012/02-475eeb1d62f68fd8-Forest_최태훈_2.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:모준석|그빛아래널위한자리|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 165,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/모준석-그-빛-아래-널-위한-자리-2012/01-6bf85a952e7028f5-그 빛 아래  널 위한 자리_모준석_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/모준석-그-빛-아래-널-위한-자리-2012/02-d2971f952e0bf236-그 빛 아래  널 위한 자리_모준석_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/모준석-그-빛-아래-널-위한-자리-2012/03-83abc75e7d924f7c-그 빛 아래  널 위한 자리_모준석_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:박선기|pointofviewthinking120801|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 356,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/박선기-point-of-view-thinking-120801-2012/01-66822029ecc682f5-Point of View Thinking 120801_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/박선기-point-of-view-thinking-120801-2012/02-4fab1336dbd97e7c-Point of View Thinking 12080_박선기_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/박선기-point-of-view-thinking-120801-2012/03-9083723094f0d300-Point of View Thinking 12080_박선기_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:신옥주|지혜의문|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 167,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/신옥주-지혜의-문-2012/01-97c0e31a4a1a8e4c-지혜의 문_신옥주_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/신옥주-지혜의-문-2012/02-43f6a80c2aaa37e6-지혜의 문_신옥주_2.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:손칠봉|빅뱅|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 168,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/손칠봉-빅뱅-2012/01-2a2f51a38f6cd36e-빅뱅_손칠봉_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/손칠봉-빅뱅-2012/02-9e9d15accfba0af8-빅뱅_손칠봉_2.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:박은생|돌멩이울림|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 169,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/박은생-돌멩이-울림-2012/01-a69732d21af55f33-돌멩이-울림_박은생_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:이웅배|공동체|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 357,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:강대영|selfportrait|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 358,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:박성찬|이성적인당신과감성적인나의대화|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 172,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/박성찬-이성적인-당신과-감성적인-나의-대화-2012/01-fc2123a7c6ff44ee-이성적인 당신과 감성적인 나의 대화_박성찬_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/박성찬-이성적인-당신과-감성적인-나의-대화-2012/02-2e5e442dcf517c99-이성적인 당신과 감성적인 나의 대화_박성찬_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/박성찬-이성적인-당신과-감성적인-나의-대화-2012/03-1bfd309f54181d18-이성적인 당신과 감성적인 나의 대화_박성찬_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:김지훈|큐브바다|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 359,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김지훈-큐브-바다-2012/01-6ec8fe09816764fb-큐브-바다_김지훈_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김지훈-큐브-바다-2012/02-82ab1898a0b247c9-큐브-바다_김지훈_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김지훈-큐브-바다-2012/03-9b4617119e6fd3f0-큐브-바다_김지훈_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:김태성|letstalk|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 174,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김태성-let-s-talk-2012/01-9bdc949a2a87939f-Let_s Talk_김태성_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김태성-let-s-talk-2012/02-e8cfbe417da11f51-Let_s Talk_김태성_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김태성-let-s-talk-2012/03-5061b9688ceab60f-Let_s Talk_김태성_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:고관호|thesphere하늘바람을담아|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 175,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/고관호-the-sphere-하늘-바람을-담아-2012/01-1abd8c9cf51d0468-The Sphere-하늘_바람을 담아_고관호_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/고관호-the-sphere-하늘-바람을-담아-2012/02-5b2b18aa1b724f9d-The Sphere-하늘_바람을 담아_고관호_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/고관호-the-sphere-하늘-바람을-담아-2012/03-e0125f726ea96113-The Sphere-하늘_바람을 담아_고관호_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:강신영|나무고기|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 176,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/강신영-나무고기-2012/01-7b6317fb4dac67e4-나무고기_강신영_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/강신영-나무고기-2012/02-c169bfae6484a3d1-나무고기_강신영_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/강신영-나무고기-2012/03-5fa3553408b7245e-나무고기_강신영_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:허정|그오래된미래|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 360,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/허-정-그-오래된-미래-2012/01-d4830086a438b77a-그 오래된 미래_허정_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:노준|sudarusubmarine|2012",
+      "match_status": "skip",
+      "existing_artwork_id": 178,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2012"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/노-준-sudaru-submarine-2012/01-30bf17eed1b2b156-Sudaru Submarine_노준_(대표사진).JPG"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:류신정|인상해돋이|2013",
+      "match_status": "skip",
+      "existing_artwork_id": 179,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2013"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/류신정-인상-해돋이-2013/01-325a60c6634bd2cb-인상-해돋이_류신정_(대표사진).JPG"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:고재춘|김여사의나들이|2013",
+      "match_status": "skip",
+      "existing_artwork_id": 180,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2013"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/고재춘-김여사의-나들이-2013/01-f482aabe400c2dec-김여사의 나들이_고재춘_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:손현욱|크랩벤치|2013",
+      "match_status": "skip",
+      "existing_artwork_id": 181,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2013"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/손현욱-크랩벤치-2013/01-f1461c1633e6c461-크랩 벤치_손현욱_(대표사진).JPG"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:소현우|2050비너스의탄생|2013",
+      "match_status": "skip",
+      "existing_artwork_id": 182,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2013"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:최성철|바람불어좋은날|2013",
+      "match_status": "skip",
+      "existing_artwork_id": 183,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2013"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/최성철-바람불어-좋은-날-2013/01-f1c12dd929498382-바람불어 좋은 날_최성철_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:김건주|미지의여행|2013",
+      "match_status": "skip",
+      "existing_artwork_id": 184,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2013"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김건주-미지의-여행-2013/01-6ffc99e16289b52d-미지의 여행_김건주_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김건주-미지의-여행-2013/02-3644047bcbd6b102-미지의 여행_김건주_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김건주-미지의-여행-2013/03-6020720e68c5f817-미지의 여행_김건주_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:김정민|장사의꿈|2013",
+      "match_status": "skip",
+      "existing_artwork_id": 186,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2013"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김정민-장사의-꿈-2013/01-be4cdef7dff214ae-장사의꿈_김정민_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김정민-장사의-꿈-2013/02-6739cc966cdf734b-장사의꿈_김정민_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김정민-장사의-꿈-2013/03-85b9fdfa57f2dc01-장사의꿈_김정민_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:김성복|신화2013|2013",
+      "match_status": "skip",
+      "existing_artwork_id": 187,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2013"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김성복-신화-2013-2013/01-e41f8a52c5634008-신화-2013_김성복_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김성복-신화-2013-2013/02-cec5be1b6f4d7542-신화-2013_김성복_2.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:변대용|너는나다나는너다|2013",
+      "match_status": "skip",
+      "existing_artwork_id": 188,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2013"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/변대용-너는-나다-나는-너다-2013/01-e22d647ea201e5f0-너는 나다. 나는 너다._변대용_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/변대용-너는-나다-나는-너다-2013/02-804336b7b3b1417d-너는 나다. 나는 너다._변대용_2.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:최일|정지된말|2013",
+      "match_status": "skip",
+      "existing_artwork_id": 189,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2013"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/최-일-정지된-말-2013/01-104faa74653c9698-정지된 말_최일_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/최-일-정지된-말-2013/02-1999a2fd621d3505-정지된 말_최일_2.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:최정미|산책|2013",
+      "match_status": "skip",
+      "existing_artwork_id": 190,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2013"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/최정미-산책-2013/01-09f171a5c4d327b1-산책_최정미_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/최정미-산책-2013/02-523f6a66a23413cf-산책_최정미_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/최정미-산책-2013/03-d1ba47345d4ac269-산책_최정미_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:정국택|비즈니스맨|2013",
+      "match_status": "skip",
+      "existing_artwork_id": 361,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2013"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:김정명|내손안에있소이다|2013",
+      "match_status": "skip",
+      "existing_artwork_id": 192,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2013"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김정명-내-손안에-있소이다-2013/01-6900c48b78b2aeb0-내 손 안에 있소이다_김정명_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김정명-내-손안에-있소이다-2013/02-af62ecec795c825c-내 손 안에 있소이다_김정명_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김정명-내-손안에-있소이다-2013/03-c7c8ddc57f46bdd6-내 손 안에 있소이다_김정명_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:백윤기|나들이|2013",
+      "match_status": "skip",
+      "existing_artwork_id": 193,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2013"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/백윤기-나들이-2013/01-1d68658d09dac9f4-나들이_백윤기_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/백윤기-나들이-2013/02-b119a1547c31664d-나들이_백윤기_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/백윤기-나들이-2013/03-8d2c26b852cb1b4d-나들이_백윤기_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:백윤기|여름|2013",
+      "match_status": "skip",
+      "existing_artwork_id": 194,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2013"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/백윤기-여름-2013/01-5cae87aff077c211-여름_백윤기_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/백윤기-여름-2013/02-959b58016f714667-여름_백윤기_2.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:박용완|태양과우리13|2013",
+      "match_status": "skip",
+      "existing_artwork_id": 195,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2013"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/박용완-태양과-우리-13-2013/01-2411b0d0bd0c5842-태양과 우리 13_박용완_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/박용완-태양과-우리-13-2013/02-6db5ce883167c4f9-태양과 우리 13_박용완_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/박용완-태양과-우리-13-2013/03-74a819b52b6e0b8c-태양과 우리 13_박용완_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:최도성|에덴동산2|2013",
+      "match_status": "skip",
+      "existing_artwork_id": 362,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2013"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/최도성-에덴동산2-2013/01-356fa785c1434278-에덴 동산2_최도성_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/최도성-에덴동산2-2013/02-374b5baed66bf58e-에덴 동산2_최도성_2.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:이용규|가족|2013",
+      "match_status": "skip",
+      "existing_artwork_id": 197,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2013"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이용규-가족-2013/01-ef47f927dc2590c1-가족_이용규_(대표사진).JPG"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:류훈|공존의표상|2013",
+      "match_status": "skip",
+      "existing_artwork_id": 198,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2013"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/류-훈-공존의-표상-2013/01-fc654126cd6d492a-공존의 표상_류훈_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/류-훈-공존의-표상-2013/02-d0144c8186dab174-공존의 표상_류훈_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/류-훈-공존의-표상-2013/03-38afe89b307a308c-공존의 표상_류훈_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:이기칠|거주|2013",
+      "match_status": "skip",
+      "existing_artwork_id": 199,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2013"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이기칠-거주-2013/01-606c1912941ade08-거주_이기칠_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이기칠-거주-2013/02-02af8e023d5da261-거주_이기칠_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이기칠-거주-2013/03-0c38b525f06c9bcf-거주_이기칠_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:김택기|바이올린연주자|2013",
+      "match_status": "skip",
+      "existing_artwork_id": 200,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2013"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김택기-바이올린-연주자-2013/01-ae714f356d4f8b36-바이올린 연주자_김택기_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김택기-바이올린-연주자-2013/02-1410d7cab22a107d-바이올린 연주자_김택기_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김택기-바이올린-연주자-2013/03-113d1ad11ae0936b-바이올린 연주자_김택기_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:최정화|flowertree|2013",
+      "match_status": "skip",
+      "existing_artwork_id": 201,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2013"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/최정화-flower-tree-2013/01-ddd07afdbd285d56-Flower Tree_최정화_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:문신|하늘을나는꽃|2013",
+      "match_status": "skip",
+      "existing_artwork_id": 202,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2013"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/문-신-하늘을-나는-꽃-2013/01-bf2edd30ebb86ca5-하늘을 나는 꽃_문신_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/문-신-하늘을-나는-꽃-2013/02-3ed031793379298e-하늘을 나는 꽃_문신_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/문-신-하늘을-나는-꽃-2013/03-0c20f578b6a4d261-하늘을 나는 꽃_문신_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:김병철|도약|2013",
+      "match_status": "skip",
+      "existing_artwork_id": 203,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2013"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김병철-도약-2013/01-8bba4f4357edefc8-도약_김병철_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김병철-도약-2013/02-1020b7814ba8661f-도약_김병철_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김병철-도약-2013/03-a080fc6b0254f10f-도약_김병철_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:유영호|인사하는사람|2014",
+      "match_status": "skip",
+      "existing_artwork_id": 204,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2014"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/유영호-인사하는-사람-2014/01-b009e4bf41a4a620-인사하는 사람_유영호_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/유영호-인사하는-사람-2014/02-e76f30c630c48c23-인사하는 사람_유영호_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/유영호-인사하는-사람-2014/03-974b68beb07434b3-인사하는 사람_유영호_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:박석원|핸들01435축적으로|2014",
+      "match_status": "skip",
+      "existing_artwork_id": 205,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2014"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/박석원-핸들-014-35-축적으로-2014/01-2e4c070051e9c69b-핸들 014-35 축적으로_박석원_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/박석원-핸들-014-35-축적으로-2014/02-4fb363a04c9f8f2e-핸들 014-35 축적으로_박석원_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/박석원-핸들-014-35-축적으로-2014/03-138fe3b3577e82d4-핸들 014-35 축적으로_박석원_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:박찬걸|페르세포네의납치h3500|2014",
+      "match_status": "skip",
+      "existing_artwork_id": 206,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2014"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/박찬걸-페르세포네의-납치-h3500-2014/01-54f4d13d1f81150c-페르세포네의 납치 H3500_박찬걸_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/박찬걸-페르세포네의-납치-h3500-2014/02-2a63abc84b69a8fc-페르세포네의 납치 H3500_박찬걸_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/박찬걸-페르세포네의-납치-h3500-2014/03-cd250f2a5e47a51f-페르세포네의 납치 H3500_박찬걸_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:서동진|레엠|2014",
+      "match_status": "skip",
+      "existing_artwork_id": 207,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2014"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/서동진-레엠-2014/01-441c5eaecd2cf9d5-레엠_서동진_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:김석|가방던지는사람|2014",
+      "match_status": "skip",
+      "existing_artwork_id": 208,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2014"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김-석-가방-던지는-사람-2014/01-30906388fab33e39-가방 던지는 사람_김석_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김-석-가방-던지는-사람-2014/02-c84833b2c500e1d4-가방 던지는 사람_김석_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김-석-가방-던지는-사람-2014/03-0d70e278d09956f0-가방 던지는 사람_김석_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:도흥록|빛의순환10i|2014",
+      "match_status": "skip",
+      "existing_artwork_id": 363,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2014"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:박태동|원석자原石子201322|2014",
+      "match_status": "skip",
+      "existing_artwork_id": 210,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2014"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/박태동-원석자-原石子-2013-22-2014/01-8e408d76f76f0285-원석자(___) 2013-22_박태동_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:장용선|darkmatter1401|2014",
+      "match_status": "skip",
+      "existing_artwork_id": 211,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2014"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/장용선-darkmatter-1401-2014/01-3c27878e7c5a31dc-darkmatter 1401_장용선_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/장용선-darkmatter-1401-2014/02-64260c36a2799c90-darkmatter 1401_장용선_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/장용선-darkmatter-1401-2014/03-7cda62c6e05d60d3-darkmatter 1401_장용선_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:노해율|generalmovewind|2014",
+      "match_status": "skip",
+      "existing_artwork_id": 212,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2014"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/노해율-general-move-wind-2014/01-6f3997a295288b41-General move - wind_노해율_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:홍순용|toleadtobelieve|2014",
+      "match_status": "skip",
+      "existing_artwork_id": 213,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2014"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/홍순용-to-lead-to-believe-2014/01-b5b227721f789696-To lead_ To believe_홍순용_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:고암|오욕五慾|2015",
+      "match_status": "skip",
+      "existing_artwork_id": 214,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2015"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/고-암-오욕-五慾-2015/01-17e0ca0ea570e0cd-오욕(__)_고암_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/고-암-오욕-五慾-2015/02-2f4c5d4f6f5fe653-오욕(__)_고암_2.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:문병탁|마시다2|2015",
+      "match_status": "skip",
+      "existing_artwork_id": 215,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2015"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/문병탁-마시다-2-2015/01-5e56825cc1cc50c1-마시다_ 2_문병탁_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/문병탁-마시다-2-2015/02-8b595ae81a538e5a-마시다_ 2_문병탁_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/문병탁-마시다-2-2015/03-2c2da78ef52853e2-마시다_ 2_문병탁_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:차재영|journeyupc|2015",
+      "match_status": "skip",
+      "existing_artwork_id": 216,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2015"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/차재영-journey-upc-2015/01-02cebf0ac234bd27-Journey_(UPC)_차재영_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/차재영-journey-upc-2015/02-316732aca45d06e5-Journey_(UPC)_차재영_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/차재영-journey-upc-2015/03-c189d864e34b6a76-Journey_(UPC)_차재영_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:오동훈|bluebubble꽃을든여인|2015",
+      "match_status": "skip",
+      "existing_artwork_id": 364,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2015"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/오동훈-blue-bubble-꽃을-든-여인-2015/01-a77b0a13f3c843a1-blue bubble 꽃을 든 여인_오동훈_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/오동훈-blue-bubble-꽃을-든-여인-2015/02-449722b463808015-blue bubble 꽃을 든 여인_오동훈_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:이윤석|명상2015|2015",
+      "match_status": "skip",
+      "existing_artwork_id": 218,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2015"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이윤석-명상-2015-2015/01-974089765c1fdb97-명상-2015_이윤석_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이윤석-명상-2015-2015/02-32510e35042d9e35-명상-2015_이윤석_2.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:맹하섭|기억의흔적|2015",
+      "match_status": "skip",
+      "existing_artwork_id": 219,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2015"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:대광산기|평화6대륙|2015",
+      "match_status": "skip",
+      "existing_artwork_id": 220,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2015"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/대광산기-평화-6대륙-2015/01-b9042faacb8b74ee-평화-6대륙_대광산기_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/대광산기-평화-6대륙-2015/02-1a356602c41a2279-평화-6대륙_대광산기_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/대광산기-평화-6대륙-2015/03-c6e67e4fcb6aed09-평화-6대륙_대광산기_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:이젠테크|다원|2015",
+      "match_status": "skip",
+      "existing_artwork_id": 222,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2015"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이젠테크-다원-2015/01-8f2b3afcfa70eeab-다원_이젠테크_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이젠테크-다원-2015/02-bd730afa6dc7bcab-다원_이젠테크_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이젠테크-다원-2015/03-0fa9f3ad94e3ae7c-다원_이젠테크_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:제일테크노스|연오ᆞ세오이야기삼국유사|2015",
+      "match_status": "skip",
+      "existing_artwork_id": 223,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2015"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/제일-테크노스-연오ᆞ세오-이야기-삼국유사-2015/01-f72d6db163f8d22f-연오_세오-이야기-삼국유사_제일테크노스_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/제일-테크노스-연오ᆞ세오-이야기-삼국유사-2015/02-49b26b6b09b7835f-연오_세오-이야기-삼국유사_제일테크노스_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/제일-테크노스-연오ᆞ세오-이야기-삼국유사-2015/03-81520e8199cb9a98-연오_세오-이야기-삼국유사_제일테크노스_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:포스코|장인정신|2015",
+      "match_status": "skip",
+      "existing_artwork_id": 224,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2015"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/포스코-장인정신-2015/01-1fe91964050a6114-장인정신_포스코_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/포스코-장인정신-2015/02-b7aa41e4839a2fb1-장인정신_포스코_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/포스코-장인정신-2015/03-cb40bd090452a671-장인정신_포스코_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:포스코|물결|2015",
+      "match_status": "skip",
+      "existing_artwork_id": 225,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2015"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/포스코-물결-2015/01-8f733bfcecdc8004-물결_포스코_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/포스코-물결-2015/02-4927430be512c258-물결_포스코_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/포스코-물결-2015/03-fed3b303fe2b1e96-물결_포스코_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:포스코|영일만친구들|2015",
+      "match_status": "skip",
+      "existing_artwork_id": 226,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2015"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/포스코-영일만친구들-2015/01-3601f6f9b201381e-영일만 친구들_포스코_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/포스코-영일만친구들-2015/02-ccd5b48425d85b5d-영일만 친구들_포스코_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/포스코-영일만친구들-2015/03-04cb18040acd002b-영일만 친구들_포스코_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:화일산기|화합과상생|2015",
+      "match_status": "skip",
+      "existing_artwork_id": 227,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2015"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/화일산기-화합과-상생-2015/01-4f324cc05e3aa6d1-화합과 상생_화일산기_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/화일산기-화합과-상생-2015/02-99d19fd3488d5956-화합과 상생_화일산기_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/화일산기-화합과-상생-2015/03-1c339cd8220857b7-화합과 상생_화일산기_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:김대락|하늘과별과꿈과추억|2016",
+      "match_status": "skip",
+      "existing_artwork_id": 228,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2016"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김대락-하늘과-별과-꿈과-추억-2016/01-5e494615ea611d1f-하늘과 별과 꿈과 추억_김대락_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:김정민|자라는씨앗|2016",
+      "match_status": "skip",
+      "existing_artwork_id": 229,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2016"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김정민-자라는-씨앗-2016/01-860a6cd4db8fc89f-자라는 씨앗_김정민_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:나점수|식물적사유|2016",
+      "match_status": "skip",
+      "existing_artwork_id": 230,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2016"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/나점수-식물적-사유-2016/01-6830bfdc516c2d48-식물적 사유_나점수_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/나점수-식물적-사유-2016/02-7258fcd1c2a674de-식물적 사유_나점수_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/나점수-식물적-사유-2016/03-6674942b4b4f92e2-식물적 사유_나점수_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:류종윤|만개|2016",
+      "match_status": "skip",
+      "existing_artwork_id": 365,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2016"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/류종윤-만개-2016/01-f9c977c4d26cd54a-만개_류종윤_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/류종윤-만개-2016/02-5d377fca3ea30f57-만개_류종윤_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/류종윤-만개-2016/03-19c1f301e8f6e689-만개_류종윤_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:송운창|imfine230|2016",
+      "match_status": "skip",
+      "existing_artwork_id": 232,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2016"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/송운창-i-m-fine-230-2016/01-7c983f65eaf82ada-I_m fine - 230_송운창_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/송운창-i-m-fine-230-2016/02-2c1b9f2597e8d2f3-I_m fine - 230_송운창_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/송운창-i-m-fine-230-2016/03-e3e2e34d080dbb64-I_m fine - 230_송운창_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:이일|푸른숲의거인|2016",
+      "match_status": "skip",
+      "existing_artwork_id": 233,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2016"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이-일-푸른-숲의-거인-2016/01-de4d7fca759917a5-푸른 숲의 거인_이일_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이-일-푸른-숲의-거인-2016/02-f5ffff18a92bb42e-푸른 숲의 거인_이일_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이-일-푸른-숲의-거인-2016/03-29b7343645a8f6e2-푸른 숲의 거인_이일_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:이창희|걸어가다|2016",
+      "match_status": "skip",
+      "existing_artwork_id": 234,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2016"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이창희-걸어가다-2016/01-ad490f819e9b6903-걸어가다_이창희_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:전강옥|날아오르는풍선|2016",
+      "match_status": "skip",
+      "existing_artwork_id": 366,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2016"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/전강옥-날아오르는-풍선-2016/01-5dd1147d7f022039-날아오르는 풍선-2_전강옥_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/전강옥-날아오르는-풍선-2016/02-4022c0540a841cb6-날아오르는 풍선-2_전강옥_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/전강옥-날아오르는-풍선-2016/03-09384133fda526d8-날아오르는 풍선-2_전강옥_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:최규철|사랑|2016",
+      "match_status": "skip",
+      "existing_artwork_id": 236,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2016"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/최규철-사랑-2016/01-d96dd7fa6d3c4a1e-사랑_최규철_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/최규철-사랑-2016/02-2720a2c1fc7d5e99-사랑_최규철_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/최규철-사랑-2016/03-c475322e316db8ad-사랑_최규철_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:금화주강산기|닻|2016",
+      "match_status": "skip",
+      "existing_artwork_id": 237,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2016"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/금화-주강산기-닻-2016/01-d0fe6e7d5139e852-닻_금화주강산기_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/금화-주강산기-닻-2016/02-c1ec13bc5e856f46-닻_금화주강산기_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/금화-주강산기-닻-2016/03-7c76ed6463526073-닻_금화주강산기_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:넥스틸|도약|2016",
+      "match_status": "skip",
+      "existing_artwork_id": 367,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2016"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/넥스틸-도약-2016/01-8bba4f4357edefc8-도약_김병철_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/넥스틸-도약-2016/02-1020b7814ba8661f-도약_김병철_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/넥스틸-도약-2016/03-a080fc6b0254f10f-도약_김병철_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:동국제강|바다와프레임|2016",
+      "match_status": "skip",
+      "existing_artwork_id": 239,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2016"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/동국제강-바다와-프레임-2016/01-508c920ee08069e6-바다와 프레임_동국제강_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:동일산업|movementsteel|2016",
+      "match_status": "skip",
+      "existing_artwork_id": 240,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2016"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/동일산업-movement-steel-2016/01-dfc7920847193acf-Movement Steel_동일산업_(대표사진).png"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:제일테크노스|2016타임캡슐포항i|2016",
+      "match_status": "skip",
+      "existing_artwork_id": 241,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2016"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:smc|융합unity|2016",
+      "match_status": "skip",
+      "existing_artwork_id": 368,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2016"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:이젠테크|열정|2016",
+      "match_status": "skip",
+      "existing_artwork_id": 244,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2016"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이젠테크-열정-2016/01-37abdb3117b178ad-열정_이젠테크_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이젠테크-열정-2016/02-8f205d50688a7707-열정_이젠테크_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이젠테크-열정-2016/03-a11a283f23569b86-열정_이젠테크_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:신화테크|2016타임캡슐포항ii|2016",
+      "match_status": "skip",
+      "existing_artwork_id": 245,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2016"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:조선내화|성화대|2016",
+      "match_status": "skip",
+      "existing_artwork_id": 246,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2016"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/조선내화-성화대-2016/01-41e38de654cfeb4e-성화대_조선내화_(대표사진)_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/조선내화-성화대-2016/02-a9a898db36877a82-성화대_조선내화_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:포스코|천년의만남|2016",
+      "match_status": "skip",
+      "existing_artwork_id": 247,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2016"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/포스코-천년의-만남-2016/01-15521335429a13c6-천년의 만남_포스코_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/포스코-천년의-만남-2016/02-d0defec4bfebf7db-천년의 만남_포스코_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/포스코-천년의-만남-2016/03-2f1bf0d3a3ae0dd0-천년의 만남_포스코_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:포스코|활의민족|2016",
+      "match_status": "skip",
+      "existing_artwork_id": 248,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2016"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/포스코-활의-민족-2016/01-624ab95bd0a2d190-활의 민족_포스코_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/포스코-활의-민족-2016/02-bbbe5abb5da4ecc4-활의 민족_포스코_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/포스코-활의-민족-2016/03-84d0169570a07c3a-활의 민족_포스코_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:포스코|세계로미래로|2016",
+      "match_status": "skip",
+      "existing_artwork_id": 249,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2016"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/포스코-세계로-미래로-2016/01-27aaa18cd03a2a59-세계로 미래로_포스코_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/포스코-세계로-미래로-2016/02-9487da0ca648653f-세계로 미래로_포스코_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/포스코-세계로-미래로-2016/03-017a1ba71e100c60-세계로 미래로_포스코_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:현대제철|뫼비우스의띠|2016",
+      "match_status": "skip",
+      "existing_artwork_id": 250,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2016"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/현대제철-뫼비우스의-띠-2016/01-db315400a86ffb59-뫼비우스의 띠_현대제철_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:이용덕포스코|만남2017|2017",
+      "match_status": "skip",
+      "existing_artwork_id": 369,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2017"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이용덕-포스코-만남-2017-2017/01-6c60949c8f4598fe-만남 2017_이용덕_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이용덕-포스코-만남-2017-2017/02-ef8b8e3623a84fc5-만남 2017_이용덕_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이용덕-포스코-만남-2017-2017/03-5f214c1786f9745a-만남 2017_이용덕_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:이철희|winnersfacehappy|2017",
+      "match_status": "skip",
+      "existing_artwork_id": 252,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2017"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이철희-winner-s-face-happy-2017/01-858c4ac28fff3c0f-Winner_s face-happy_이철희_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이철희-winner-s-face-happy-2017/02-20919faf8f0ad389-Winner_s face-happy_이철희_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이철희-winner-s-face-happy-2017/03-96a50c2cd0b564e1-Winner_s face-happy_이철희_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:이동섭|해돋이연오랑세오녀|2017",
+      "match_status": "skip",
+      "existing_artwork_id": 253,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2017"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:안재홍|나를본다|2017",
+      "match_status": "skip",
+      "existing_artwork_id": 254,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2017"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/안재홍-나를-본다-2017/01-061271c049c65ac3-나를 본다_안재홍_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:박발륜|dodoproject내일로|2017",
+      "match_status": "skip",
+      "existing_artwork_id": 255,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2017"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/박발륜-do-do-project-내일로-2017/01-303bc623f03eff46-Do_Do Project - 내일로_박발륜_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/박발륜-do-do-project-내일로-2017/02-a75cccc93dd3fda5-Do_Do Project - 내일로_박발륜_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/박발륜-do-do-project-내일로-2017/03-5b5c121ad2b3000f-Do_Do Project - 내일로_박발륜_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:주영호|자연을보다|2017",
+      "match_status": "skip",
+      "existing_artwork_id": 256,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2017"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/주영호-자연을-보다-2017/01-a3760c7768283682-자연을 보다_주영호_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/주영호-자연을-보다-2017/02-f34965f85f5facda-자연을 보다_주영호_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/주영호-자연을-보다-2017/03-a7de19f3f53bb39d-자연을 보다_주영호_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:엄익훈|스페이스p|2017",
+      "match_status": "skip",
+      "existing_artwork_id": 370,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2017"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:박성찬|물에물주는소녀|2017",
+      "match_status": "skip",
+      "existing_artwork_id": 258,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2017"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/박성찬-물에-물주는-소녀-2017/01-19ba580038d5b27a-물에 물주는 소녀_박성찬_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/박성찬-물에-물주는-소녀-2017/02-58f04e4fae26102c-물에 물주는 소녀_박성찬_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/박성찬-물에-물주는-소녀-2017/03-dd338aab48e85e73-물에 물주는 소녀_박성찬_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:김정연|어린왕자가있는풍경|2017",
+      "match_status": "skip",
+      "existing_artwork_id": 259,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2017"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김정연-어린왕자가-있는-풍경-2017/01-16c6ec44453b7412-어린왕자가 있는 풍경_김정연_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김정연-어린왕자가-있는-풍경-2017/02-20e845fd7256b4bc-어린왕자가 있는 풍경_김정연_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김정연-어린왕자가-있는-풍경-2017/03-b24c4f620b63c45e-어린왕자가 있는 풍경_김정연_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:김연|빛으로의여행01707|2017",
+      "match_status": "skip",
+      "existing_artwork_id": 260,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2017"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김-연-빛으로의-여행-01707-2017/01-c7eac0f1aebde27f-빛으로의 여행 01707_김연_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:넥스틸|도약|2017",
+      "match_status": "skip",
+      "existing_artwork_id": 371,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2017"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/넥스틸-도약-2017/01-8bba4f4357edefc8-도약_김병철_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/넥스틸-도약-2017/02-1020b7814ba8661f-도약_김병철_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/넥스틸-도약-2017/03-a080fc6b0254f10f-도약_김병철_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:동국제강|철을새롭게|2017",
+      "match_status": "skip",
+      "existing_artwork_id": 262,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2017"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/동국제강-철을-새롭게-2017/01-6b0d7178a524b116-철을 새롭게_동국제강_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/동국제강-철을-새롭게-2017/02-9dbec6be36189c0d-철을 새롭게_동국제강_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/동국제강-철을-새롭게-2017/03-2ecfbfcee7b0cf5a-철을 새롭게_동국제강_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:동일산업|고려청자|2017",
+      "match_status": "skip",
+      "existing_artwork_id": 263,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2017"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/동일산업-고려청자-2017/01-ea430b405801d0ec-고려청자_동일산업_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/동일산업-고려청자-2017/02-75bc05170ac8197b-고려청자_동일산업_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/동일산업-고려청자-2017/03-05ac388f4a80779d-고려청자_동일산업_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:신화테크|오벨리스크|2017",
+      "match_status": "skip",
+      "existing_artwork_id": 264,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2017"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/신화테크-오벨리스크-2017/01-bb919e6b06cb73ec-오벨리스크_신화테크_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/신화테크-오벨리스크-2017/02-3fe1a1b766d2ae21-오벨리스크_신화테크_2.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:융진|비상|2017",
+      "match_status": "skip",
+      "existing_artwork_id": 266,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2017"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/융진-비상-2017/01-c625db98f323a117-비상_융진_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/융진-비상-2017/02-5eec61cf7a0c5598-비상_융진_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/융진-비상-2017/03-262809f0eb01628a-비상_융진_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:제일테크노스|작용반작용|2017",
+      "match_status": "skip",
+      "existing_artwork_id": 267,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2017"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/제일테크노스-작용-반작용-2017/01-bc9521a8b38d11f7-작용반작용_제일테크노스_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/제일테크노스-작용-반작용-2017/02-a153fd9afe9303ea-작용반작용_제일테크노스_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/제일테크노스-작용-반작용-2017/03-1dd36e3ab1ea9ef1-작용반작용_제일테크노스_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:포스코|여치집|2017",
+      "match_status": "skip",
+      "existing_artwork_id": 268,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2017"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/포스코-여치집-2017/01-c2d2576aa02e1b9b-여치집_포스코_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/포스코-여치집-2017/02-9e337d8d7c890332-여치집_포스코_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/포스코-여치집-2017/03-0d7d54ba7e9dab6d-여치집_포스코_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:포스코|연인|2017",
+      "match_status": "skip",
+      "existing_artwork_id": 269,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2017"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/포스코-연인-2017/01-bdf21ff851c18a08-연인_포스코_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:현대제철|창窓|2017",
+      "match_status": "skip",
+      "existing_artwork_id": 270,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2017"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/현대제철-창-窓-2017/01-277b650b7cc0afc2-창(_)_현대제철_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:김구림|음양|2018",
+      "match_status": "skip",
+      "existing_artwork_id": 271,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2018"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김구림-음양-2018/01-c93791542232b9f7-음양_김구림_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김구림-음양-2018/02-5352930143e80a4f-음양_김구림_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김구림-음양-2018/03-f37fa142c1906ac8-음양_김구림_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:이이남|코가길어진피노키오|2018",
+      "match_status": "skip",
+      "existing_artwork_id": 272,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2018"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이이남-코가-길어진-피노키오-2018/01-012c23fd03d56f4e-코가 길어진 피노키오_이이남_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이이남-코가-길어진-피노키오-2018/02-79da7d1ad7e3892b-코가 길어진 피노키오_이이남_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이이남-코가-길어진-피노키오-2018/03-680c4be2a254d1da-코가 길어진 피노키오_이이남_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:정정주|타워|2018",
+      "match_status": "skip",
+      "existing_artwork_id": 273,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2018"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/정정주-타워-2018/01-c560e49f8082922d-타워_정정주_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/정정주-타워-2018/02-80c23bd55b654a7a-타워_정정주_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/정정주-타워-2018/03-d27156911d11f028-타워_정정주_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:김병호|정원의단면|2018",
+      "match_status": "skip",
+      "existing_artwork_id": 274,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2018"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김병호-정원의-단면-2018/01-12c900723b5b4350-정원의 단면_김병호_(대표 사진) - 복사본.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:황성준|침묵의시간세우기|2018",
+      "match_status": "skip",
+      "existing_artwork_id": 275,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2018"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/황성준-침묵의-시간-세우기-2018/01-6e2b8d7da9128013-침묵의 시간 세우기_황성준_(대표사진).JPG"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:김승영|당신은당신으로부터자유롭습니까|2018",
+      "match_status": "skip",
+      "existing_artwork_id": 276,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2018"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김승영-당신은-당신으로부터-자유롭습니까-2018/01-c7093eaab5ed5288-당신은 당신으로부터 자유롭습니까_김승영_(대표사진).JPG"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:이우환|관계항|2018",
+      "match_status": "skip",
+      "existing_artwork_id": 277,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2018"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이우환-관계항-2018/01-01d2da533d5d6db6-관계항_이우환_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이우환-관계항-2018/02-369f98bb9ae77f8d-관계항_이우환_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이우환-관계항-2018/03-b90eda50b7ef23e6-관계항_이우환_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:사공숙|광해|2018",
+      "match_status": "skip",
+      "existing_artwork_id": 278,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2018"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/사공숙-광해-2018/01-a53f51a8a5237ead-광해_사공숙_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:포스코|트라이앵글콤포지션|2018",
+      "match_status": "skip",
+      "existing_artwork_id": 279,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2018"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/포스코-트라이앵글-콤포지션-2018/01-2e9f5949966b9c9d-트라이앵글 콤포지션_포스코_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/포스코-트라이앵글-콤포지션-2018/02-b16da3dbe95c7049-트라이앵글 콤포지션_포스코_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/포스코-트라이앵글-콤포지션-2018/03-3c1bb4e1b5dc76d6-트라이앵글 콤포지션_포스코_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:제일테크노스|튤립|2018",
+      "match_status": "skip",
+      "existing_artwork_id": 280,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2018"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/제일테크노스-튤립-2018/01-29b8dcf34f754298-튤립_제일테크노스_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/제일테크노스-튤립-2018/02-986b14985a36b6a9-튤립_제일테크노스_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/제일테크노스-튤립-2018/03-1ef89874ef7479d7-튤립_제일테크노스_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:현대제철|화합을위한기념비|2018",
+      "match_status": "skip",
+      "existing_artwork_id": 281,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2018"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/현대제철-화합을-위한-기념비-2018/01-fb1cf1efc226b189-화합을 위한 기념비_현대제철_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:신화테크|응축된에너지|2018",
+      "match_status": "skip",
+      "existing_artwork_id": 282,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2018"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/신화테크-응축된-에너지-2018/01-c98b138c181a64e5-응축된 에너지_신화테크_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:동국제강|기념비적구조물|2018",
+      "match_status": "skip",
+      "existing_artwork_id": 284,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2018"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/동국제강-기념비적-구조물-2018/01-596ab2d3cc730ce9-기념비적 구조물_동국제강_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/동국제강-기념비적-구조물-2018/02-09310aab4479ab03-기념비적 구조물_동국제강_2.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:융진|고래의꿈|2018",
+      "match_status": "skip",
+      "existing_artwork_id": 285,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2018"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/융진-고래의-꿈-2018/01-9437c3b440a7259d-고래의 꿈_융진_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/융진-고래의-꿈-2018/02-f0f63cb50d6eef52-고래의 꿈_융진_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/융진-고래의-꿈-2018/03-087cf7537c149b94-고래의 꿈_융진_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:동일산업|채움과비움|2018",
+      "match_status": "skip",
+      "existing_artwork_id": 286,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2018"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/동일산업-채움과-비움-2018/01-2621936340ffe1d5-채움과 비움_동일산업_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/동일산업-채움과-비움-2018/02-a5400b83e3e95b6c-채움과 비움_동일산업_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/동일산업-채움과-비움-2018/03-aaa2fcd94d352a10-채움과 비움_동일산업_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:조선내화|하나로미래로|2018",
+      "match_status": "skip",
+      "existing_artwork_id": 287,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2018"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/조선내화-하나로-미래로-2018/01-ea2e3990e933b4ad-하나로 미래로_조선내화_(대표사진).png"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:세아제강|천지창조|2018",
+      "match_status": "skip",
+      "existing_artwork_id": 288,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2018"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/세아제강-천지창조-2018/01-9659b0ae8bd10330-천지창조_세아제강_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:클래드코리아|완전한밸런스|2018",
+      "match_status": "skip",
+      "existing_artwork_id": 289,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2018"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/클래드코리아-완전한-밸런스-2018/01-e8c995ea7bda7a42-완전한 밸런스_클래드코리아_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:이성민|cumulus|2019",
+      "match_status": "skip",
+      "existing_artwork_id": 290,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2019"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이성민-cumulus-2019/01-e9f3ac828a14e9a4-cumulus_이성민_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:권용주포스코|wave|2019",
+      "match_status": "skip",
+      "existing_artwork_id": 372,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2019"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/권용주-포스코-wave-2019/01-0969081b558be1c9-Wave_포스코_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/권용주-포스코-wave-2019/02-676649a257cedac7-Wave_포스코_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/권용주-포스코-wave-2019/03-14bc35d1ddcec08e-Wave_포스코_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:최라윤현대제철|땅과바다의어머니|2019",
+      "match_status": "skip",
+      "existing_artwork_id": 373,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2019"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/최라윤-현대제철-땅과-바다의-어머니-2019/01-09dec968bc970b85-땅과 바다의 어머니_현대제철_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:동국제강|별무리|2019",
+      "match_status": "skip",
+      "existing_artwork_id": 295,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2019"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/동국제강-별무리-2019/01-d30a89fb4e26ca5d-별무리_동국제강_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/동국제강-별무리-2019/02-a1d1e0aea38b9a71-별무리_동국제강_2.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:동일산업|조선백자|2019",
+      "match_status": "skip",
+      "existing_artwork_id": 296,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2019"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/동일산업-조선백자-2019/01-27a9b06788a6e13e-조선백자_동일산업_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/동일산업-조선백자-2019/02-1fe91ad1c4c3df52-조선백자__동일산업_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/동일산업-조선백자-2019/03-424181c45765ac6a-조선백자__동일산업_2.png",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/동일산업-조선백자-2019/04-dda94ddaabce32b8-조선백자__동일산업_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:신화테크|신화|2019",
+      "match_status": "skip",
+      "existing_artwork_id": 297,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2019"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/신화테크-신화-2019/01-e78a6eb921caa9a0-신화_신화테크_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:융진|너의모습|2019",
+      "match_status": "skip",
+      "existing_artwork_id": 298,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2019"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/융진-너의-모습-2019/01-38fc6e1f4855aabc-너의 모습_융진_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:제일테크노스|70뿌리깊은나무|2019",
+      "match_status": "skip",
+      "existing_artwork_id": 299,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2019"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/제일테크노스-70-뿌리깊은-나무-2019/01-350f5f3ac45870c7-70 뿌리깊은 나무_제일테크노스_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:최우람|태양의노래|2020",
+      "match_status": "skip",
+      "existing_artwork_id": 301,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2020"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:김도훈|펭귄|2021",
+      "match_status": "skip",
+      "existing_artwork_id": 302,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2021"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:김태수|ecoflowserenade|2021",
+      "match_status": "skip",
+      "existing_artwork_id": 303,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2021"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김태수-eco-flow-serenade-2021/01-ae64e467a0164e79-ECO FLOW - SERENADE_ 김태수_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:이기칠|거주|2021",
+      "match_status": "skip",
+      "existing_artwork_id": 304,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2021"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이기칠-거주-2021/01-606c1912941ade08-거주_이기칠_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이기칠-거주-2021/02-02af8e023d5da261-거주_이기칠_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이기칠-거주-2021/03-0c38b525f06c9bcf-거주_이기칠_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:이윤복|움직임|2021",
+      "match_status": "skip",
+      "existing_artwork_id": 374,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2021"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:이철희|love|2021",
+      "match_status": "skip",
+      "existing_artwork_id": 306,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2021"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이철희-l-o-v-e-2021/01-ad5bd7363116ea92-L.O.V.E_이철희_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:최지훈|청춘돼지슈퍼히어로|2021",
+      "match_status": "skip",
+      "existing_artwork_id": 307,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2021"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/최지훈-청춘돼지-슈퍼히어로-2021/01-a811d83292beaccb-청춘 돼지 슈퍼히어로_최지훈_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:넥스틸|미래를향해|2021",
+      "match_status": "skip",
+      "existing_artwork_id": 308,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2021"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/넥스틸-미래를-향해-2021/01-5f143e21fe069a8d-미래를 향해_넥스틸_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:동국제강|정립|2021",
+      "match_status": "skip",
+      "existing_artwork_id": 309,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2021"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:신일인텍|당신에게|2021",
+      "match_status": "skip",
+      "existing_artwork_id": 310,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2021"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/신일인텍-당신에게-2021/01-81188b864b598f6a-당신에게_신일인텍_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:신화테크|글로벌신화|2021",
+      "match_status": "skip",
+      "existing_artwork_id": 311,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2021"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/신화테크-글로벌-신화-2021/01-446ca75d85deb7b0-글로벌 신화_신화테크_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:일신해운|항해|2021",
+      "match_status": "skip",
+      "existing_artwork_id": 312,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2021"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/일신해운-항해-2021/01-0fdcc7f6f652b661-항해_일신해운_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:제일테크노스|생명의순환|2021",
+      "match_status": "skip",
+      "existing_artwork_id": 313,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2021"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:조선내화|선물|2021",
+      "match_status": "skip",
+      "existing_artwork_id": 314,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2021"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/조선내화-선물-2021/01-c35ef4a407bf5877-선물_조선내화_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:포스코|해보는대로|2021",
+      "match_status": "skip",
+      "existing_artwork_id": 315,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2021"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/포스코-해보는대로-2021/01-ff96ad8c024c05af-해보는대로_포스코_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:포스코강판|나무불대지철그리고물|2021",
+      "match_status": "skip",
+      "existing_artwork_id": 375,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2021"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:포스코플랜텍|염원|2021",
+      "match_status": "skip",
+      "existing_artwork_id": 317,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2021"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/포스코플랜텍-염원-2021/01-2a95194ed1759e8f-염원_포스코플랜텍_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:이점원|환생|2022",
+      "match_status": "skip",
+      "existing_artwork_id": 318,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2022"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/이점원-환생-2022/01-2e3c5e94b71f2875-환생_이정원_(대표사진).png"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:류종윤|haze연무|2022",
+      "match_status": "skip",
+      "existing_artwork_id": 376,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2022"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/류종윤-haze-연무-2022/01-8dda8b41ace9bf5f-Haze 연무_류종윤_(대표사진).png",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/류종윤-haze-연무-2022/02-918720a605e54c4a-Haze 연무_류종윤_2.png",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/류종윤-haze-연무-2022/03-bd6d6eb1a3be1dc5-Haze 연무_류종윤_3.png"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:소현우|천사의기도|2022",
+      "match_status": "skip",
+      "existing_artwork_id": 320,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2022"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/소현우-천사의-기도-2022/01-d4495feb57b8b7ee-천사의 기도_소현우_(대표사진).png",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/소현우-천사의-기도-2022/02-a1ad7464866aeab8-천사의 기도_소현우_2.png",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/소현우-천사의-기도-2022/03-a1d7141c9e5b6d79-천사의 기도_소현우_3.png"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:신화테크|환동해의꿈경북에서세계로|2022",
+      "match_status": "skip",
+      "existing_artwork_id": 321,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2022"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/신화테크-환동해의-꿈-경북에서-세계로-2022/01-45bc05bef40a09bc-환동해의 꿈_ 경북에서 세계로_신화테크_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/신화테크-환동해의-꿈-경북에서-세계로-2022/02-e9cf5be7ea649a3e-환동해의 꿈_ 경북에서 세계로_신화테크_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/신화테크-환동해의-꿈-경북에서-세계로-2022/03-dcabedd47d342301-환동해의 꿈_ 경북에서 세계로_신화테크_3.png",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/신화테크-환동해의-꿈-경북에서-세계로-2022/04-b55afe8a3a616872-환동해의 꿈_ 경북에서 세계로_신화테크_4.png"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:조선내화|개복치|2022",
+      "match_status": "skip",
+      "existing_artwork_id": 322,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2022"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/조선내화-개복치-2022/01-92124ba24b1f4a40-개복치_조선내화_(대표사진).png"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:제일테크노스|나비효과|2022",
+      "match_status": "skip",
+      "existing_artwork_id": 323,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2022"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/제일테크노스-나비효과-2022/01-3cd4c7b2c48a8d54-나비효과_제일테크노스_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/제일테크노스-나비효과-2022/02-6186a7c2aa4572e9-나비효과_제일테크노스_2.png"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:동일산업|조선백자ii|2022",
+      "match_status": "skip",
+      "existing_artwork_id": 377,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2022"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:넥스틸|同苦同樂동고동락|2022",
+      "match_status": "skip",
+      "existing_artwork_id": 325,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2022"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/넥스틸-同苦同樂-동고동락-2022/01-9efdaa0b5ccdbf4c-____동고동락_넥스틸_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/넥스틸-同苦同樂-동고동락-2022/02-7b6f0db7a7f571dc-____동고동락_넥스틸_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/넥스틸-同苦同樂-동고동락-2022/03-4113b012678ea39a-____동고동락_넥스틸_3.png",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/넥스틸-同苦同樂-동고동락-2022/04-7d0f1aa888c6b1af-____동고동락_넥스틸_4.png"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:포스코플랜텍|recovery|2022",
+      "match_status": "skip",
+      "existing_artwork_id": 326,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2022"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/포스코플랜텍-recovery-2022/01-0280a69171dee60a-Recovery_포스코플랜텍_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/포스코플랜텍-recovery-2022/02-de9d0f430bc3ad25-Recovery_포스코플랜텍_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/포스코플랜텍-recovery-2022/03-0e33a7b9c45e4790-Recovery_포스코플랜텍_3.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:주태원|별고양이그리고동행|2022",
+      "match_status": "skip",
+      "existing_artwork_id": 327,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2022"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/주태원-별-고양이-그리고-동행-2022/01-409f743dd5874572-별_ 고양이 그리고 동행_주태원_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/주태원-별-고양이-그리고-동행-2022/02-f62371e193071909-별_ 고양이 그리고 동행_주태원_2.jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/주태원-별-고양이-그리고-동행-2022/03-2344aafa61a31925-별_ 고양이 그리고 동행_주태원_3.png",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/주태원-별-고양이-그리고-동행-2022/04-65beb4799016ee02-별_ 고양이 그리고 동행_주태원_4.png"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:포항철강산업단지관리공단|포항철의기원|2022",
+      "match_status": "skip",
+      "existing_artwork_id": 328,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2022"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/포항철강산업단지-관리공단-포항-철의-기원-2022/01-ec279052f9f26e27-포항_ 철의 기원_포항철강산업단지관리공단_(대표사진).png"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:동국제강|연결|2022",
+      "match_status": "skip",
+      "existing_artwork_id": 329,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2022"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/동국제강-연결-2022/01-925bc5e16a807f7a-연결_동국제강_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/동국제강-연결-2022/02-64f0d1af00ab3f5e-연결_동국제강_2.png",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/동국제강-연결-2022/03-b72ecea87c616099-연결_동국제강_3.png"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:전덕제|어머니의구슬보석주머니|2023",
+      "match_status": "skip",
+      "existing_artwork_id": 330,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2023"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/전덕제-어머니의-구슬-보석-주머니-2023/01-d92b2afdba3fa0b4-어머니의 구슬 보석 주머니_전덕제_(대표사진).png",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/전덕제-어머니의-구슬-보석-주머니-2023/02-9cd46faded39fdf9-어머니의 구슬 보석 주머니_전덕제_2.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:박성찬|물의척추|2023",
+      "match_status": "skip",
+      "existing_artwork_id": 331,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2023"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/박성찬-물의-척추-2023/01-c217ae7aef805ca1-detail_1__fileidx_478__eed739359b88c111aae2af6591667dce.png"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:최은정|hope2208|2023",
+      "match_status": "skip",
+      "existing_artwork_id": 332,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2023"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:김인태|montagedeer|2023",
+      "match_status": "skip",
+      "existing_artwork_id": 333,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2023"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김인태-montage-deer-2023/01-a8f5e8c6693db76e-Montage - Deer_김인태_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/김인태-montage-deer-2023/02-8f233d1377888ea9-Montage - Deer_김인태_2.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:제일테크노스|비상飛上2023|2023",
+      "match_status": "skip",
+      "existing_artwork_id": 334,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2023"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/제일테크노스-비상-飛上-2023-2023/01-5a701aa9e5d46096-비상(__)-2023_제일테크노스_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:신화테크|time現在에서未來로|2023",
+      "match_status": "skip",
+      "existing_artwork_id": 335,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2023"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/신화테크-time-現在에서-未來로-2023/01-cb2cacbcc6fb1c71-Time(__에서 __로)_신화테크_(대표사진).jpg",
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/신화테크-time-現在에서-未來로-2023/02-ae0c9f20d9184860-Time(__에서 __로)_신화테크_2.jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:넥스틸|상승|2023",
+      "match_status": "skip",
+      "existing_artwork_id": 336,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2023"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/넥스틸-상승-2023/01-04ab4e53fab6d24d-상승_넥스틸_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:동국제강|균형|2023",
+      "match_status": "skip",
+      "existing_artwork_id": 337,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2023"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/동국제강-균형-2023/01-5358859e62787500-균형_동국제강_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:동일산업|조선백자iii|2023",
+      "match_status": "skip",
+      "existing_artwork_id": 338,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2023"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/동일산업-조선백자iii-2023/01-b99f8208bb16dd28-조선백자III_동일산업_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:조선내화|황금비율|2023",
+      "match_status": "skip",
+      "existing_artwork_id": 339,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2023"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/조선내화-황금비율-2023/01-5ad66d23510d93f7-황금비율_조선내화_(대표사진).jpg"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:포항철강산업단지관리공단|철의성화|2023",
+      "match_status": "skip",
+      "existing_artwork_id": 340,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2023"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:포스코|성장의불꽃|2023",
+      "match_status": "skip",
+      "existing_artwork_id": 341,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2023"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:해도동도시재생주민협의체mk기업|페달링|2023",
+      "match_status": "skip",
+      "existing_artwork_id": 378,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2023"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/해도동-도시재생-주민협의체-mk기업-페달링-2023/01-70f25251f73539bf-페달링_MK기업_(대표사진).png"
+        ],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:포항스틸러스|스틸러스50|2023",
+      "match_status": "skip",
+      "existing_artwork_id": 379,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2023"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [],
+        "reordered": false
+      }
+    },
+    {
+      "artwork_key": "artwork:수협|눈꽃휴게소|2023",
+      "match_status": "skip",
+      "existing_artwork_id": 344,
+      "artist_action": "match",
+      "place_action": "compare",
+      "festival_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "2023"
+        ],
+        "reordered": false
+      },
+      "image_diff": {
+        "add": [],
+        "remove": [],
+        "keep": [
+          "https://steel-art.s3.ap-northeast-2.amazonaws.com/migration/steelart/artworks/수협-눈꽃-휴게소-2023/01-330a71a6baa53ccc-눈꽃휴게소_수협_(대표이사).jpg"
+        ],
+        "reordered": false
+      }
+    }
+  ]
+}

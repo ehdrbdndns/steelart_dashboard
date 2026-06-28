@@ -11,7 +11,12 @@
     "db:seed:mock": "node --env-file=.env scripts/seed-mock-data.mjs",
     "db:seed:users": "node --env-file=.env scripts/seed-users-realistic.mjs",
     "db:backfill:artist-profile": "node --env-file=.env scripts/backfill-artist-profile-image.mjs",
-    "db:backfill:artwork-image-dimensions": "node --env-file=.env scripts/backfill-artwork-image-dimensions.mjs"
+    "db:backfill:artwork-image-dimensions": "node --env-file=.env scripts/backfill-artwork-image-dimensions.mjs",
+    "db:migrate:extract": "node --env-file=.env scripts/migrate-steelart-extract.mjs",
+    "db:migrate:dry-run": "node --env-file=.env scripts/migrate-steelart-dry-run.mjs",
+    "db:migrate:apply": "node --env-file=.env scripts/migrate-steelart-upsert.mjs",
+    "db:migrate:gap-report": "node --env-file=.env scripts/migrate-steelart-gap-report.mjs",
+    "db:migrate:alt-geocode": "node --env-file=.env scripts/migrate-steelart-alt-geocode.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.991.0",
@@ -42,6 +47,7 @@
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
     "uuid": "^13.0.0",
+    "xlsx": "^0.18.5",
     "zod": "^4.3.6"
   },
   "devDependencies": {

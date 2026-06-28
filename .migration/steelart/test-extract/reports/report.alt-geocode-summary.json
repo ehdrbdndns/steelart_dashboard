@@ -1,0 +1,13 @@
+{
+  "run_id": "test-extract",
+  "source_file": "/Users/donggyunyang/code/steelart/steelart_dashboard/.migration/steelart/test-extract/reports/report.manual-geocode-required.json",
+  "processed_count": 152,
+  "found_count": 152,
+  "high_confidence_count": 61,
+  "medium_confidence_count": 16,
+  "low_confidence_count": 75,
+  "no_match_count": 0,
+  "error_count": 0,
+  "delay_ms": 150,
+  "provider": "photon"
+}
