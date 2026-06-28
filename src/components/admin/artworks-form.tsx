@@ -700,18 +700,26 @@ export function ArtworksForm({
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="space-y-1">
               <Label htmlFor="artist_id">작가</Label>
-              <select
-                id="artist_id"
-                className={selectClassName}
-                {...register("artist_id", { valueAsNumber: true })}
-              >
-                <option value="0">선택</option>
-                {artists.map((artist) => (
-                  <option key={artist.id} value={artist.id}>
-                    {artist.name_ko}
-                  </option>
-                ))}
-              </select>
+              <Controller
+                control={control}
+                name="artist_id"
+                render={({ field }) => (
+                  <select
+                    id="artist_id"
+                    className={selectClassName}
+                    value={String(field.value ?? 0)}
+                    onBlur={field.onBlur}
+                    onChange={(event) => field.onChange(Number(event.target.value))}
+                  >
+                    <option value="0">선택</option>
+                    {artists.map((artist) => (
+                      <option key={artist.id} value={artist.id}>
+                        {artist.name_ko}
+                      </option>
+                    ))}
+                  </select>
+                )}
+              />
               {errors.artist_id ? <p className="text-sm text-red-500">필수 입력입니다.</p> : null}
             </div>
             <div className="space-y-1">
@@ -806,18 +814,26 @@ export function ArtworksForm({
 
           <div className="space-y-1">
             <Label htmlFor="place_zone_id">권역</Label>
-            <select
-              id="place_zone_id"
-              className={selectClassName}
-              {...register("place.zone_id")}
-            >
-              <option value="">권역 없음</option>
-              {zones.map((zone) => (
-                <option key={zone.id} value={zone.id}>
-                  {zone.name_ko}
-                </option>
-              ))}
-            </select>
+            <Controller
+              control={control}
+              name="place.zone_id"
+              render={({ field }) => (
+                <select
+                  id="place_zone_id"
+                  className={selectClassName}
+                  value={field.value ?? ""}
+                  onBlur={field.onBlur}
+                  onChange={field.onChange}
+                >
+                  <option value="">권역 없음</option>
+                  {zones.map((zone) => (
+                    <option key={zone.id} value={zone.id}>
+                      {zone.name_ko}
+                    </option>
+                  ))}
+                </select>
+              )}
+            />
             {errors.place?.zone_id ? (
               <p className="text-sm text-red-500">{errors.place.zone_id.message}</p>
             ) : null}
