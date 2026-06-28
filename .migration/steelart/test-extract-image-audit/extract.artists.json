@@ -1,0 +1,1024 @@
+[
+  {
+    "key": "artist:민복진",
+    "name_ko": "민복진",
+    "name_en": "MIN BOK-JIN",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:조정석",
+    "name_ko": "조정석",
+    "name_en": "JO JEONG-SEOK",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:안종연",
+    "name_ko": "안종연",
+    "name_en": "AHN JONG-YEON",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:최인수",
+    "name_ko": "최인수",
+    "name_en": "CHOI IN-SU",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:조영철",
+    "name_ko": "조영철",
+    "name_en": "JO YEONG-CHEOL",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:이윤복",
+    "name_ko": "이윤복",
+    "name_en": "LEE YUN-BOK",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:안병철",
+    "name_ko": "안병철",
+    "name_en": "AHN BYEONG-CHEOL",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:이원석",
+    "name_ko": "이원석",
+    "name_en": "LEE WON-SEOK",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:박종배",
+    "name_ko": "박종배",
+    "name_en": "PARK JONG-BAE",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:강관욱",
+    "name_ko": "강관욱",
+    "name_en": "KANG GWAN-UK",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:최만린",
+    "name_ko": "최만린",
+    "name_en": "CHOI MAN-RIN",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:문병두",
+    "name_ko": "문병두",
+    "name_en": "MOON BYEONG-DU",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:이길래",
+    "name_ko": "이길래",
+    "name_en": "LEE GIL-LAE",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:우무길",
+    "name_ko": "우무길",
+    "name_en": "WOO MU-GIL",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:박충흠",
+    "name_ko": "박충흠",
+    "name_en": "PARK CHUNG-HEUM",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:양태근",
+    "name_ko": "양태근",
+    "name_en": "YANG TAE-GEUN",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:이상길",
+    "name_ko": "이상길",
+    "name_en": "LEE SANG-GIL",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:성동훈",
+    "name_ko": "성동훈",
+    "name_en": "SEONG DONG-HUN",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:문신",
+    "name_ko": "문신",
+    "name_en": "MOON SHIN",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:류인",
+    "name_ko": "류인",
+    "name_en": "RYU IN",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:오의석",
+    "name_ko": "오의석",
+    "name_en": "OH UI-SEOK",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:김영원",
+    "name_ko": "김영원",
+    "name_en": "KIM YEONG-WON",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:신치현",
+    "name_ko": "신치현",
+    "name_en": "SHIN CHI-HYEON",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:김병진",
+    "name_ko": "김병진",
+    "name_en": "KIM BYEONG-JIN",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:이기수",
+    "name_ko": "이기수",
+    "name_en": "LEE GI-SU",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:심정수",
+    "name_ko": "심정수",
+    "name_en": "SIM JEONG-SU",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:김병철",
+    "name_ko": "김병철",
+    "name_en": "KIM BYEONG-CHEOL",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:김상균",
+    "name_ko": "김상균",
+    "name_en": "KIM SANG-GYUN",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:금중기",
+    "name_ko": "금중기",
+    "name_en": "GEUM JUNG-GI",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:김경민",
+    "name_ko": "김경민",
+    "name_en": "KIM GYEONG-MIN",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:임영희",
+    "name_ko": "임영희",
+    "name_en": "IM YEONG-HUI",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:이창희",
+    "name_ko": "이창희",
+    "name_en": "LEE CHANG-HUI",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:김기수",
+    "name_ko": "김기수",
+    "name_en": "KIM GI-SU",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:송동완",
+    "name_ko": "송동완",
+    "name_en": "SONG DONG-WAN",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:최태훈",
+    "name_ko": "최태훈",
+    "name_en": "CHOI TAE-HUN",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:모준석",
+    "name_ko": "모준석",
+    "name_en": "MO JUN-SEOK",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:박선기",
+    "name_ko": "박선기",
+    "name_en": "PARK SEON-GI",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:신옥주",
+    "name_ko": "신옥주",
+    "name_en": "SHIN OK-JU",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:손칠봉",
+    "name_ko": "손칠봉",
+    "name_en": "SON CHIL-BONG",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:박은생",
+    "name_ko": "박은생",
+    "name_en": "PARK EUN-SAENG",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:이웅배",
+    "name_ko": "이웅배",
+    "name_en": "LEE UNG-BAE",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:강대영",
+    "name_ko": "강대영",
+    "name_en": "KANG DAE-YEONG",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:박성찬",
+    "name_ko": "박성찬",
+    "name_en": "PARK SEONG-CHAN",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:김지훈",
+    "name_ko": "김지훈",
+    "name_en": "KIM JI-HUN",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:김태성",
+    "name_ko": "김태성",
+    "name_en": "KIM TAE-SEONG",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:고관호",
+    "name_ko": "고관호",
+    "name_en": "KO GWAN-HO",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:강신영",
+    "name_ko": "강신영",
+    "name_en": "KANG SIN-YEONG",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:허정",
+    "name_ko": "허 정",
+    "name_en": "HUH JUNG",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:노준",
+    "name_ko": "노 준",
+    "name_en": "NOH JUN",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:류신정",
+    "name_ko": "류신정",
+    "name_en": "RYU SHIN-JUNG",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:고재춘",
+    "name_ko": "고재춘",
+    "name_en": "KO JAE-CHUN",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:손현욱",
+    "name_ko": "손현욱",
+    "name_en": "SON HYUN-OOK",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:소현우",
+    "name_ko": "소현우",
+    "name_en": "SO HYUN-WOO",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:최성철",
+    "name_ko": "최성철",
+    "name_en": "CHOI SUNG-CHUL",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:김건주",
+    "name_ko": "김건주",
+    "name_en": "KIM KUN-JU",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:김정민",
+    "name_ko": "김정민",
+    "name_en": "KIM JEONG-MIN",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:김성복",
+    "name_ko": "김성복",
+    "name_en": "KIM SUNG-BOK",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:변대용",
+    "name_ko": "변대용",
+    "name_en": "BYUN DAE-YONG",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:최일",
+    "name_ko": "최 일",
+    "name_en": "CHOI IL",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:최정미",
+    "name_ko": "최정미",
+    "name_en": "CHOI JUNG-MI",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:정국택",
+    "name_ko": "정국택",
+    "name_en": "JEONG GUK-TAEK",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:김정명",
+    "name_ko": "김정명",
+    "name_en": "KIM JUNG-MYUNG",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:백윤기",
+    "name_ko": "백윤기",
+    "name_en": "BAEK YUN-GI",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:박용완",
+    "name_ko": "박용완",
+    "name_en": "PARK YONG-WOAN",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:최도성",
+    "name_ko": "최도성",
+    "name_en": "CHOI DO-SUNG",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:이용규",
+    "name_ko": "이용규",
+    "name_en": "LEE YONG-GYU",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:류훈",
+    "name_ko": "류 훈",
+    "name_en": "RYU HOON",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:이기칠",
+    "name_ko": "이기칠",
+    "name_en": "LEE GI-CHIL",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:김택기",
+    "name_ko": "김택기",
+    "name_en": "KIM TAEK-GI",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:최정화",
+    "name_ko": "최정화",
+    "name_en": "CHOI JEONG-HWA",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:유영호",
+    "name_ko": "유영호",
+    "name_en": "YU YEONG-HO",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:박석원",
+    "name_ko": "박석원",
+    "name_en": "PARK SUK-WON",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:박찬걸",
+    "name_ko": "박찬걸",
+    "name_en": "PARK CHAN-GEOL",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:서동진",
+    "name_ko": "서동진",
+    "name_en": "SEO DONG-JIN",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:김석",
+    "name_ko": "김 석",
+    "name_en": "KIM SUK",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:도흥록",
+    "name_ko": "도흥록",
+    "name_en": "DO HEUNG-ROK",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:박태동",
+    "name_ko": "박태동",
+    "name_en": "PARK TAE-DONG",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:장용선",
+    "name_ko": "장용선",
+    "name_en": "JANG YONG-SEON",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:노해율",
+    "name_ko": "노해율",
+    "name_en": "NOH HAE-YUL",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:홍순용",
+    "name_ko": "홍순용",
+    "name_en": "HONG SUN-YONG",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:고암",
+    "name_ko": "고 암",
+    "name_en": "KO AM",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:문병탁",
+    "name_ko": "문병탁",
+    "name_en": "MUN BYEONG-TAK",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:차재영",
+    "name_ko": "차재영",
+    "name_en": "CHA JAE-YOUNG",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:오동훈",
+    "name_ko": "오동훈",
+    "name_en": "OH DONG-HUN",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:이윤석",
+    "name_ko": "이윤석",
+    "name_en": "LEE YOON-SEOK",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:맹하섭",
+    "name_ko": "맹하섭",
+    "name_en": "MAENG HA-SEOP",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:대광산기",
+    "name_ko": "대광산기",
+    "name_en": "Daegwang Engineering Co., Ltd.",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:이젠테크",
+    "name_ko": "이젠테크",
+    "name_en": "Izentech Co., Ltd.",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:제일테크노스",
+    "name_ko": "제일\n테크노스",
+    "name_en": "Jeil Technos Co., Ltd.",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:포스코",
+    "name_ko": "포스코",
+    "name_en": "POSCO",
+    "type": "COMPANY",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:화일산기",
+    "name_ko": "화일산기",
+    "name_en": "HIMEC Inc.",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:김대락",
+    "name_ko": "김대락",
+    "name_en": "KIM DAE-RAK",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:나점수",
+    "name_ko": "나점수",
+    "name_en": "NA JEOM-SU",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:류종윤",
+    "name_ko": "류종윤",
+    "name_en": "RYU JONG-YUN",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:송운창",
+    "name_ko": "송운창",
+    "name_en": "SONG WOON-CHANG",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:이일",
+    "name_ko": "이 일",
+    "name_en": "LEE IL",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:전강옥",
+    "name_ko": "전강옥",
+    "name_en": "JEON GANG-OK",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:최규철",
+    "name_ko": "최규철",
+    "name_en": "CHOI GYU-CHEOL",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:금화주강산기",
+    "name_ko": "금화\n주강산기",
+    "name_en": "KUMHWA Cast Steel & Ind. Mach. Co., Ltd.",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:넥스틸",
+    "name_ko": "넥스틸",
+    "name_en": "Nexteel Co., Ltd.",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:동국제강",
+    "name_ko": "동국제강",
+    "name_en": "Dongkuk Steel Mill Co., Ltd.",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:동일산업",
+    "name_ko": "동일산업",
+    "name_en": "Dongil Industries Co., Ltd.",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:smc",
+    "name_ko": "SMC",
+    "name_en": "SMC Co., Ltd.",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:신화테크",
+    "name_ko": "신화테크",
+    "name_en": "Shinhwa Tech Co., Ltd.",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:조선내화",
+    "name_ko": "조선내화",
+    "name_en": "Chosun Refractories Co., Ltd.",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:현대제철",
+    "name_ko": "현대제철",
+    "name_en": "Hyundai Steel Co., Ltd.",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:이용덕포스코",
+    "name_ko": "이용덕&포스코",
+    "name_en": "LEE YONG-DEOK&POSCO",
+    "type": "COMPANY",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:이철희",
+    "name_ko": "이철희",
+    "name_en": "LEE CHEOL-HUI",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:이동섭",
+    "name_ko": "이동섭",
+    "name_en": "LEE DONG-SEOP",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:안재홍",
+    "name_ko": "안재홍",
+    "name_en": "AHN JAE-HONG",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:박발륜",
+    "name_ko": "박발륜",
+    "name_en": "PARK BAL-LOON",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:주영호",
+    "name_ko": "주영호",
+    "name_en": "JOO YOUNG-HO",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:엄익훈",
+    "name_ko": "엄익훈",
+    "name_en": "EOM IK-HUN",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:김정연",
+    "name_ko": "김정연",
+    "name_en": "KIM JEONG-YEON",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:김연",
+    "name_ko": "김 연",
+    "name_en": "KIM YEON",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:융진",
+    "name_ko": "융진",
+    "name_en": "Yungjin Co., Ltd.",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:김구림",
+    "name_ko": "김구림",
+    "name_en": "KIM GOO-RIM",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:이이남",
+    "name_ko": "이이남",
+    "name_en": "LEE YI-NAM",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:정정주",
+    "name_ko": "정정주",
+    "name_en": "JUNG JUNG-JOO",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:김병호",
+    "name_ko": "김병호",
+    "name_en": "KIM BYUNG-HO",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:황성준",
+    "name_ko": "황성준",
+    "name_en": "HWANG SUNG-JUN",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:김승영",
+    "name_ko": "김승영",
+    "name_en": "KIM SEUNG-YOUNG",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:이우환",
+    "name_ko": "이우환",
+    "name_en": "LEE U-FAN",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:사공숙",
+    "name_ko": "사공숙",
+    "name_en": "SAGONG SOOK",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:세아제강",
+    "name_ko": "세아제강",
+    "name_en": "SeAH Steel Corp.",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:클래드코리아",
+    "name_ko": "클래드코리아",
+    "name_en": "Clad Korea Pohang",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:이성민",
+    "name_ko": "이성민",
+    "name_en": "LEE SEONG-MIN",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:권용주포스코",
+    "name_ko": "권용주&포스코",
+    "name_en": "POSCO&KWON YONG-JU",
+    "type": "COMPANY",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:최라윤현대제철",
+    "name_ko": "최라윤&현대제철",
+    "name_en": "Hyundai Steel Co., Ltd.&CHOI RA-YUN",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:최우람",
+    "name_ko": "최우람",
+    "name_en": "CHOE U-RAM",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:김도훈",
+    "name_ko": "김도훈",
+    "name_en": "KIM DO-HOON",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:김태수",
+    "name_ko": "김태수",
+    "name_en": "KIM TAE-SUE",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:최지훈",
+    "name_ko": "최지훈",
+    "name_en": "CHOI JI-HUN",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:신일인텍",
+    "name_ko": "신일인텍",
+    "name_en": "SINIL INTEC",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:일신해운",
+    "name_ko": "일신해운",
+    "name_en": "Ilshin Marine Transport CO., Ltd.",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:포스코강판",
+    "name_ko": "포스코강판",
+    "name_en": "POSCO C&C",
+    "type": "COMPANY",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:포스코플랜텍",
+    "name_ko": "포스코플랜텍",
+    "name_en": "POSCO Plantec Co., Ltd.",
+    "type": "COMPANY",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:이점원",
+    "name_ko": "이점원",
+    "name_en": "LEE JEOM-WON",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:주태원",
+    "name_ko": "주태원",
+    "name_en": "JOO TAE-WON",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:포항철강산업단지관리공단",
+    "name_ko": "포항철강산업단지 관리공단",
+    "name_en": "Pohang Steel & Iron Industrial Complex Management Corp.",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:전덕제",
+    "name_ko": "전덕제",
+    "name_en": "JEON DUCK-JE",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:최은정",
+    "name_ko": "최은정",
+    "name_en": "CHOI EUN-JEOUNG",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:김인태",
+    "name_ko": "김인태",
+    "name_en": "KIM IN-TAE",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:해도동도시재생주민협의체mk기업",
+    "name_ko": "해도동 도시재생 주민협의체, MK기업",
+    "name_en": "Residents' Council for Urban Regeneration in Haedo-dong, MK CO.",
+    "type": "COMPANY",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:포항스틸러스",
+    "name_ko": "포항스틸러스",
+    "name_en": "POHANG STEELERS",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  },
+  {
+    "key": "artist:수협",
+    "name_ko": "수협",
+    "name_en": "SUHYUP",
+    "type": "INDIVIDUAL",
+    "profile_image_url": null
+  }
+]

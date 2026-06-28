@@ -10,10 +10,11 @@ import { Button } from "@/components/ui/button";
 type UserProfile = {
   id: number;
   nickname: string;
-  residency: "POHANG" | "NON_POHANG";
-  age_group: "TEEN" | "20S" | "30S" | "40S" | "50S" | "60S" | "70_PLUS";
+  residency: "POHANG" | "NON_POHANG" | null;
+  age_group: "TEEN" | "20S" | "30S" | "40S" | "50S" | "60S" | "70_PLUS" | null;
   language: "ko" | "en";
   notifications_enabled: number;
+  withdrawn_at: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -75,12 +76,12 @@ type UserDetail = {
   stamps: Stamp[];
 };
 
-const residencyLabelMap: Record<UserProfile["residency"], string> = {
+const residencyLabelMap: Record<NonNullable<UserProfile["residency"]>, string> = {
   POHANG: "포항",
   NON_POHANG: "포항 외",
 };
 
-const ageGroupLabelMap: Record<UserProfile["age_group"], string> = {
+const ageGroupLabelMap: Record<NonNullable<UserProfile["age_group"]>, string> = {
   TEEN: "10대",
   "20S": "20대",
   "30S": "30대",
@@ -102,6 +103,18 @@ const artworkCategoryLabelMap: Record<LikedArtwork["category"], string> = {
 
 function formatDateTime(value: string) {
   return new Date(value).toLocaleString("ko-KR");
+}
+
+function formatResidency(value: UserProfile["residency"]) {
+  return value ? residencyLabelMap[value] : "-";
+}
+
+function formatAgeGroup(value: UserProfile["age_group"]) {
+  return value ? ageGroupLabelMap[value] : "-";
+}
+
+function formatUserStatus(user: Pick<UserProfile, "withdrawn_at">) {
+  return user.withdrawn_at ? "탈퇴" : "활성";
 }
 
 export default function UserDetailPage() {
@@ -157,12 +170,16 @@ export default function UserDetailPage() {
             <dd>{user.nickname}</dd>
           </div>
           <div>
+            <dt className="text-muted-foreground">상태</dt>
+            <dd>{formatUserStatus(user)}</dd>
+          </div>
+          <div>
             <dt className="text-muted-foreground">거주지</dt>
-            <dd>{residencyLabelMap[user.residency]}</dd>
+            <dd>{formatResidency(user.residency)}</dd>
           </div>
           <div>
             <dt className="text-muted-foreground">연령대</dt>
-            <dd>{ageGroupLabelMap[user.age_group]}</dd>
+            <dd>{formatAgeGroup(user.age_group)}</dd>
           </div>
           <div>
             <dt className="text-muted-foreground">언어</dt>
@@ -175,6 +192,10 @@ export default function UserDetailPage() {
           <div>
             <dt className="text-muted-foreground">가입 일시</dt>
             <dd>{formatDateTime(user.created_at)}</dd>
+          </div>
+          <div>
+            <dt className="text-muted-foreground">탈퇴 일시</dt>
+            <dd>{user.withdrawn_at ? formatDateTime(user.withdrawn_at) : "-"}</dd>
           </div>
         </dl>
       </div>

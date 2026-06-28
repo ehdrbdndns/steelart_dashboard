@@ -14,10 +14,11 @@ import {
 type User = {
   id: number;
   nickname: string;
-  residency: "POHANG" | "NON_POHANG";
-  age_group: "TEEN" | "20S" | "30S" | "40S" | "50S" | "60S" | "70_PLUS";
+  residency: "POHANG" | "NON_POHANG" | null;
+  age_group: "TEEN" | "20S" | "30S" | "40S" | "50S" | "60S" | "70_PLUS" | null;
   language: "ko" | "en";
   notifications_enabled: number;
+  withdrawn_at: string | null;
   created_at: string;
 };
 
@@ -28,12 +29,12 @@ type UserSummary = {
   joinedLast30Days: number;
 };
 
-const residencyLabelMap: Record<User["residency"], string> = {
+const residencyLabelMap: Record<NonNullable<User["residency"]>, string> = {
   POHANG: "포항",
   NON_POHANG: "포항 외",
 };
 
-const ageGroupLabelMap: Record<User["age_group"], string> = {
+const ageGroupLabelMap: Record<NonNullable<User["age_group"]>, string> = {
   TEEN: "10대",
   "20S": "20대",
   "30S": "30대",
@@ -50,6 +51,18 @@ const languageLabelMap: Record<User["language"], string> = {
 
 function formatDateTime(value: string) {
   return new Date(value).toLocaleString("ko-KR");
+}
+
+function formatResidency(value: User["residency"]) {
+  return value ? residencyLabelMap[value] : "-";
+}
+
+function formatAgeGroup(value: User["age_group"]) {
+  return value ? ageGroupLabelMap[value] : "-";
+}
+
+function formatUserStatus(user: Pick<User, "withdrawn_at">) {
+  return user.withdrawn_at ? "탈퇴" : "활성";
 }
 
 export default function UsersPage() {
@@ -203,6 +216,7 @@ export default function UsersPage() {
             <tr>
               <th className="px-3 py-2 text-left">ID</th>
               <th className="px-3 py-2 text-left">닉네임</th>
+              <th className="px-3 py-2 text-left">상태</th>
               <th className="px-3 py-2 text-left">거주지</th>
               <th className="px-3 py-2 text-left">연령대</th>
               <th className="px-3 py-2 text-left">언어</th>
@@ -214,13 +228,13 @@ export default function UsersPage() {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={8} className="px-3 py-8 text-center text-muted-foreground">
+                <td colSpan={9} className="px-3 py-8 text-center text-muted-foreground">
                   로딩 중...
                 </td>
               </tr>
             ) : items.length === 0 ? (
               <tr>
-                <td colSpan={8} className="px-3 py-8 text-center text-muted-foreground">
+                <td colSpan={9} className="px-3 py-8 text-center text-muted-foreground">
                   데이터가 없습니다.
                 </td>
               </tr>
@@ -229,8 +243,9 @@ export default function UsersPage() {
                 <tr key={user.id} className="border-t">
                   <td className="px-3 py-2">{user.id}</td>
                   <td className="px-3 py-2">{user.nickname}</td>
-                  <td className="px-3 py-2">{residencyLabelMap[user.residency]}</td>
-                  <td className="px-3 py-2">{ageGroupLabelMap[user.age_group]}</td>
+                  <td className="px-3 py-2">{formatUserStatus(user)}</td>
+                  <td className="px-3 py-2">{formatResidency(user.residency)}</td>
+                  <td className="px-3 py-2">{formatAgeGroup(user.age_group)}</td>
                   <td className="px-3 py-2">{languageLabelMap[user.language]}</td>
                   <td className="px-3 py-2">{user.notifications_enabled ? "예" : "아니오"}</td>
                   <td className="px-3 py-2">{formatDateTime(user.created_at)}</td>

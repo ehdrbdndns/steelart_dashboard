@@ -1,0 +1,275 @@
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"민복진|자매|2012","artistKey":"artist:민복진","message":"Artist '민복진' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:민복진|자매|2012","sourceKey":"민복진|자매|2012","address":"경상북도 포항시 남구 해도동 166","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"조정석|새벽|2012","artistKey":"artist:조정석","message":"Artist '조정석' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:조정석|새벽|2012","sourceKey":"조정석|새벽|2012","address":"경상북도 포항시 남구 대도동 303-1 포항문화예술회관\n도로명: 희망대로 850","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"안종연|빛의소리|2012","artistKey":"artist:안종연","message":"Artist '안종연' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"최인수|시간의춤|2012","artistKey":"artist:최인수","message":"Artist '최인수' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"조영철|도시를위한네발짐승|2012","artistKey":"artist:조영철","message":"Artist '조영철' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:조영철|도시를위한네발짐승|2012","sourceKey":"조영철|도시를위한네발짐승|2012","address":"경상북도 포항시 남구 해도동 175-10","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"이윤복|오스카|2012","artistKey":"artist:이윤복","message":"Artist '이윤복' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"안병철|생명影xii|2012","artistKey":"artist:안병철","message":"Artist '안병철' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:안병철|생명影xii|2012","sourceKey":"안병철|생명影xii|2012","address":"경상북도 포항시 북구 두호동 1015-8","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"이원석|오늘도|2012","artistKey":"artist:이원석","message":"Artist '이원석' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"박종배|못과사랑|2012","artistKey":"artist:박종배","message":"Artist '박종배' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"강관욱|구원036|2012","artistKey":"artist:강관욱","message":"Artist '강관욱' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"최만린|작품0102101|2012","artistKey":"artist:최만린","message":"Artist '최만린' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:최만린|작품0102101|2012","sourceKey":"최만린|작품0102101|2012","address":"경상북도 포항시 북구 환호동 384","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"문병두|나무꿈을꾸었어|2012","artistKey":"artist:문병두","message":"Artist '문병두' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"이길래|노송091|2012","artistKey":"artist:이길래","message":"Artist '이길래' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"우무길|숙원宿願|2012","artistKey":"artist:우무길","message":"Artist '우무길' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:우무길|숙원宿願|2012","sourceKey":"우무길|숙원宿願|2012","address":"경상북도 포항시 북구 환호동 353","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"박충흠|무제|2012","artistKey":"artist:박충흠","message":"Artist '박충흠' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"양태근|짜식들|2012","artistKey":"artist:양태근","message":"Artist '양태근' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"이상길|contact내마음의전파망원경|2012","artistKey":"artist:이상길","message":"Artist '이상길' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:이상길|contact내마음의전파망원경|2012","sourceKey":"이상길|contact내마음의전파망원경|2012","address":"경상북도 포항시 북구 환호동 354","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"tts_missing","artworkKey":"artwork:이상길|contact내마음의전파망원경|2012","sourceKey":"이상길|contact내마음의전파망원경|2012","message":"No TTS file matched artwork 'Contact-내 마음의 전파 망원경' by '이상길'."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"성동훈|돈키호테|2012","artistKey":"artist:성동훈","message":"Artist '성동훈' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"문신|개미|2013","artistKey":"artist:문신","message":"Artist '문신' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:문신|개미|2013","sourceKey":"문신|개미|2013","address":"경상북도 포항시 북구 환호동 355","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"류인|지각의주主|2012","artistKey":"artist:류인","message":"Artist '류인' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"오의석|사랑으로|2013","artistKey":"artist:오의석","message":"Artist '오의석' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"김영원|중력무중력|2012","artistKey":"artist:김영원","message":"Artist '김영원' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"신치현|walkingmanp4|2012","artistKey":"artist:신치현","message":"Artist '신치현' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"tts_missing","artworkKey":"artwork:신치현|walkingmanp4|2012","sourceKey":"신치현|walkingmanp4|2012","message":"No TTS file matched artwork 'Walking Man-P4' by '신치현'."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"김병진|potteryletter|2012","artistKey":"artist:김병진","message":"Artist '김병진' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:김병진|potteryletter|2012","sourceKey":"김병진|potteryletter|2012","address":"경상북도 포항시 남구 대잠동 1001","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"이기수|무제|2012","artistKey":"artist:이기수","message":"Artist '이기수' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:이기수|무제|2012","sourceKey":"이기수|무제|2012","address":"경상북도 포항시 북구 우현동 68-2","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"심정수|위를향해걷는발|2012","artistKey":"artist:심정수","message":"Artist '심정수' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"김병철|일하는사람들|2012","artistKey":"artist:김병철","message":"Artist '김병철' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:김병철|일하는사람들|2012","sourceKey":"김병철|일하는사람들|2012","address":"경상북도 포항시 남구 효자동 173-4","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"김상균|風景기억의방pohang|2012","artistKey":"artist:김상균","message":"Artist '김상균' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:김상균|風景기억의방pohang|2012","sourceKey":"김상균|風景기억의방pohang|2012","address":"경상북도 포항시 북구 환호동 350","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"tts_missing","artworkKey":"artwork:김상균|風景기억의방pohang|2012","sourceKey":"김상균|風景기억의방pohang|2012","message":"No TTS file matched artwork '風景_기억의 방_Pohang' by '김상균'."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"금중기|느슨한충돌|2012","artistKey":"artist:금중기","message":"Artist '금중기' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"김경민|꿈꾸는세상|2012","artistKey":"artist:김경민","message":"Artist '김경민' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:김경민|꿈꾸는세상|2012","sourceKey":"김경민|꿈꾸는세상|2012","address":"경상북도 포항시 북구 덕수동 35-19","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"임영희|prologuepoemii|2012","artistKey":"artist:임영희","message":"Artist '임영희' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"이창희|morningsound|2012","artistKey":"artist:이창희","message":"Artist '이창희' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:이창희|morningsound|2012","sourceKey":"이창희|morningsound|2012","address":"미술관 수장고","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"tts_missing","artworkKey":"artwork:이창희|morningsound|2012","sourceKey":"이창희|morningsound|2012","message":"No TTS file matched artwork 'Morning Sound' by '이창희'."}
+{"level":"warning","issueType":"duplicate_artwork_base_key","rowId":"overall:000034","baseSourceKey":"김기수|sunmoon|2012","sourceKey":"김기수|sunmoon|2012#34","message":"Duplicate artist/title/year rows detected. Serial suffix was added to keep both artworks."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"김기수|sunmoon|2012#34","artistKey":"artist:김기수","message":"Artist '김기수' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:김기수|sunmoon|2012#34","sourceKey":"김기수|sunmoon|2012#34","address":"경상북도 포항시 북구 학산동 222-1","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"duplicate_artwork_base_key","rowId":"overall:000035","baseSourceKey":"김기수|sunmoon|2012","sourceKey":"김기수|sunmoon|2012#35","message":"Duplicate artist/title/year rows detected. Serial suffix was added to keep both artworks."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"송동완|관계|2012","artistKey":"artist:송동완","message":"Artist '송동완' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:송동완|관계|2012","sourceKey":"송동완|관계|2012","address":"경상북도 포항시 남구 오천읍 문덕리 161-122","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"최태훈|forest|2012","artistKey":"artist:최태훈","message":"Artist '최태훈' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:최태훈|forest|2012","sourceKey":"최태훈|forest|2012","address":"경상북도 포항시 남구 오천읍 문덕리 202-1","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"모준석|그빛아래널위한자리|2012","artistKey":"artist:모준석","message":"Artist '모준석' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"박선기|pointofviewthinking120801|2012","artistKey":"artist:박선기","message":"Artist '박선기' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:박선기|pointofviewthinking120801|2012","sourceKey":"박선기|pointofviewthinking120801|2012","address":"경상북도 포항시 남구 인덕동 403","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"신옥주|지혜의문|2012","artistKey":"artist:신옥주","message":"Artist '신옥주' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"손칠봉|빅뱅|2012","artistKey":"artist:손칠봉","message":"Artist '손칠봉' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:손칠봉|빅뱅|2012","sourceKey":"손칠봉|빅뱅|2012","address":"경상북도 포항시 남구 오천읍 원리 25-2","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"박은생|돌멩이울림|2012","artistKey":"artist:박은생","message":"Artist '박은생' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"이웅배|공동체|2012","artistKey":"artist:이웅배","message":"Artist '이웅배' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"tts_missing","artworkKey":"artwork:이웅배|공동체|2012","sourceKey":"이웅배|공동체|2012","message":"No TTS file matched artwork '공동체' by '이웅배'."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"강대영|selfportrait|2012","artistKey":"artist:강대영","message":"Artist '강대영' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:강대영|selfportrait|2012","sourceKey":"강대영|selfportrait|2012","address":"경상북도 포항시 북구 환호동 351","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"tts_missing","artworkKey":"artwork:강대영|selfportrait|2012","sourceKey":"강대영|selfportrait|2012","message":"No TTS file matched artwork 'self-portrait' by '강대영'."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"박성찬|이성적인당신과감성적인나의대화|2012","artistKey":"artist:박성찬","message":"Artist '박성찬' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:박성찬|이성적인당신과감성적인나의대화|2012","sourceKey":"박성찬|이성적인당신과감성적인나의대화|2012","address":"경상북도 포항시 남구 해도동 166-1","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"김지훈|큐브바다|2012","artistKey":"artist:김지훈","message":"Artist '김지훈' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"김태성|letstalk|2012","artistKey":"artist:김태성","message":"Artist '김태성' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"고관호|thesphere하늘바람을담아|2012","artistKey":"artist:고관호","message":"Artist '고관호' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"강신영|나무고기|2012","artistKey":"artist:강신영","message":"Artist '강신영' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:강신영|나무고기|2012","sourceKey":"강신영|나무고기|2012","address":"경상북도 포항시 남구 연일읍 중명리 산16","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"허정|그오래된미래|2012","artistKey":"artist:허정","message":"Artist '허 정' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"노준|sudarusubmarine|2012","artistKey":"artist:노준","message":"Artist '노 준' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"류신정|인상해돋이|2013","artistKey":"artist:류신정","message":"Artist '류신정' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:류신정|인상해돋이|2013","sourceKey":"류신정|인상해돋이|2013","address":"경상북도 포항시 남구 오천읍 원리 1568-6","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"고재춘|김여사의나들이|2013","artistKey":"artist:고재춘","message":"Artist '고재춘' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:고재춘|김여사의나들이|2013","sourceKey":"고재춘|김여사의나들이|2013","address":"경상북도 포항시 남구 오천읍 문덕리 1354","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"손현욱|크랩벤치|2013","artistKey":"artist:손현욱","message":"Artist '손현욱' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:손현욱|크랩벤치|2013","sourceKey":"손현욱|크랩벤치|2013","address":"경상북도 포항시 남구 인덕동 161-380","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"소현우|2050비너스의탄생|2013","artistKey":"artist:소현우","message":"Artist '소현우' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"최성철|바람불어좋은날|2013","artistKey":"artist:최성철","message":"Artist '최성철' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"김건주|미지의여행|2013","artistKey":"artist:김건주","message":"Artist '김건주' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:김건주|미지의여행|2013","sourceKey":"김건주|미지의여행|2013","address":"경상북도 포항시 남구 해도동 해동로120번길 9-1","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"김정민|장사의꿈|2013","artistKey":"artist:김정민","message":"Artist '김정민' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"김성복|신화2013|2013","artistKey":"artist:김성복","message":"Artist '김성복' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"변대용|너는나다나는너다|2013","artistKey":"artist:변대용","message":"Artist '변대용' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"최일|정지된말|2013","artistKey":"artist:최일","message":"Artist '최 일' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"최정미|산책|2013","artistKey":"artist:최정미","message":"Artist '최정미' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:최정미|산책|2013","sourceKey":"최정미|산책|2013","address":"경상북도 포항시 남구 오천읍 원리 977","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"정국택|비즈니스맨|2013","artistKey":"artist:정국택","message":"Artist '정국택' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"tts_missing","artworkKey":"artwork:정국택|비즈니스맨|2013","sourceKey":"정국택|비즈니스맨|2013","message":"No TTS file matched artwork '비즈니스 맨' by '정국택'."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"김정명|내손안에있소이다|2013","artistKey":"artist:김정명","message":"Artist '김정명' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"백윤기|나들이|2013","artistKey":"artist:백윤기","message":"Artist '백윤기' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:백윤기|나들이|2013","sourceKey":"백윤기|나들이|2013","address":"경상북도 포항시 남구 오천읍 송덕로212번길 90","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:백윤기|여름|2013","sourceKey":"백윤기|여름|2013","address":"경상북도 포항시 남구 송도동 254-100","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"박용완|태양과우리13|2013","artistKey":"artist:박용완","message":"Artist '박용완' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:박용완|태양과우리13|2013","sourceKey":"박용완|태양과우리13|2013","address":"경상북도 포항시 남구 오천읍 원리 1505","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"최도성|에덴동산2|2013","artistKey":"artist:최도성","message":"Artist '최도성' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"이용규|가족|2013","artistKey":"artist:이용규","message":"Artist '이용규' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"류훈|공존의표상|2013","artistKey":"artist:류훈","message":"Artist '류 훈' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"이기칠|거주|2013","artistKey":"artist:이기칠","message":"Artist '이기칠' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"tts_missing","artworkKey":"artwork:이기칠|거주|2013","sourceKey":"이기칠|거주|2013","message":"No TTS file matched artwork '거주' by '이기칠'."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"김택기|바이올린연주자|2013","artistKey":"artist:김택기","message":"Artist '김택기' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:김택기|바이올린연주자|2013","sourceKey":"김택기|바이올린연주자|2013","address":"경상북도 포항시 북구 흥해읍 이인리 131","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"최정화|flowertree|2013","artistKey":"artist:최정화","message":"Artist '최정화' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:문신|하늘을나는꽃|2013","sourceKey":"문신|하늘을나는꽃|2013","address":"경상북도 포항시 북구 흥해읍 이인리 124","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:김병철|도약|2013","sourceKey":"김병철|도약|2013","address":"경상북도 포항시 북구 흥해읍 이인리 111-1","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"유영호|인사하는사람|2014","artistKey":"artist:유영호","message":"Artist '유영호' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:유영호|인사하는사람|2014","sourceKey":"유영호|인사하는사람|2014","address":"경상북도 포항시 북구 흥해읍 이인리 108","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"박석원|핸들01435축적으로|2014","artistKey":"artist:박석원","message":"Artist '박석원' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"박찬걸|페르세포네의납치h3500|2014","artistKey":"artist:박찬걸","message":"Artist '박찬걸' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:박찬걸|페르세포네의납치h3500|2014","sourceKey":"박찬걸|페르세포네의납치h3500|2014","address":"경상북도 포항시 북구 죽도동 557-75","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"tts_missing","artworkKey":"artwork:박찬걸|페르세포네의납치h3500|2014","sourceKey":"박찬걸|페르세포네의납치h3500|2014","message":"No TTS file matched artwork '페르세포네의 납치 H3500' by '박찬걸'."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"서동진|레엠|2014","artistKey":"artist:서동진","message":"Artist '서동진' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"김석|가방던지는사람|2014","artistKey":"artist:김석","message":"Artist '김 석' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"도흥록|빛의순환10i|2014","artistKey":"artist:도흥록","message":"Artist '도흥록' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"tts_missing","artworkKey":"artwork:도흥록|빛의순환10i|2014","sourceKey":"도흥록|빛의순환10i|2014","message":"No TTS file matched artwork '빛의 순환 10-I' by '도흥록'."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"박태동|원석자原石子201322|2014","artistKey":"artist:박태동","message":"Artist '박태동' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"tts_missing","artworkKey":"artwork:박태동|원석자原石子201322|2014","sourceKey":"박태동|원석자原石子201322|2014","message":"No TTS file matched artwork '원석자(原石子) 2013-22' by '박태동'."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"장용선|darkmatter1401|2014","artistKey":"artist:장용선","message":"Artist '장용선' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"노해율|generalmovewind|2014","artistKey":"artist:노해율","message":"Artist '노해율' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"홍순용|toleadtobelieve|2014","artistKey":"artist:홍순용","message":"Artist '홍순용' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:홍순용|toleadtobelieve|2014","sourceKey":"홍순용|toleadtobelieve|2014","address":"경상북도 포항시 북구 두호동 1003-1","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"고암|오욕五慾|2015","artistKey":"artist:고암","message":"Artist '고 암' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"tts_missing","artworkKey":"artwork:고암|오욕五慾|2015","sourceKey":"고암|오욕五慾|2015","message":"No TTS file matched artwork '오욕(五慾)' by '고 암'."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"문병탁|마시다2|2015","artistKey":"artist:문병탁","message":"Artist '문병탁' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"차재영|journeyupc|2015","artistKey":"artist:차재영","message":"Artist '차재영' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:차재영|journeyupc|2015","sourceKey":"차재영|journeyupc|2015","address":"경상북도 포항시 남구 해도동 206-3","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"오동훈|bluebubble꽃을든여인|2015","artistKey":"artist:오동훈","message":"Artist '오동훈' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:오동훈|bluebubble꽃을든여인|2015","sourceKey":"오동훈|bluebubble꽃을든여인|2015","address":"경상북도 포항시 북구 덕산동 129-1","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"이윤석|명상2015|2015","artistKey":"artist:이윤석","message":"Artist '이윤석' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:이윤석|명상2015|2015","sourceKey":"이윤석|명상2015|2015","address":"경상북도 포항시 남구 구룡포읍 구룡포리 353","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"tts_missing","artworkKey":"artwork:이윤석|명상2015|2015","sourceKey":"이윤석|명상2015|2015","message":"No TTS file matched artwork '명상-2015' by '이윤석'."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"맹하섭|기억의흔적|2015","artistKey":"artist:맹하섭","message":"Artist '맹하섭' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:맹하섭|기억의흔적|2015","sourceKey":"맹하섭|기억의흔적|2015","address":"경상북도 포항시 남구 대도동 368-1","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"대광산기|평화6대륙|2015","artistKey":"artist:대광산기","message":"Artist '대광산기' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:대광산기|평화6대륙|2015","sourceKey":"대광산기|평화6대륙|2015","address":"경상북도 포항시 남구 오천읍 원리 40-176","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"이젠테크|다원|2015","artistKey":"artist:이젠테크","message":"Artist '이젠테크' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"제일테크노스|연오ᆞ세오이야기삼국유사|2015","artistKey":"artist:제일테크노스","message":"Artist '제일\n테크노스' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:제일테크노스|연오ᆞ세오이야기삼국유사|2015","sourceKey":"제일테크노스|연오ᆞ세오이야기삼국유사|2015","address":"경상북도 포항시 남구 동해면 임곡리 164","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"tts_missing","artworkKey":"artwork:제일테크노스|연오ᆞ세오이야기삼국유사|2015","sourceKey":"제일테크노스|연오ᆞ세오이야기삼국유사|2015","message":"No TTS file matched artwork '연오ᆞ세오 이야기-삼국유사' by '제일\n테크노스'."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:포스코|장인정신|2015","sourceKey":"포스코|장인정신|2015","address":"경상북도 포항시 남구 동해면 임곡리 166","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"화일산기|화합과상생|2015","artistKey":"artist:화일산기","message":"Artist '화일산기' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:화일산기|화합과상생|2015","sourceKey":"화일산기|화합과상생|2015","address":"경상북도 포항시 남구 오천읍 원리 1564-2","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"김대락|하늘과별과꿈과추억|2016","artistKey":"artist:김대락","message":"Artist '김대락' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"나점수|식물적사유|2016","artistKey":"artist:나점수","message":"Artist '나점수' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:나점수|식물적사유|2016","sourceKey":"나점수|식물적사유|2016","address":"경상북도 포항시 남구 지곡동 166-20 생명공학연구센터","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"류종윤|만개|2016","artistKey":"artist:류종윤","message":"Artist '류종윤' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:류종윤|만개|2016","sourceKey":"류종윤|만개|2016","address":"경상북도 포항시 남구 송도동 254-77","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"송운창|imfine230|2016","artistKey":"artist:송운창","message":"Artist '송운창' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"이일|푸른숲의거인|2016","artistKey":"artist:이일","message":"Artist '이 일' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:이일|푸른숲의거인|2016","sourceKey":"이일|푸른숲의거인|2016","address":"경상북도 포항시 남구 송도동 254-473","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"전강옥|날아오르는풍선|2016","artistKey":"artist:전강옥","message":"Artist '전강옥' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:전강옥|날아오르는풍선|2016","sourceKey":"전강옥|날아오르는풍선|2016","address":"경상북도 포항시 남구 송도동 253-108","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"tts_missing","artworkKey":"artwork:전강옥|날아오르는풍선|2016","sourceKey":"전강옥|날아오르는풍선|2016","message":"No TTS file matched artwork '날아오르는 풍선' by '전강옥'."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"최규철|사랑|2016","artistKey":"artist:최규철","message":"Artist '최규철' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"금화주강산기|닻|2016","artistKey":"artist:금화주강산기","message":"Artist '금화\n주강산기' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:금화주강산기|닻|2016","sourceKey":"금화주강산기|닻|2016","address":"경상북도 포항시 북구 청하면 이가리 산65-1","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"넥스틸|도약|2016","artistKey":"artist:넥스틸","message":"Artist '넥스틸' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:넥스틸|도약|2016","sourceKey":"넥스틸|도약|2016","address":"경상북도 포항시 북구 두호동 1015-1","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"동국제강|바다와프레임|2016","artistKey":"artist:동국제강","message":"Artist '동국제강' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"동일산업|movementsteel|2016","artistKey":"artist:동일산업","message":"Artist '동일산업' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:동일산업|movementsteel|2016","sourceKey":"동일산업|movementsteel|2016","address":"경상북도 포항시 북구 두호동 1021","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"smc|융합unity|2016","artistKey":"artist:smc","message":"Artist 'SMC' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:smc|융합unity|2016","sourceKey":"smc|융합unity|2016","address":"경상북도 포항시 남구 오천읍 원리 843-325","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"tts_missing","artworkKey":"artwork:smc|융합unity|2016","sourceKey":"smc|융합unity|2016","message":"No TTS file matched artwork '융합 (Unity)' by 'SMC'."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"신화테크|2016타임캡슐포항ii|2016","artistKey":"artist:신화테크","message":"Artist '신화테크' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"조선내화|성화대|2016","artistKey":"artist:조선내화","message":"Artist '조선내화' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:조선내화|성화대|2016","sourceKey":"조선내화|성화대|2016","address":"경상북도 포항시 북구 두호동 1003-9","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:포스코|활의민족|2016","sourceKey":"포스코|활의민족|2016","address":"경상북도 포항시 북구 기계면 봉계리 258-1","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:포스코|세계로미래로|2016","sourceKey":"포스코|세계로미래로|2016","address":"경상북도 포항시 남구 송도동 253-94","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"현대제철|뫼비우스의띠|2016","artistKey":"artist:현대제철","message":"Artist '현대제철' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:이용덕포스코|만남2017|2017","sourceKey":"이용덕포스코|만남2017|2017","address":"경상북도 포항시 남구 대이동 208-5","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"이철희|winnersfacehappy|2017","artistKey":"artist:이철희","message":"Artist '이철희' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:이철희|winnersfacehappy|2017","sourceKey":"이철희|winnersfacehappy|2017","address":"경상북도 포항시 남구 대이동 154-3","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"이동섭|해돋이연오랑세오녀|2017","artistKey":"artist:이동섭","message":"Artist '이동섭' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:이동섭|해돋이연오랑세오녀|2017","sourceKey":"이동섭|해돋이연오랑세오녀|2017","address":"경상북도 포항시 남구 신항로 10","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"안재홍|나를본다|2017","artistKey":"artist:안재홍","message":"Artist '안재홍' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:안재홍|나를본다|2017","sourceKey":"안재홍|나를본다|2017","address":"경상북도 포항시 남구 오천읍 문덕리 203-4","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"박발륜|dodoproject내일로|2017","artistKey":"artist:박발륜","message":"Artist '박발륜' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:박발륜|dodoproject내일로|2017","sourceKey":"박발륜|dodoproject내일로|2017","address":"경상북도 포항시 남구 대잠동 2015-3","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"주영호|자연을보다|2017","artistKey":"artist:주영호","message":"Artist '주영호' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:주영호|자연을보다|2017","sourceKey":"주영호|자연을보다|2017","address":"경상북도 포항시 남구 대이동 213-1","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"엄익훈|스페이스p|2017","artistKey":"artist:엄익훈","message":"Artist '엄익훈' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:엄익훈|스페이스p|2017","sourceKey":"엄익훈|스페이스p|2017","address":"경상북도 포항시 북구 기계면 봉계리 258-1 농경철기문화교육관","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"tts_missing","artworkKey":"artwork:엄익훈|스페이스p|2017","sourceKey":"엄익훈|스페이스p|2017","message":"No TTS file matched artwork '스페이스_P' by '엄익훈'."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:박성찬|물에물주는소녀|2017","sourceKey":"박성찬|물에물주는소녀|2017","address":"경상북도 포항시 북구 장성동","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"김정연|어린왕자가있는풍경|2017","artistKey":"artist:김정연","message":"Artist '김정연' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:김정연|어린왕자가있는풍경|2017","sourceKey":"김정연|어린왕자가있는풍경|2017","address":"경상북도 포항시 남구 효자동 201-5","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"김연|빛으로의여행01707|2017","artistKey":"artist:김연","message":"Artist '김 연' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:넥스틸|도약|2017","sourceKey":"넥스틸|도약|2017","address":"경상북도 포항시 남구 대이동 77-5","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:동국제강|철을새롭게|2017","sourceKey":"동국제강|철을새롭게|2017","address":"경상북도 포항시 남구 대잠동 포항철길숲","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:동일산업|고려청자|2017","sourceKey":"동일산업|고려청자|2017","address":"경상북도 포항시 남구 대잠동 171-5","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:신화테크|오벨리스크|2017","sourceKey":"신화테크|오벨리스크|2017","address":"경상북도 포항시 남구 대이동 38-2","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"융진|비상|2017","artistKey":"artist:융진","message":"Artist '융진' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:융진|비상|2017","sourceKey":"융진|비상|2017","address":"경상북도 포항시 남구 대이동 152-9","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:포스코|여치집|2017","sourceKey":"포스코|여치집|2017","address":"경상북도 포항시 남구 대잠동 903","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:포스코|연인|2017","sourceKey":"포스코|연인|2017","address":"경상북도 포항시 북구 죽도동 674-11","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"tts_missing","artworkKey":"artwork:현대제철|창窓|2017","sourceKey":"현대제철|창窓|2017","message":"No TTS file matched artwork '창(窓)' by '현대제철'."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"김구림|음양|2018","artistKey":"artist:김구림","message":"Artist '김구림' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:김구림|음양|2018","sourceKey":"김구림|음양|2018","address":"경상북도 포항시 북구 득량동 43-5","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"이이남|코가길어진피노키오|2018","artistKey":"artist:이이남","message":"Artist '이이남' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:이이남|코가길어진피노키오|2018","sourceKey":"이이남|코가길어진피노키오|2018","address":"경상북도 포항시 남구 대이동 41-4","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"정정주|타워|2018","artistKey":"artist:정정주","message":"Artist '정정주' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:정정주|타워|2018","sourceKey":"정정주|타워|2018","address":"경상북도 포항시 남구 대이동 30-3","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"김병호|정원의단면|2018","artistKey":"artist:김병호","message":"Artist '김병호' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:김병호|정원의단면|2018","sourceKey":"김병호|정원의단면|2018","address":"포항시 북구 새천년대로631번길 39","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"황성준|침묵의시간세우기|2018","artistKey":"artist:황성준","message":"Artist '황성준' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"김승영|당신은당신으로부터자유롭습니까|2018","artistKey":"artist:김승영","message":"Artist '김승영' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"이우환|관계항|2018","artistKey":"artist:이우환","message":"Artist '이우환' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"사공숙|광해|2018","artistKey":"artist:사공숙","message":"Artist '사공숙' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:사공숙|광해|2018","sourceKey":"사공숙|광해|2018","address":"경상북도 포항시 남구 오천읍 원리 40-4","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:포스코|트라이앵글콤포지션|2018","sourceKey":"포스코|트라이앵글콤포지션|2018","address":"경상북도 포항시 남구 해도동 216-4","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:동국제강|기념비적구조물|2018","sourceKey":"동국제강|기념비적구조물|2018","address":"경상북도 포항시 남구 대잠동 34-3","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:융진|고래의꿈|2018","sourceKey":"융진|고래의꿈|2018","address":"경상북도 포항시 북구 양학동 38-1","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:동일산업|채움과비움|2018","sourceKey":"동일산업|채움과비움|2018","address":"경상북도 포항시 남구 대잠동 32-3","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"세아제강|천지창조|2018","artistKey":"artist:세아제강","message":"Artist '세아제강' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"클래드코리아|완전한밸런스|2018","artistKey":"artist:클래드코리아","message":"Artist '클래드코리아' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:클래드코리아|완전한밸런스|2018","sourceKey":"클래드코리아|완전한밸런스|2018","address":"경상북도 포항시 남구 오천읍 문덕리 1188-36","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"이성민|cumulus|2019","artistKey":"artist:이성민","message":"Artist '이성민' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:이성민|cumulus|2019","sourceKey":"이성민|cumulus|2019","address":"경상북도 포항시 북구 용흥동 182","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"최라윤현대제철|땅과바다의어머니|2019","artistKey":"artist:최라윤현대제철","message":"Artist '최라윤&현대제철' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:최라윤현대제철|땅과바다의어머니|2019","sourceKey":"최라윤현대제철|땅과바다의어머니|2019","address":"경상북도 포항시 남구 오천읍 구정리 490-1","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:동국제강|별무리|2019","sourceKey":"동국제강|별무리|2019","address":"경북 포항시 남구 호미곶면 대보리","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"media_match_ambiguous","artworkKey":"artwork:동일산업|조선백자|2019","sourceKey":"동일산업|조선백자|2019","message":"Multiple media directories matched artwork '조선백자'."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:신화테크|신화|2019","sourceKey":"신화테크|신화|2019","address":"경상북도 포항시 남구 오천읍 원리 1429","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"최우람|태양의노래|2020","artistKey":"artist:최우람","message":"Artist '최우람' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:최우람|태양의노래|2020","sourceKey":"최우람|태양의노래|2020","address":"경상북도 포항시 남구 동해면 임곡리 123 연오랑 세오녀 문화공원","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"김도훈|펭귄|2021","artistKey":"artist:김도훈","message":"Artist '김도훈' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:김도훈|펭귄|2021","sourceKey":"김도훈|펭귄|2021","address":"경상북도 포항시 남구 대잠동 152-12","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"김태수|ecoflowserenade|2021","artistKey":"artist:김태수","message":"Artist '김태수' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:이기칠|거주|2021","sourceKey":"이기칠|거주|2021","address":"경상북도 포항시 남구 해도동 202-1","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"tts_missing","artworkKey":"artwork:이기칠|거주|2021","sourceKey":"이기칠|거주|2021","message":"No TTS file matched artwork '거주' by '이기칠'."}
+{"level":"warning","issueType":"image_missing","artworkKey":"artwork:이윤복|움직임|2021","sourceKey":"이윤복|움직임|2021","message":"No image files matched artwork '움직임' by '이윤복'."}
+{"level":"warning","issueType":"tts_missing","artworkKey":"artwork:이윤복|움직임|2021","sourceKey":"이윤복|움직임|2021","message":"No TTS file matched artwork '움직임' by '이윤복'."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:이철희|love|2021","sourceKey":"이철희|love|2021","address":"경상북도 포항시 남구 오천읍 문덕리 1188-608","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"최지훈|청춘돼지슈퍼히어로|2021","artistKey":"artist:최지훈","message":"Artist '최지훈' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:최지훈|청춘돼지슈퍼히어로|2021","sourceKey":"최지훈|청춘돼지슈퍼히어로|2021","address":"경상북도 포항시 남구 오천읍 문덕리 171-1","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:넥스틸|미래를향해|2021","sourceKey":"넥스틸|미래를향해|2021","address":"경상북도 포항시 북구 우현동 545-3","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"신일인텍|당신에게|2021","artistKey":"artist:신일인텍","message":"Artist '신일인텍' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:신화테크|글로벌신화|2021","sourceKey":"신화테크|글로벌신화|2021","address":"경상북도 포항시 북구 두호동 1015-7","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"일신해운|항해|2021","artistKey":"artist:일신해운","message":"Artist '일신해운' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:조선내화|선물|2021","sourceKey":"조선내화|선물|2021","address":"경상북도 포항시 남구 대잠동 154-21","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"tts_missing","artworkKey":"artwork:포스코강판|나무불대지철그리고물|2021","sourceKey":"포스코강판|나무불대지철그리고물|2021","message":"No TTS file matched artwork '나무, 불, 대지, 철, 그리고 물' by '포스코강판'."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"이점원|환생|2022","artistKey":"artist:이점원","message":"Artist '이점원' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:이점원|환생|2022","sourceKey":"이점원|환생|2022","address":"경상북도 포항시 북구 중앙로 325","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:소현우|천사의기도|2022","sourceKey":"소현우|천사의기도|2022","address":"경상북도 포항시 북구 양덕로30번길 20","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:신화테크|환동해의꿈경북에서세계로|2022","sourceKey":"신화테크|환동해의꿈경북에서세계로|2022","address":"경상북도 포항시 남구 대도동 315-1","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:조선내화|개복치|2022","sourceKey":"조선내화|개복치|2022","address":"경상북도 포항시 남구 구룡포읍 구룡포리","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:제일테크노스|나비효과|2022","sourceKey":"제일테크노스|나비효과|2022","address":"경상북도 포항시 북구 동빈1가","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"tts_missing","artworkKey":"artwork:넥스틸|同苦同樂동고동락|2022","sourceKey":"넥스틸|同苦同樂동고동락|2022","message":"No TTS file matched artwork '同苦同樂 동고동락' by '넥스틸'."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:포스코플랜텍|recovery|2022","sourceKey":"포스코플랜텍|recovery|2022","address":"경상북도 포항시 북구 천마로 161","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"주태원|별고양이그리고동행|2022","artistKey":"artist:주태원","message":"Artist '주태원' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"포항철강산업단지관리공단|포항철의기원|2022","artistKey":"artist:포항철강산업단지관리공단","message":"Artist '포항철강산업단지 관리공단' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:포항철강산업단지관리공단|포항철의기원|2022","sourceKey":"포항철강산업단지관리공단|포항철의기원|2022","address":"경상북도 포항시 남구 철강로 362","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"전덕제|어머니의구슬보석주머니|2023","artistKey":"artist:전덕제","message":"Artist '전덕제' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:박성찬|물의척추|2023","sourceKey":"박성찬|물의척추|2023","address":"학산천","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"최은정|hope2208|2023","artistKey":"artist:최은정","message":"Artist '최은정' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:최은정|hope2208|2023","sourceKey":"최은정|hope2208|2023","address":"영신테크","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"김인태|montagedeer|2023","artistKey":"artist:김인태","message":"Artist '김인태' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:김인태|montagedeer|2023","sourceKey":"김인태|montagedeer|2023","address":"경상북도 포항시 북구 득량동 66-1","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:제일테크노스|비상飛上2023|2023","sourceKey":"제일테크노스|비상飛上2023|2023","address":"경상북도 포항시 북구 항구동 58-66","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"tts_missing","artworkKey":"artwork:제일테크노스|비상飛上2023|2023","sourceKey":"제일테크노스|비상飛上2023|2023","message":"No TTS file matched artwork '비상(飛上)-2023' by '제일테크노스'."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:신화테크|time現在에서未來로|2023","sourceKey":"신화테크|time現在에서未來로|2023","address":"경상북도 포항시 북구 학산로 8","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"tts_missing","artworkKey":"artwork:신화테크|time現在에서未來로|2023","sourceKey":"신화테크|time現在에서未來로|2023","message":"No TTS file matched artwork 'Time(現在에서 未來로)' by '신화테크'."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:동일산업|조선백자iii|2023","sourceKey":"동일산업|조선백자iii|2023","address":"경상북도 포항시 북구 법원로63번길 42","message":"Geocoding skipped or API key missing. Fell back to 0,0."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"포항스틸러스|스틸러스50|2023","artistKey":"artist:포항스틸러스","message":"Artist '포항스틸러스' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"artist_type_ambiguous","sourceKey":"수협|눈꽃휴게소|2023","artistKey":"artist:수협","message":"Artist '수협' defaulted to INDIVIDUAL."}
+{"level":"warning","issueType":"geocode_failed","placeKey":"place:수협|눈꽃휴게소|2023","sourceKey":"수협|눈꽃휴게소|2023","address":"경북 포항시 북구 선착로 78","message":"Geocoding skipped or API key missing. Fell back to 0,0."}

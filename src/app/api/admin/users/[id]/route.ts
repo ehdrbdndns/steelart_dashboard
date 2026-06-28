@@ -9,10 +9,11 @@ export const dynamic = "force-dynamic";
 type UserProfileRow = RowDataPacket & {
   id: number;
   nickname: string;
-  residency: "POHANG" | "NON_POHANG";
-  age_group: "TEEN" | "20S" | "30S" | "40S" | "50S" | "60S" | "70_PLUS";
+  residency: "POHANG" | "NON_POHANG" | null;
+  age_group: "TEEN" | "20S" | "30S" | "40S" | "50S" | "60S" | "70_PLUS" | null;
   language: "ko" | "en";
   notifications_enabled: number;
+  withdrawn_at: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -68,7 +69,7 @@ export async function GET(
     const { id: userId } = idParamSchema.parse(await params);
 
     const userRows = await query<UserProfileRow[]>(
-      `SELECT id, nickname, residency, age_group, language, notifications_enabled, created_at, updated_at
+      `SELECT id, nickname, residency, age_group, language, notifications_enabled, withdrawn_at, created_at, updated_at
        FROM users
        WHERE id = ?`,
       [userId],

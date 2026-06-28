@@ -1,0 +1,50 @@
+{
+  "run_id": "test-extract-high-geocode",
+  "started_at": "2026-04-25T14:47:11.863Z",
+  "finished_at": "2026-04-25T14:47:23.127Z",
+  "status": "completed",
+  "skip_s3": true,
+  "skip_db": false,
+  "s3": {
+    "uploaded_count": 0,
+    "skipped_count": 569,
+    "bucket": "steel-art",
+    "region": "ap-northeast-2"
+  },
+  "db": {
+    "zones": {
+      "insert": 0,
+      "update": 0,
+      "skip": 4
+    },
+    "artists": {
+      "insert": 0,
+      "update": 0,
+      "skip": 146
+    },
+    "places": {
+      "insert": 0,
+      "update": 193,
+      "skip": 15
+    },
+    "artworks": {
+      "insert": 0,
+      "update": 0,
+      "skip": 208
+    },
+    "artwork_festivals": {
+      "replaced_artwork_count": 0,
+      "skipped_artwork_count": 208,
+      "inserted_row_count": 0,
+      "deleted_row_count": 0
+    },
+    "artwork_images": {
+      "replaced_artwork_count": 0,
+      "skipped_artwork_count": 208,
+      "reordered_artwork_count": 0,
+      "inserted_row_count": 0,
+      "deleted_row_count": 0
+    }
+  },
+  "error": null
+}

@@ -1,0 +1,17 @@
+{
+  "run_id": "test-extract",
+  "workbook_path": "/Users/donggyunyang/code/steelart/data/★스틸아트페스티벌 구입및기증작품 현황(2012-2023)_최종_20260409.xls",
+  "excluded_lost_artwork_count": 9,
+  "excluded_empty_identity_count": 2,
+  "artworks_missing_audio_count": 24,
+  "artworks_missing_images_count": 23,
+  "manual_geocode_required_count": 152,
+  "generated_files": {
+    "excluded_lost_artworks": "/Users/donggyunyang/code/steelart/steelart_dashboard/.migration/steelart/test-extract/reports/report.excluded-lost-artworks.json",
+    "excluded_empty_identity": "/Users/donggyunyang/code/steelart/steelart_dashboard/.migration/steelart/test-extract/reports/report.excluded-empty-identity.json",
+    "artworks_missing_audio": "/Users/donggyunyang/code/steelart/steelart_dashboard/.migration/steelart/test-extract/reports/report.artworks-missing-audio.json",
+    "artworks_missing_images": "/Users/donggyunyang/code/steelart/steelart_dashboard/.migration/steelart/test-extract/reports/report.artworks-missing-images.json",
+    "manual_geocode_required": "/Users/donggyunyang/code/steelart/steelart_dashboard/.migration/steelart/test-extract/reports/report.manual-geocode-required.json",
+    "markdown_summary": "/Users/donggyunyang/code/steelart/steelart_dashboard/.migration/steelart/test-extract/reports/report.gap-lists.md"
+  }
+}

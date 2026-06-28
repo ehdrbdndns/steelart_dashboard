@@ -1,0 +1,52 @@
+{
+  "run_id": "test-extract",
+  "target_artwork_count": 208,
+  "target_artist_count": 146,
+  "target_place_count": 208,
+  "target_image_count": 385,
+  "target_audio_count": 184,
+  "s3_upload_planned_count": 569,
+  "local_file_missing_count": 0,
+  "geocode_failed_count": 152,
+  "english_missing_count": 0,
+  "unresolved_conflict_count": 0,
+  "manual_geocode_required_count": 152,
+  "db_plan": {
+    "zones": {
+      "insert": 4,
+      "update": 0,
+      "skip": 0,
+      "conflict": 0
+    },
+    "artists": {
+      "insert": 6,
+      "update": 140,
+      "skip": 0,
+      "conflict": 0
+    },
+    "places": {
+      "insert": 30,
+      "update": 178,
+      "skip": 0,
+      "conflict": 0
+    },
+    "artworks": {
+      "insert": 30,
+      "update": 178,
+      "skip": 0,
+      "conflict": 0
+    },
+    "artwork_festivals": {
+      "add": 30,
+      "remove": 0,
+      "keep": 178
+    },
+    "artwork_images": {
+      "add": 385,
+      "remove": 178,
+      "keep": 0,
+      "reordered": 73
+    }
+  },
+  "write_blocked": false
+}

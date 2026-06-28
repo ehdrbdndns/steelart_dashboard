@@ -1,0 +1,32 @@
+{
+  "run_id": "test-extract-image-audit",
+  "workbook_path": "/Users/donggyunyang/code/steelart/data/★스틸아트페스티벌 구입및기증작품 현황(2012-2023)_최종_20260409.xls",
+  "included_row_count": 208,
+  "excluded_lost_artwork_row_count": 9,
+  "excluded_empty_identity_row_count": 2,
+  "included_app_flag_distribution": {
+    "__BLANK__": 45,
+    "유": 145,
+    "무": 18
+  },
+  "english_matched_count": 208,
+  "english_missing_count": 0,
+  "geocode_failed_count": 107,
+  "audio_matched_count": 184,
+  "audio_missing_count": 24,
+  "image_file_count_before_dedupe": 528,
+  "image_file_count_after_dedupe": 401,
+  "zone_count": 4,
+  "artist_count": 146,
+  "place_count": 208,
+  "artwork_count": 208,
+  "artwork_festival_count": 208,
+  "artwork_image_count": 401,
+  "issue_count_by_type": {
+    "artist_type_ambiguous": 140,
+    "geocode_failed": 107,
+    "tts_missing": 24,
+    "duplicate_artwork_base_key": 2,
+    "image_missing": 16
+  }
+}

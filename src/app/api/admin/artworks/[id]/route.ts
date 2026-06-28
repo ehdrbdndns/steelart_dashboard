@@ -184,7 +184,8 @@ export async function PUT(
          SET title_ko = ?, title_en = ?, artist_id = ?, place_id = ?,
              category = ?, production_year = ?, size_text_ko = ?, size_text_en = ?,
              description_ko = ?, description_en = ?,
-             audio_url_ko = ?, audio_url_en = ?, updated_at = NOW()
+             audio_url_ko = ?, audio_url_en = ?,
+             space_type_ko = ?, space_type_en = ?, updated_at = NOW()
          WHERE id = ?`,
         [
           payload.title_ko,
@@ -199,6 +200,8 @@ export async function PUT(
           payload.description_en,
           payload.audio_url_ko ?? existingRow.audio_url_ko,
           payload.audio_url_en ?? existingRow.audio_url_en,
+          payload.space_type_ko ?? null,
+          payload.space_type_en ?? null,
           id,
         ],
       );

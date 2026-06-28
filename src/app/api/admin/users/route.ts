@@ -11,10 +11,11 @@ export const dynamic = "force-dynamic";
 type UserListRow = RowDataPacket & {
   id: number;
   nickname: string;
-  residency: "POHANG" | "NON_POHANG";
-  age_group: "TEEN" | "20S" | "30S" | "40S" | "50S" | "60S" | "70_PLUS";
+  residency: "POHANG" | "NON_POHANG" | null;
+  age_group: "TEEN" | "20S" | "30S" | "40S" | "50S" | "60S" | "70_PLUS" | null;
   language: "ko" | "en";
   notifications_enabled: number;
+  withdrawn_at: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -61,7 +62,7 @@ export async function GET(request: NextRequest) {
 
     const rows = await query<UserListRow[]>(
       `SELECT u.id, u.nickname, u.residency, u.age_group, u.language,
-              u.notifications_enabled, u.created_at, u.updated_at
+              u.notifications_enabled, u.withdrawn_at, u.created_at, u.updated_at
        FROM users u
        ${where.join(" ")}
        ORDER BY u.created_at DESC, u.id DESC

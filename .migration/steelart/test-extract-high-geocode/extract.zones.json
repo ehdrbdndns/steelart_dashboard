@@ -1,0 +1,30 @@
+[
+  {
+    "key": "zone:남구중심권",
+    "code": "ZONE_01",
+    "name_ko": "남구중심권",
+    "name_en": "Nam-gu Central Area",
+    "sort_order": 1
+  },
+  {
+    "key": "zone:북구중심권",
+    "code": "ZONE_03",
+    "name_ko": "북구중심권",
+    "name_en": "Buk-gu Central Area",
+    "sort_order": 3
+  },
+  {
+    "key": "zone:철강산업권",
+    "code": "ZONE_04",
+    "name_ko": "철강산업권",
+    "name_en": "Steel Industrial Area",
+    "sort_order": 4
+  },
+  {
+    "key": "zone:동남해안권",
+    "code": "ZONE_02",
+    "name_ko": "동남해안권",
+    "name_en": "Southeast Coastal Area",
+    "sort_order": 2
+  }
+]

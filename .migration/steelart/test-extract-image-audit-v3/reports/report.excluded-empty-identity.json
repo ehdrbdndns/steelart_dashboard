@@ -1,0 +1,36 @@
+[
+  {
+    "exclusion_reason": "empty_identity",
+    "sheet_name": "전체",
+    "sheet_row_number": 220,
+    "serial": null,
+    "manager": null,
+    "artist_name_ko": null,
+    "title_ko": null,
+    "festival_year": null,
+    "production_year": null,
+    "place_name_ko": null,
+    "address": null,
+    "zone_name_ko": null,
+    "app_flag": null,
+    "status_value": null,
+    "base_source_key": null
+  },
+  {
+    "exclusion_reason": "empty_identity",
+    "sheet_name": "전체",
+    "sheet_row_number": 221,
+    "serial": null,
+    "manager": null,
+    "artist_name_ko": null,
+    "title_ko": null,
+    "festival_year": null,
+    "production_year": null,
+    "place_name_ko": null,
+    "address": null,
+    "zone_name_ko": null,
+    "app_flag": null,
+    "status_value": null,
+    "base_source_key": null
+  }
+]
