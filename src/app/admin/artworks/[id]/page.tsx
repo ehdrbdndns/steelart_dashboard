@@ -19,6 +19,7 @@ type Artwork = {
     name_ko: string;
     name_en: string;
     address: string | null;
+    address_en: string | null;
     lat: number;
     lng: number;
   } | null;

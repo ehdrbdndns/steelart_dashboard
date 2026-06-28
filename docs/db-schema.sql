@@ -141,6 +141,7 @@ CREATE TABLE `places` (
   `name_ko` varchar(150) NOT NULL,
   `name_en` varchar(150) NOT NULL,
   `address` varchar(255) DEFAULT NULL,
+  `address_en` varchar(255) DEFAULT NULL,
   `lat` decimal(10,7) NOT NULL,
   `lng` decimal(10,7) NOT NULL,
   `zone_id` bigint(20) DEFAULT NULL,
