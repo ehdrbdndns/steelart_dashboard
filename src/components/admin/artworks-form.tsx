@@ -94,6 +94,8 @@ const schema = z.object({
   size_text_en: z.string().min(1),
   description_ko: z.string().min(1),
   description_en: z.string().min(1),
+  space_type_ko: z.string().optional(),
+  space_type_en: z.string().optional(),
   audio_url_ko: optionalUrlSchema,
   audio_url_en: optionalUrlSchema,
   place: z.object({
@@ -144,6 +146,8 @@ type ArtworkInitialData = {
   size_text_en?: string;
   description_ko?: string;
   description_en?: string;
+  space_type_ko?: string | null;
+  space_type_en?: string | null;
   audio_url_ko?: string | null;
   audio_url_en?: string | null;
   festival_years?: string[];
@@ -286,6 +290,8 @@ export function ArtworksForm({
       size_text_en: initialData?.size_text_en ?? "",
       description_ko: initialData?.description_ko ?? "",
       description_en: initialData?.description_en ?? "",
+      space_type_ko: initialData?.space_type_ko ?? "",
+      space_type_en: initialData?.space_type_en ?? "",
       audio_url_ko: initialData?.audio_url_ko ?? "",
       audio_url_en: initialData?.audio_url_en ?? "",
       place: {
@@ -581,6 +587,8 @@ export function ArtworksForm({
         size_text_en: values.size_text_en,
         description_ko: values.description_ko,
         description_en: values.description_en,
+        space_type_ko: values.space_type_ko?.trim() ? values.space_type_ko.trim() : null,
+        space_type_en: values.space_type_en?.trim() ? values.space_type_en.trim() : null,
         place: {
           name_ko: values.place.name_ko.trim(),
           name_en: values.place.name_en.trim(),
@@ -755,6 +763,17 @@ export function ArtworksForm({
               {errors.description_en ? (
                 <p className="text-sm text-red-500">필수 입력입니다.</p>
               ) : null}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="space-y-1">
+              <Label htmlFor="space_type_ko">공간(한국어)</Label>
+              <Input id="space_type_ko" {...register("space_type_ko")} />
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="space_type_en">공간(영어)</Label>
+              <Input id="space_type_en" {...register("space_type_en")} />
             </div>
           </div>
         </CardContent>
