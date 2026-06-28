@@ -114,7 +114,7 @@ async function main() {
     if (!normalizeLoose(r["작가명"]) || !normalizeLoose(r["작품명"])) continue;
     const k = keyOf(r["작가명"], r["작품명"]);
     if (sheetIndex.has(k)) sheetDup.add(k);
-    sheetIndex.set(k, { placeNameEn: cleanText(r["작품위치"]), addressEn: cleanText(r["주소"]) });
+    sheetIndex.set(k, { placeNameEn: cleanText(r["작품위치"]), addressEn: cleanText(r["주소"]), materialEn: cleanText(r["재료.1"]) });
   }
 
   // 2) 영어 음원 인덱스 (exact: combinedKey, 보강: artistNorm, title-only: titleNorm)
@@ -237,6 +237,7 @@ async function main() {
   if (APPLY) {
     for (const u of updates) {
       await conn.query(`UPDATE places SET name_en = ?, address_en = ?, updated_at = NOW() WHERE id = ?`, [u.sheet.placeNameEn, u.sheet.addressEn, u.placeId]);
+      await conn.query(`UPDATE artworks SET material_en = ?, updated_at = NOW() WHERE id = ?`, [u.sheet.materialEn, u.artworkId]);
       if (u.audioUrl) await conn.query(`UPDATE artworks SET audio_url_en = ?, updated_at = NOW() WHERE id = ?`, [u.audioUrl, u.artworkId]);
     }
   }
