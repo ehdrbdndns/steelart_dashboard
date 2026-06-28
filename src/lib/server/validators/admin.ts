@@ -83,6 +83,19 @@ const optionalAddressSchema = z
     return trimmed.length > 0 ? trimmed : null;
   });
 
+const optionalTrimmedTextSchema = z
+  .string()
+  .optional()
+  .nullable()
+  .transform((value) => {
+    if (value == null) {
+      return null;
+    }
+
+    const trimmed = value.trim();
+    return trimmed.length > 0 ? trimmed : null;
+  });
+
 const placeBasePayloadSchema = z.object({
   name_ko: z.string().trim().min(1),
   name_en: z.string().trim().min(1),
@@ -111,6 +124,8 @@ const artworkBasePayloadSchema = z.object({
   size_text_en: z.string().min(1),
   description_ko: z.string().min(1),
   description_en: z.string().min(1),
+  space_type_ko: optionalTrimmedTextSchema,
+  space_type_en: optionalTrimmedTextSchema,
 });
 
 const artworkPlacePayloadSchema = placeBasePayloadSchema;
